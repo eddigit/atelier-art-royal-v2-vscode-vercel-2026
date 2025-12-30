@@ -53,7 +53,8 @@ export async function GET(req: NextRequest) {
     };
 
     return NextResponse.json({
-      deals: view === 'kanban' ? kanbanColumns : deals,
+      deals: deals,
+      kanbanColumns: view === 'kanban' ? kanbanColumns : undefined,
       stats: {
         byStage: pipelineStats.reduce((acc: any, stat: any) => {
           acc[stat._id] = stat;
