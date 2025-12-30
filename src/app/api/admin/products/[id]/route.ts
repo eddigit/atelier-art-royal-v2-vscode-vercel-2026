@@ -98,6 +98,14 @@ export async function PATCH(
   }
 }
 
+// PUT /api/admin/products/[id] - Mettre à jour un produit (alias de PATCH)
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  return PATCH(request, { params });
+}
+
 // DELETE /api/admin/products/[id] - Supprimer un produit (soft delete)
 export async function DELETE(
   request: NextRequest,
