@@ -29,7 +29,9 @@ export interface IProduct extends Document {
   // Stock
   stock_quantity: number;
   low_stock_threshold: number;
+  stock_alert_threshold: number;
   allow_backorders: boolean;
+  manage_stock: boolean;
   sku?: string;
   
   // Status
@@ -98,7 +100,9 @@ const ProductSchema = new Schema<IProduct>(
     
     stock_quantity: { type: Number, default: 0 },
     low_stock_threshold: { type: Number, default: 5 },
+    stock_alert_threshold: { type: Number, default: 5 },
     allow_backorders: { type: Boolean, default: false },
+    manage_stock: { type: Boolean, default: true },
     sku: { type: String, index: true },
     
     is_active: { type: Boolean, default: true, index: true },

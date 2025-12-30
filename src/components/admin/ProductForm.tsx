@@ -22,7 +22,9 @@ interface ProductFormData {
   video_url?: string;
   stock_quantity: number;
   low_stock_threshold: number;
+  stock_alert_threshold: number;
   allow_backorders: boolean;
+  manage_stock: boolean;
   sku?: string;
   is_active: boolean;
   featured: boolean;
@@ -69,7 +71,9 @@ export default function ProductForm({ product, isEditing = false }: ProductFormP
     video_url: product?.video_url || '',
     stock_quantity: product?.stock_quantity || 0,
     low_stock_threshold: product?.low_stock_threshold || 5,
+    stock_alert_threshold: product?.stock_alert_threshold || 5,
     allow_backorders: product?.allow_backorders || false,
+    manage_stock: product?.manage_stock !== undefined ? product.manage_stock : true,
     sku: product?.sku || '',
     is_active: product?.is_active !== undefined ? product.is_active : true,
     featured: product?.featured || false,
@@ -398,46 +402,134 @@ export default function ProductForm({ product, isEditing = false }: ProductFormP
 
       {/* Stock */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-xl font-semibold text-[#0A1628] mb-4">Stock</h2>
+        <h2 className="text-xl font-semibold text-[#0A1628] mb-4">Gestion du Stock</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Quantité en stock
-            </label>
+        {/* Toggle gestion du stock */}
+        <div className="mb-6 pb-6 border-b border-gray-200">
+          <div className="flex items-center gap-3">
             <input
-              type="number"
-              min="0"
-              value={formData.stock_quantity}
-              onChange={(e) => handleChange('stock_quantity', parseInt(e.target.value))}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B8860B] focus:border-transparent"
+              type="checkbox"
+              id="manage_stock"
+              checked={formData.manage_stock}
+              onChange={(e) => handleChange('manage_stock', e.target.checked)}
+              className="h-5 w-5 rounded border-gray-300 text-[#B8860B] focus:ring-[#B8860B]"
             />
+            <div>
+              <label htmlFor="manage_stock" className="text-base font-medium text-gray-900 cursor-pointer">
+                Activer la gestion du stock
+              </label>
+              <p className="text-sm text-gray-500">
+                {formData.manage_stock 
+                  ? "Le stock est suivi. Les ventes sont limitées par la quantité disponible." 
+                  : "Le stock n'est pas géré. Vente illimitée sans vérification du stock."}
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        {/* Champs de stock (affichés uniquement si manage_stock est activé) */}
+        <div className={`space-y-4 ${!formData.manage_stock ? 'opacity-50 pointer-events-none' : ''}`}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Quantité en stock
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={formData.stock_quantity}
+                onChange={(e) => handleChange('stock_quantity', parseInt(e.target.value) || 0)}
+                disabled={!formData.manage_stock}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B8860B] focus:border-transparent disabled:bg-gray-50"
+              />
+              <p className="text-xs text-gray-500 mt-1">Quantité disponible à la vente</p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Seuil stock bas
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={formData.low_stock_threshold}
+                onChange={(e) => handleChange('low_stock_threshold', parseInt(e.target.value) || 0)}
+                disabled={!formData.manage_stock}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B8860B] focus:border-transparent disabled:bg-gray-50"
+              />
+              <p className="text-xs text-gray-500 mt-1">Alerte quand le stock est bas</p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Seuil d'alerte stock
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={formData.stock_alert_threshold}
+                onChange={(e) => handleChange('stock_alert_threshold', parseInt(e.target.value) || 0)}
+                disabled={!formData.manage_stock}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B8860B] focus:border-transparent disabled:bg-gray-50"
+              />
+              <p className="text-xs text-gray-500 mt-1">Notification administrateur</p>
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Seuil stock bas
-            </label>
-            <input
-              type="number"
-              min="0"
-              value={formData.low_stock_threshold}
-              onChange={(e) => handleChange('low_stock_threshold', parseInt(e.target.value))}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B8860B] focus:border-transparent"
-            />
-          </div>
-
-          <div className="flex items-center gap-2 pt-8">
+          <div className="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-lg">
             <input
               type="checkbox"
               id="allow_backorders"
               checked={formData.allow_backorders}
               onChange={(e) => handleChange('allow_backorders', e.target.checked)}
-              className="rounded border-gray-300 text-[#B8860B] focus:ring-[#B8860B]"
+              disabled={!formData.manage_stock}
+              className="mt-1 h-5 w-5 rounded border-gray-300 text-[#B8860B] focus:ring-[#B8860B] disabled:opacity-50"
             />
-            <label htmlFor="allow_backorders" className="text-sm text-gray-700">
-              Autoriser précommandes
-            </label>
+            <div>
+              <label htmlFor="allow_backorders" className="text-sm font-medium text-gray-900 cursor-pointer">
+                Autoriser les précommandes (vente à 0 stock)
+              </label>
+              <p className="text-xs text-gray-600 mt-1">
+                {formData.allow_backorders 
+                  ? "✓ Les clients peuvent commander même si le stock est à 0. Délai de livraison à prévoir." 
+                  : "✗ Les commandes sont bloquées quand le stock atteint 0."}
+              </p>
+            </div>
+          </div>
+
+          {/* Indicateur visuel du statut */}
+          <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+            <div className="flex-1">
+              <div className="text-sm font-medium text-gray-700 mb-1">Statut actuel:</div>
+              {!formData.manage_stock ? (
+                <div className="flex items-center gap-2 text-blue-600">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <span className="text-sm font-medium">Vente illimitée (stock non géré)</span>
+                </div>
+              ) : formData.stock_quantity === 0 ? (
+                formData.allow_backorders ? (
+                  <div className="flex items-center gap-2 text-amber-600">
+                    <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+                    <span className="text-sm font-medium">Rupture - Précommande possible</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 text-red-600">
+                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                    <span className="text-sm font-medium">Rupture de stock - Vente bloquée</span>
+                  </div>
+                )
+              ) : formData.stock_quantity <= formData.low_stock_threshold ? (
+                <div className="flex items-center gap-2 text-orange-600">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                  <span className="text-sm font-medium">Stock faible ({formData.stock_quantity} unités)</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 text-green-600">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="text-sm font-medium">En stock ({formData.stock_quantity} unités)</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
