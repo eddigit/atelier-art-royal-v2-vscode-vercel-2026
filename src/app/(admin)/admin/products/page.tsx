@@ -31,7 +31,7 @@ async function getProducts(searchParams: any) {
 
   const [products, total] = await Promise.all([
     Product.find(filter)
-      .sort({ created_date: -1 })
+      .sort({ created_at: -1 })
       .skip(skip)
       .limit(limit)
       .lean(),
