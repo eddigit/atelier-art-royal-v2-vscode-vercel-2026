@@ -10,7 +10,7 @@ interface Degree {
   loge_type: 'Loge Symbolique' | 'Loge Hauts Grades';
   description?: string;
   is_active: boolean;
-  products_count?: number;
+  product_count?: number;
 }
 
 type LogeType = 'Loge Symbolique' | 'Loge Hauts Grades';
@@ -159,7 +159,7 @@ export default function DegreesPage() {
                           {degree.is_active ? 'Actif' : 'Inactif'}
                         </span>
                         <span className="text-sm text-gray-500 flex items-center gap-1">
-                          <Package className="h-4 w-4" />{degree.products_count || 0}
+                          <Package className="h-4 w-4" />{degree.product_count || 0}
                         </span>
                         <div className="flex items-center gap-1">
                           <button onClick={() => openEdit(degree)} className="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg"><Edit className="h-4 w-4" /></button>

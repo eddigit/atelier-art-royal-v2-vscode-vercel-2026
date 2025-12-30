@@ -5,6 +5,8 @@ import { ArrowLeft, ShoppingCart, Check, Truck, Shield, Phone } from 'lucide-rea
 import dbConnect from '@/lib/mongodb';
 import Product from '@/models/Product';
 import { Button } from '@/components/ui/button';
+import LuxeHeader from '@/components/layout/LuxeHeader';
+import LuxeFooter from '@/components/layout/LuxeFooter';
 
 interface ProductPageProps {
   params: { slug: string };
@@ -62,30 +64,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
     : 0;
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <Link href="/" className="font-display text-2xl font-bold text-gold-600">
-            Atelier Art Royal
-          </Link>
-          <nav className="hidden md:flex items-center gap-8">
-            <Link href="/catalog" className="text-sm font-medium hover:text-gold-600">
-              Catalogue
-            </Link>
-            <Link href="/contact" className="text-sm font-medium hover:text-gold-600">
-              Contact
-            </Link>
-          </nav>
-          <div className="flex items-center gap-4">
-            <Link href="/cart">
-              <Button variant="outline" size="sm">
-                Panier
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+    <>
+      <LuxeHeader />
+      <main className="min-h-screen bg-gray-50">
 
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
@@ -367,15 +348,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-8 mt-16">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-sm">
-            © {new Date().getFullYear()} Atelier Art Royal. Tous droits réservés.
-          </p>
-        </div>
-      </footer>
-    </main>
+      </main>
+      <LuxeFooter />
+    </>
   );
 }
 

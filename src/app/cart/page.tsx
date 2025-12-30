@@ -5,6 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import LuxeHeader from '@/components/layout/LuxeHeader';
+import LuxeFooter from '@/components/layout/LuxeFooter';
+import LuxeHeader from '@/components/layout/LuxeHeader';
 
 interface CartItem {
   id: string;
@@ -57,18 +60,22 @@ export default function CartPage() {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-gray-50">
-        <Header />
-        <div className="container mx-auto px-4 py-16 text-center">
-          <div className="animate-pulse">Chargement...</div>
-        </div>
-      </main>
+      <>
+        <LuxeHeader />
+        <main className="min-h-screen bg-gray-50">
+          <div className="container mx-auto px-4 py-16 text-center">
+            <div className="animate-pulse">Chargement...</div>
+          </div>
+        </main>
+        <LuxeFooter />
+      </>
     );
   }
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <Header />
+    <>
+      <LuxeHeader />
+      <main className="min-h-screen bg-gray-50">
 
       <div className="container mx-auto px-4 py-8">
         <h1 className="font-display text-3xl font-bold mb-8">Votre Panier</h1>
@@ -224,40 +231,8 @@ export default function CartPage() {
           </div>
         )}
       </div>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-8 mt-16">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-sm">
-            © {new Date().getFullYear()} Atelier Art Royal. Tous droits réservés.
-          </p>
-        </div>
-      </footer>
-    </main>
-  );
-}
-
-function Header() {
-  return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="font-display text-2xl font-bold text-gold-600">
-          Atelier Art Royal
-        </Link>
-        <nav className="hidden md:flex items-center gap-8">
-          <Link href="/catalog" className="text-sm font-medium hover:text-gold-600">
-            Catalogue
-          </Link>
-          <Link href="/contact" className="text-sm font-medium hover:text-gold-600">
-            Contact
-          </Link>
-        </nav>
-        <Link href="/auth/login">
-          <Button size="sm" className="bg-gold-600 hover:bg-gold-700">
-            Connexion
-          </Button>
-        </Link>
-      </div>
-    </header>
+      </main>
+      <LuxeFooter />
+    </>
   );
 }

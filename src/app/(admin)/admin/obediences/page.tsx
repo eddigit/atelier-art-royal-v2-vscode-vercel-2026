@@ -14,7 +14,7 @@ interface Obedience {
   website?: string;
   is_active: boolean;
   sort_order: number;
-  products_count?: number;
+  product_count?: number;
 }
 
 export default function ObediencesPage() {
@@ -27,7 +27,7 @@ export default function ObediencesPage() {
   const fetchObediences = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/obediences');
+      const res = await fetch('/api/obediences?withProductCount=true');
       const data = await res.json();
       setObediences(data.obediences || []);
     } catch (error) {
@@ -144,7 +144,7 @@ export default function ObediencesPage() {
               <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                 <Link href={`/admin/products?obedience=${obedience._id}`} className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-indigo-600">
                   <Package className="h-4 w-4" />
-                  {obedience.products_count || 0} produits
+                  {obedience.product_count || 0} produits
                 </Link>
                 <div className="flex items-center gap-1">
                   <button onClick={() => openEdit(obedience)} className="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg"><Edit className="h-4 w-4" /></button>

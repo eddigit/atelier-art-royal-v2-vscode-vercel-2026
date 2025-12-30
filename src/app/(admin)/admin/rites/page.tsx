@@ -12,7 +12,7 @@ interface Rite {
   abbreviation?: string;
   is_active: boolean;
   sort_order: number;
-  products_count?: number;
+  product_count?: number;
 }
 
 export default function RitesPage() {
@@ -25,7 +25,7 @@ export default function RitesPage() {
   const fetchRites = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/rites');
+      const res = await fetch('/api/rites?withProductCount=true');
       const data = await res.json();
       setRites(data.rites || []);
     } catch (error) {
@@ -128,7 +128,7 @@ export default function RitesPage() {
               <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                 <Link href={`/admin/products?rite=${rite._id}`} className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-purple-600">
                   <Package className="h-4 w-4" />
-                  {rite.products_count || 0} produits
+                  {rite.product_count || 0} produits
                 </Link>
                 <div className="flex items-center gap-1">
                   <button onClick={() => openEdit(rite)} className="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg"><Edit className="h-4 w-4" /></button>

@@ -22,11 +22,14 @@ export async function GET(request: NextRequest) {
       .sort({ loge_type: 1, level: 1 })
       .lean();
 
-    // Compter les produits par degré (utilise le champ level)
+    // Compter les produits par degré (utilise degree_order_ids)
     const degreesWithCounts = await Promise.all(
       degrees.map(async (deg) => {
-        const products_count = await Product.countDocuments({ degree: deg.level });
-        return { ...deg, products_count };
+        const product_count = await Product.countDocuments({ 
+          degree_order_ids: deg._id,
+          is_active: true 
+        });
+        return { ...deg, product_count };
       })
     );
 

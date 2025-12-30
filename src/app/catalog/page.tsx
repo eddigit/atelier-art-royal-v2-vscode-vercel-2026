@@ -6,6 +6,8 @@ import Rite from '@/models/Rite';
 import Obedience from '@/models/Obedience';
 import DegreeOrder from '@/models/DegreeOrder';
 import { CatalogClient } from './CatalogClient';
+import LuxeHeader from '@/components/layout/LuxeHeader';
+import LuxeFooter from '@/components/layout/LuxeFooter';
 
 interface SearchParams {
   category?: string;
@@ -302,14 +304,18 @@ export default async function CatalogPage({
   ]);
 
   return (
-    <Suspense fallback={<CatalogSkeleton />}>
-      <CatalogClient 
-        initialProducts={products}
-        initialPagination={pagination}
-        filterOptions={filters}
-        initialFilters={searchParams}
-      />
-    </Suspense>
+    <>
+      <LuxeHeader />
+      <Suspense fallback={<CatalogSkeleton />}>
+        <CatalogClient 
+          initialProducts={products}
+          initialPagination={pagination}
+          filterOptions={filters}
+          initialFilters={searchParams}
+        />
+      </Suspense>
+      <LuxeFooter />
+    </>
   );
 }
 
