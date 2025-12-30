@@ -3,6 +3,7 @@ import { Inter, Playfair_Display, Great_Vibes } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import AuthProvider from '@/components/providers/AuthProvider';
+import ChatWidget from '@/components/layout/ChatWidget';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -89,6 +90,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-background font-sans antialiased">
         <AuthProvider>
           {children}
+          <ChatWidget />
           <Toaster />
         </AuthProvider>
       </body>
