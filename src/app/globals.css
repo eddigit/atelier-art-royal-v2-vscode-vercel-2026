@@ -182,6 +182,15 @@
     width: 100%;
   }
 
+  .header-luxe__link--dropdown {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .header-luxe__link-wrapper {
+    position: relative;
+  }
+
   /* Actions (boutons) */
   .header-luxe__actions {
     display: flex;
@@ -227,6 +236,276 @@
     .header-luxe__inner {
       padding: 0 clamp(1.25rem, 3vw, 3.25rem);
     }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     MEGA MENU - Collections avec obédiences, rites, degrés
+  ═══════════════════════════════════════════════════════════════════ */
+  .mega-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    width: 800px;
+    max-width: calc(100vw - 2rem);
+    background: var(--white);
+    border: 1px solid var(--silver);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1001;
+  }
+
+  .mega-menu--visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .mega-menu__inner {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    padding: 1.5rem;
+  }
+
+  .mega-menu__section {
+    padding: 0 1rem;
+    border-right: 1px solid var(--silver);
+  }
+
+  .mega-menu__section:last-child {
+    border-right: none;
+  }
+
+  .mega-menu__title {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--silver);
+  }
+
+  .mega-menu__grid {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .mega-menu__grid--obediences {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mega-menu__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .mega-menu__item {
+    font-size: 0.8125rem;
+    color: var(--charcoal);
+    padding: 0.35rem 0;
+    transition: all 0.2s ease;
+  }
+
+  .mega-menu__item:hover {
+    color: var(--gold);
+    padding-left: 0.25rem;
+  }
+
+  .mega-menu__item--obedience {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: var(--cream);
+    border-radius: 0;
+    transition: all 0.2s ease;
+  }
+
+  .mega-menu__item--obedience:hover {
+    background: var(--gold-muted);
+    padding-left: 0.5rem;
+  }
+
+  .mega-menu__item-image {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    border-radius: 50%;
+  }
+
+  .mega-menu__item-code {
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+
+  .mega-menu__footer {
+    padding: 1rem 1.5rem;
+    background: var(--cream);
+    border-top: 1px solid var(--silver);
+    text-align: center;
+  }
+
+  .mega-menu__cta {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    transition: color 0.2s ease;
+  }
+
+  .mega-menu__cta:hover {
+    color: var(--royal);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     MOBILE MENU - Navigation mobile avec obédiences
+  ═══════════════════════════════════════════════════════════════════ */
+  .header-luxe__mobile-toggle {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 24px;
+  }
+
+  .hamburger span {
+    display: block;
+    height: 2px;
+    background: var(--charcoal);
+    transition: all 0.3s ease;
+  }
+
+  .hamburger--active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .hamburger--active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger--active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  .mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .mobile-menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 320px;
+    max-width: 85vw;
+    height: 100vh;
+    background: var(--ivory);
+    overflow-y: auto;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+
+  .mobile-menu__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--silver);
+  }
+
+  .mobile-menu__close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--charcoal);
+  }
+
+  .mobile-menu__section {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--silver);
+  }
+
+  .mobile-menu__section h3 {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .mobile-menu__section a {
+    display: block;
+    padding: 0.75rem 0;
+    font-size: 0.9375rem;
+    color: var(--charcoal);
+    border-bottom: 1px solid var(--silver);
+    transition: color 0.2s ease;
+  }
+
+  .mobile-menu__section a:hover {
+    color: var(--gold);
+  }
+
+  .mobile-menu__obediences {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .mobile-menu__obedience {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem !important;
+    background: var(--cream);
+    border: none !important;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .mobile-menu__obedience img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  .mobile-menu__obedience span {
+    font-weight: 600;
+    font-size: 0.75rem;
+  }
+
+  .mobile-menu__actions {
+    padding: 1.5rem;
   }
 
   /* ═══════════════════════════════════════════════════════════════════
@@ -624,6 +903,85 @@
 
   .collection-card__link:hover svg {
     transform: translateX(4px);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     CARTES OBÉDIENCES - Sélecteur principal pour les francs-maçons
+  ═══════════════════════════════════════════════════════════════════ */
+  .obedience-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0;
+    padding: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+
+  .obedience-card:hover {
+    background: rgba(201, 162, 39, 0.1);
+    border-color: var(--gold);
+    transform: translateY(-4px);
+  }
+
+  .obedience-card__image {
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .obedience-card:hover .obedience-card__image {
+    box-shadow: 0 0 20px rgba(201, 162, 39, 0.3);
+  }
+
+  .obedience-card__content {
+    text-align: center;
+  }
+
+  .obedience-card__title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+
+  .obedience-card__name {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.4;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .obedience-card {
+      padding: 1rem;
+    }
+    
+    .obedience-card__image {
+      width: 70px;
+      height: 70px;
+    }
+    
+    .obedience-card__title {
+      font-size: 0.875rem;
+    }
+    
+    .obedience-card__name {
+      font-size: 0.7rem;
+    }
   }
 
   /* ===== FOOTER LUXE ===== */

@@ -5,6 +5,7 @@ import dbConnect from '@/lib/mongodb';
 import Product from '@/models/Product';
 import Category from '@/models/Category';
 import Rite from '@/models/Rite';
+import Obedience from '@/models/Obedience';
 import LuxeHeader from '@/components/layout/LuxeHeader';
 import LuxeFooter from '@/components/layout/LuxeFooter';
 
@@ -34,11 +35,20 @@ async function getRites() {
   return JSON.parse(JSON.stringify(rites));
 }
 
+async function getObediences() {
+  await dbConnect();
+  const obediences = await Obedience.find({ is_active: true })
+    .sort({ order: 1 })
+    .lean();
+  return JSON.parse(JSON.stringify(obediences));
+}
+
 export default async function HomePage() {
-  const [featuredProducts, categories, rites] = await Promise.all([
+  const [featuredProducts, categories, rites, obediences] = await Promise.all([
     getFeaturedProducts(),
     getCategories(),
     getRites(),
+    getObediences(),
   ]);
 
   return (
@@ -346,6 +356,54 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          SECTION OBÉDIENCES - Sélecteur principal pour les francs-maçons
+      ═══════════════════════════════════════════════════════════════════ */}
+      {obediences.length > 0 && (
+        <section className="section-luxe section-luxe--dark">
+          <div className="container-luxe">
+            <div className="text-center mb-12">
+              <p className="eyebrow">Votre Obédience</p>
+              <h2 className="heading-xl text-white">Sélectionnez votre Obédience</h2>
+              <p className="text-body text-white/60 mt-4 max-w-2xl mx-auto">
+                Découvrez les décors et ornements spécifiques à votre obédience. 
+                Chaque création respecte les traditions et les exigences de votre maison.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {obediences.map((obedience: any) => (
+                <Link
+                  key={obedience._id}
+                  href={`/catalog?obedience=${obedience._id}`}
+                  className="obedience-card group"
+                >
+                  <div className="obedience-card__image">
+                    {obedience.image_url ? (
+                      <Image
+                        src={obedience.image_url}
+                        alt={obedience.name}
+                        width={120}
+                        height={120}
+                        className="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-[#C9A227]">
+                        {obedience.code}
+                      </div>
+                    )}
+                  </div>
+                  <div className="obedience-card__content">
+                    <h3 className="obedience-card__title">{obedience.code}</h3>
+                    <p className="obedience-card__name">{obedience.name}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ═══════════════════════════════════════════════════════════════════
           SECTION RITES
