@@ -7,7 +7,6 @@ import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, ArrowLeft } from 'lucide-
 import { Button } from '@/components/ui/button';
 import LuxeHeader from '@/components/layout/LuxeHeader';
 import LuxeFooter from '@/components/layout/LuxeFooter';
-import LuxeHeader from '@/components/layout/LuxeHeader';
 
 interface CartItem {
   id: string;
