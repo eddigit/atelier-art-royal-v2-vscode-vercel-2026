@@ -122,9 +122,9 @@ export default function CheckoutPage() {
     accept_terms: false,
   });
   
-  // Frais de livraison
-  const SHIPPING_COST = 6.90;
-  const FREE_SHIPPING_THRESHOLD = 100;
+  // Frais de livraison (harmonisé avec la page panier)
+  const SHIPPING_COST = 15;
+  const FREE_SHIPPING_THRESHOLD = 500;
   
   // Charger le panier et le profil
   useEffect(() => {
