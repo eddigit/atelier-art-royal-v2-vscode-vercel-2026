@@ -68,7 +68,7 @@ const InventorySchema: Schema = new Schema({
   updated_at: { type: Date, default: Date.now },
 });
 
-InventorySchema.pre('save', function(next) {
+InventorySchema.pre('save', function(this: IInventory, next) {
   this.updated_at = new Date();
   
   // Auto-générer le numéro d'inventaire si nécessaire

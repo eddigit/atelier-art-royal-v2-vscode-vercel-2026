@@ -45,3 +45,5 @@ next-env.d.ts
 
 # Data (ne pas commit les backups sensibles)
 data/backup.json
+
+.vercel
