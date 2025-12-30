@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:artroyal.fr)",
+      "Bash(node:*)",
+      "WebFetch(domain:base44.app)",
+      "Bash(npm run build:*)",
+      "Bash(npx tsc --noEmit)"
+    ]
+  }
+}

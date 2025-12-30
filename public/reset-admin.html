@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réinitialiser Admin - Atelier Art Royal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0A1628 0%, #1a2a4a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #0A1628;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #B8860B;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #C9A84C;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(184, 134, 11, 0.4);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            display: none;
+        }
+        .result.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .result.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .credentials {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .credentials strong {
+            color: #B8860B;
+        }
+        .cred-line {
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        a {
+            color: #B8860B;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔑 Créer/Réinitialiser Admin</h1>
+        <p>Cliquez sur le bouton pour créer ou réinitialiser le compte administrateur.</p>
+        <p style="font-size: 14px; color: #999; margin-top: -20px;">
+            Email: <strong>gilleskorzec@gmail.com</strong>
+        </p>
+        
+        <button id="resetBtn" onclick="resetPassword()">
+            Créer/Réinitialiser le compte admin
+        </button>
+        
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        async function resetPassword() {
+            const btn = document.getElementById('resetBtn');
+            const result = document.getElementById('result');
+            
+            btn.disabled = true;
+            btn.textContent = 'Réinitialisation en cours...';
+            result.style.display = 'none';
+            
+            try {
+                const response = await fetch('/api/setup/reset-admin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        secret: 'reset-admin-pwd-2025'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    result.className = 'result success';
+                    result.innerHTML = `
+                        <h3>✅ ${data.message}</h3>
+                        <div class="credentials">
+                            <div class="cred-line"><strong>📧 Email:</strong> ${data.credentials.email}</div>
+                            <div class="cred-line"><strong>🔑 Mot de passe:</strong> ${data.credentials.password}</div>
+                            <div class="cred-line" style="margin-top: 15px;">
+                                <a href="${data.credentials.loginUrl}" target="_blank">
+                                    👉 Se connecter maintenant
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    result.style.display = 'block';
+                    btn.textContent = '✅ Réinitialisé avec succès';
+                } else {
+                    throw new Error(data.error || 'Erreur inconnue');
+                }
+            } catch (error) {
+                result.className = 'result error';
+                result.innerHTML = `<strong>❌ Erreur:</strong> ${error.message}`;
+                result.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Réessayer';
+            }
+        }
+    </script>
+</body>
+</html>
