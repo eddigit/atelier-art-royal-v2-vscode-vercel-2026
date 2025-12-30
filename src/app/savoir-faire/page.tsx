@@ -1,14 +1,18 @@
 import Link from 'next/link';
 import { ArrowLeft, Award, Clock, Users, Sparkles } from 'lucide-react';
+import LuxeHeader from '@/components/layout/LuxeHeader';
+import LuxeFooter from '@/components/layout/LuxeFooter';
 
 export default function SavoirFairePage() {
   return (
-    <main className="min-h-screen bg-ivory">
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <Link href="/" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-royal mb-8">
-          <ArrowLeft className="w-4 h-4" />
-          Retour à l'accueil
-        </Link>
+    <>
+      <LuxeHeader />
+      <main className="min-h-screen bg-ivory">
+        <div className="max-w-7xl mx-auto px-4 py-16">
+          <Link href="/" className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-royal mb-8">
+            <ArrowLeft className="w-4 h-4" />
+            Retour à l'accueil
+          </Link>
 
         <div className="max-w-4xl">
           <h1 className="text-4xl md:text-5xl font-bold text-charcoal mb-6">
@@ -99,5 +103,7 @@ export default function SavoirFairePage() {
         </div>
       </div>
     </main>
+    <LuxeFooter />
+    </>
   );
 }
