@@ -406,24 +406,46 @@ export default async function HomePage() {
       )}
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION RITES
+          SECTION RITES - Avec images
       ═══════════════════════════════════════════════════════════════════ */}
       {rites.length > 0 && (
         <section className="section-luxe section-luxe--ivory">
           <div className="container-luxe">
             <div className="text-center mb-12">
-              <p className="eyebrow">Tous les Rites</p>
-              <h2 className="heading-xl">Trouvez vos Décors</h2>
+              <p className="eyebrow">Votre Rite</p>
+              <h2 className="heading-xl">Sélectionnez votre Rite</h2>
+              <p className="text-body text-muted mt-4 max-w-2xl mx-auto">
+                Chaque rite possède ses propres symboles et décors. 
+                Trouvez les créations adaptées à votre pratique.
+              </p>
             </div>
             
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
               {rites.map((rite: any) => (
                 <Link
                   key={rite._id}
                   href={`/catalog?rite=${rite._id}`}
-                  className="btn-luxe btn-luxe--outline"
+                  className="rite-card group"
                 >
-                  {rite.name}
+                  <div className="rite-card__image">
+                    {rite.image_url ? (
+                      <Image
+                        src={rite.image_url}
+                        alt={rite.name}
+                        width={120}
+                        height={120}
+                        className="w-full h-full object-contain p-3 transition-transform duration-300 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-2xl font-bold text-[#1B3A5F]">
+                        {rite.code}
+                      </div>
+                    )}
+                  </div>
+                  <div className="rite-card__content">
+                    <h3 className="rite-card__title">{rite.code}</h3>
+                    <p className="rite-card__name">{rite.name}</p>
+                  </div>
                 </Link>
               ))}
             </div>

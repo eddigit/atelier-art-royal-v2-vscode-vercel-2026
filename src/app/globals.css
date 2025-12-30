@@ -984,6 +984,88 @@
     }
   }
 
+  /* ═══════════════════════════════════════════════════════════════════
+     CARTES RITES - Sélecteur de rite maçonnique
+  ═══════════════════════════════════════════════════════════════════ */
+  .rite-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--white);
+    border: 1px solid var(--silver);
+    border-radius: 0;
+    padding: 1.5rem 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+
+  .rite-card:hover {
+    background: var(--cream);
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .rite-card__image {
+    width: 90px;
+    height: 90px;
+    background: var(--ivory);
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    border: 2px solid var(--silver);
+  }
+
+  .rite-card:hover .rite-card__image {
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(201, 162, 39, 0.2);
+  }
+
+  .rite-card__content {
+    text-align: center;
+  }
+
+  .rite-card__title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--royal);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+
+  .rite-card__name {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    color: var(--mist);
+    line-height: 1.4;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .rite-card {
+      padding: 1rem 0.75rem;
+    }
+    
+    .rite-card__image {
+      width: 70px;
+      height: 70px;
+    }
+    
+    .rite-card__title {
+      font-size: 0.75rem;
+    }
+    
+    .rite-card__name {
+      font-size: 0.65rem;
+    }
+  }
+
   /* ===== FOOTER LUXE ===== */
   .footer-luxe {
     background: var(--royal-dark);
