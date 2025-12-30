@@ -16,6 +16,12 @@ export interface IProduct extends Document {
   degree_order_ids: mongoose.Types.ObjectId[];
   category_ids: mongoose.Types.ObjectId[];
   
+  // Champs dénormalisés pour optimisation (remplis automatiquement via hook)
+  loge_types?: string[]; // ['Loge Symbolique', 'Loge Hauts Grades']
+  rite_codes?: string[]; // ['REAA', 'RER', 'RF']
+  obedience_codes?: string[]; // ['GLDF', 'GODF']
+  category_slugs?: string[]; // ['tabliers', 'sautoirs']
+  
   product_type?: string;
   images: string[];
   video_url?: string;
@@ -79,6 +85,12 @@ const ProductSchema = new Schema<IProduct>(
     obedience_ids: [{ type: Schema.Types.ObjectId, ref: 'Obedience' }],
     degree_order_ids: [{ type: Schema.Types.ObjectId, ref: 'DegreeOrder' }],
     category_ids: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
+    
+    // Champs dénormalisés pour filtrage rapide
+    loge_types: [{ type: String, index: true }],
+    rite_codes: [{ type: String, index: true }],
+    obedience_codes: [{ type: String, index: true }],
+    category_slugs: [{ type: String, index: true }],
     
     product_type: { type: String },
     images: [{ type: String }],
@@ -150,14 +162,27 @@ ProductSchema.index({
   name: 'product_text_search'
 });
 
-// Index composés pour le catalogue et filtrage
+// Index composés pour le catalogue et filtrage OPTIMISÉS
 ProductSchema.index({ is_active: 1, created_at: -1 });
 ProductSchema.index({ is_active: 1, price: 1 });
 ProductSchema.index({ is_active: 1, featured: -1, created_at: -1 });
+
+// Index sur relations (many-to-many)
 ProductSchema.index({ is_active: 1, category_ids: 1 });
 ProductSchema.index({ is_active: 1, rite_ids: 1 });
 ProductSchema.index({ is_active: 1, obedience_ids: 1 });
 ProductSchema.index({ is_active: 1, degree_order_ids: 1 });
+
+// Index sur champs dénormalisés pour filtrage ultra-rapide
+ProductSchema.index({ is_active: 1, loge_types: 1 });
+ProductSchema.index({ is_active: 1, rite_codes: 1 });
+ProductSchema.index({ is_active: 1, obedience_codes: 1 });
+ProductSchema.index({ is_active: 1, category_slugs: 1 });
+
+// Index composites pour combinaisons fréquentes
+ProductSchema.index({ is_active: 1, category_ids: 1, price: 1 });
+ProductSchema.index({ is_active: 1, loge_types: 1, rite_codes: 1 });
+ProductSchema.index({ is_active: 1, stock_quantity: 1, allow_backorders: 1 });
 
 // Index pour les promotions
 ProductSchema.index({ is_active: 1, compare_at_price: 1, promo_start_date: 1, promo_end_date: 1 });
