@@ -4,6 +4,8 @@ import { authOptions } from '@/lib/auth';
 import dbConnect from '@/lib/mongodb';
 import Review from '@/models/Review';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/admin/reviews - Liste avis
 export async function GET(req: NextRequest) {
   try {

@@ -5,6 +5,8 @@ import connectDB from '@/lib/mongodb';
 import Order from '@/models/Order';
 import User from '@/models/User';
 
+export const dynamic = 'force-dynamic';
+
 // GET: Récupérer les commandes de l'utilisateur connecté
 export async function GET() {
   try {

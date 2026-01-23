@@ -4,6 +4,8 @@ import dbConnect from '@/lib/mongodb';
 import Product from '@/models/Product';
 import DegreeOrder from '@/models/DegreeOrder';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * API Products V2 - Optimisée avec agrégation MongoDB et champs dénormalisés
  * 

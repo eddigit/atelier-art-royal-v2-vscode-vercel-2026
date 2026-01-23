@@ -8,6 +8,8 @@ import Product from '@/models/Product';
 import Lead from '@/models/Lead';
 import Deal from '@/models/Deal';
 
+export const dynamic = 'force-dynamic';
+
 // GET /api/admin/stats - Statistiques complètes
 export async function GET(req: NextRequest) {
   try {
