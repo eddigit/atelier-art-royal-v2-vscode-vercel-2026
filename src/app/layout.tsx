@@ -1,20 +1,22 @@
 import type { Metadata } from 'next';
-import { Manrope, Great_Vibes } from 'next/font/google';
+import { Playfair_Display, Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import AuthProvider from '@/components/providers/AuthProvider';
 import ChatWidget from '@/components/layout/ChatWidget';
 
-const manrope = Manrope({
+const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
-  variable: '--font-manrope',
-  weight: ['200', '300', '400', '500', '600', '700', '800'],
+  variable: '--font-heading',
+  weight: ['600', '700'],
+  display: 'swap',
 });
 
-const greatVibes = Great_Vibes({
-  weight: '400',
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-signature',
+  variable: '--font-body',
+  weight: ['300', '400'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -82,8 +84,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`dark ${manrope.variable} ${greatVibes.variable}`}>
-      <body className="min-h-screen bg-background-dark font-sans antialiased selection:bg-primary selection:text-white">
+    <html lang="fr" className={`dark ${playfairDisplay.variable} ${inter.variable}`}>
+      <body className="min-h-screen bg-background-dark font-body antialiased selection:bg-primary selection:text-white">
         <AuthProvider>
           {children}
           <ChatWidget />

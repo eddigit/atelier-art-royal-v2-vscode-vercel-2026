@@ -96,9 +96,10 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["Manrope", "Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
-        display: ["Manrope", "sans-serif"],
-        signature: ["var(--font-signature)", "cursive"],
+        heading: ["var(--font-heading)", "Playfair Display", "Georgia", "serif"],
+        body: ["var(--font-body)", "Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        sans: ["var(--font-body)", "Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+        display: ["var(--font-heading)", "Playfair Display", "Georgia", "serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
