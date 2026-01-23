@@ -3,13 +3,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { ChevronDown, ShoppingBag, Search, X } from 'lucide-react';
+import { ChevronDown, ShoppingBag, Search, X, Menu } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 // ============================================================================
 // TYPES
 // ============================================================================
-
 interface Obedience {
   _id: string;
   name: string;
@@ -37,13 +36,11 @@ interface SearchResult {
   slug: string;
   price: number;
   images?: string[];
-  category_slugs?: string[];
 }
 
 // ============================================================================
 // CONSTANTS
 // ============================================================================
-
 const SEARCH_DEBOUNCE_MS = 300;
 const SEARCH_MIN_LENGTH = 2;
 const SEARCH_RESULTS_LIMIT = 6;
@@ -65,65 +62,48 @@ const PRODUCT_CATEGORIES = [
   { href: '/catalog?category=gants', label: 'Gants' },
 ];
 
-const NAVIGATION_LINKS = [
-  { href: '/maison', label: 'La Maison' },
-  { href: '/sur-mesure', label: 'Sur Mesure' },
-  { href: '/savoir-faire', label: 'Savoir-Faire' },
-  { href: '/contact', label: 'Contact' },
-];
-
 // ============================================================================
 // CUSTOM HOOKS
 // ============================================================================
 
-/**
- * Hook pour gérer le compteur du panier avec synchronisation localStorage
- */
 function useCartCount() {
   const [cartCount, setCartCount] = useState(0);
 
-  const updateCartCount = useCallback(() => {
-    try {
-      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      const count = cart.reduce(
-        (sum: number, item: any) => sum + (item.quantity || 1),
-        0
-      );
-      setCartCount(count);
-    } catch (error) {
-      console.error('Error reading cart:', error);
-      setCartCount(0);
-    }
-  }, []);
-
   useEffect(() => {
-    updateCartCount();
+    const updateCart = () => {
+      try {
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const count = cart.reduce((sum: number, item: any) => sum + (item.quantity || 1), 0);
+        setCartCount(count);
+      } catch {
+        setCartCount(0);
+      }
+    };
 
+    updateCart();
+    
     const handleCartUpdate = (e: CustomEvent) => {
       setCartCount(e.detail?.itemCount || 0);
     };
 
     window.addEventListener('cartUpdated', handleCartUpdate as EventListener);
+    window.addEventListener('storage', updateCart);
+    
     return () => {
       window.removeEventListener('cartUpdated', handleCartUpdate as EventListener);
+      window.removeEventListener('storage', updateCart);
     };
-  }, [updateCartCount]);
+  }, []);
 
   return cartCount;
 }
 
-/**
- * Hook pour détecter le scroll
- */
 function useScrollDetection(threshold = 20) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > threshold);
-    };
-
-    handleScroll(); // Check initial state
+    const handleScroll = () => setIsScrolled(window.scrollY > threshold);
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [threshold]);
@@ -131,71 +111,9 @@ function useScrollDetection(threshold = 20) {
   return isScrolled;
 }
 
-/**
- * Hook pour bloquer le scroll du body
- */
-function useBodyScrollLock(isLocked: boolean) {
-  useEffect(() => {
-    if (isLocked) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-    }
-
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
-    };
-  }, [isLocked]);
-}
-
-/**
- * Hook pour gérer la navigation au clavier (Escape, Tab)
- */
-function useKeyboardNavigation(
-  isOpen: boolean,
-  onClose: () => void,
-  containerRef: React.RefObject<HTMLElement>
-) {
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        onClose();
-      }
-
-      // Focus trap
-      if (e.key === 'Tab' && containerRef.current) {
-        const focusableElements = containerRef.current.querySelectorAll(
-          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
-        );
-        const firstElement = focusableElements[0] as HTMLElement;
-        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-
-        if (e.shiftKey && document.activeElement === firstElement) {
-          e.preventDefault();
-          lastElement?.focus();
-        } else if (!e.shiftKey && document.activeElement === lastElement) {
-          e.preventDefault();
-          firstElement?.focus();
-        }
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose, containerRef]);
-}
-
 // ============================================================================
 // MAIN COMPONENT
 // ============================================================================
-
 export default function LuxeHeader() {
   const router = useRouter();
 
@@ -206,62 +124,70 @@ export default function LuxeHeader() {
   const [showCollectionsMenu, setShowCollectionsMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-
-  // Search state
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   // Refs
-  const searchRef = useRef<HTMLDivElement>(null);
-  const mobileMenuRef = useRef<HTMLElement>(null);
-  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const collectionsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Custom hooks
   const cartCount = useCartCount();
   const isScrolled = useScrollDetection(20);
-  useBodyScrollLock(showSearch || showMobileMenu);
-  useKeyboardNavigation(showSearch, () => setShowSearch(false), searchRef);
-  useKeyboardNavigation(showMobileMenu, () => setShowMobileMenu(false), mobileMenuRef);
-
-  // Raccourci CTRL+K pour ouvrir la recherche
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        setShowSearch(true);
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
 
   // Computed values
   const logesSymboliques = useMemo(
     () => degrees.filter((d) => d.loge_type === 'Loge Symbolique'),
     [degrees]
   );
-
   const hautsGrades = useMemo(
     () => degrees.filter((d) => d.loge_type === 'Loge Hauts Grades'),
     [degrees]
   );
 
-  // Charger les données initiales
+  // Lock body scroll when modal open
   useEffect(() => {
-    const loadInitialData = async () => {
+    if (showSearch || showMobileMenu) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showSearch, showMobileMenu]);
+
+  // Focus search input when opened
+  useEffect(() => {
+    if (showSearch && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [showSearch]);
+
+  // Escape key handler
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setShowSearch(false);
+        setShowMobileMenu(false);
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, []);
+
+  // Load initial data
+  useEffect(() => {
+    const loadData = async () => {
       try {
         setIsLoading(true);
         const [obData, riteData, degreeData] = await Promise.all([
           fetch('/api/obediences?activeOnly=true').then((r) => r.json()),
           fetch('/api/rites?activeOnly=true').then((r) => r.json()),
-          fetch('/api/degrees?activeOnly=true')
-            .then((r) => r.json())
-            .catch(() => ({ degrees: [] })),
+          fetch('/api/degrees?activeOnly=true').then((r) => r.json()).catch(() => ({ degrees: [] })),
         ]);
-
         setObediences(obData.obediences || []);
         setRites(riteData.rites || []);
         setDegrees(degreeData.degrees || []);
@@ -271,472 +197,435 @@ export default function LuxeHeader() {
         setIsLoading(false);
       }
     };
-
-    loadInitialData();
+    loadData();
   }, []);
 
-  // Search avec debounce
-  const searchProducts = useCallback(async (query: string) => {
-    if (query.length < SEARCH_MIN_LENGTH) {
+  // Search with debounce
+  useEffect(() => {
+    if (searchQuery.length < SEARCH_MIN_LENGTH) {
       setSearchResults([]);
       return;
     }
 
-    setIsSearching(true);
-    try {
-      const response = await fetch(
-        `/api/products-v2?search=${encodeURIComponent(query)}&limit=${SEARCH_RESULTS_LIMIT}`
-      );
-      
-      if (!response.ok) {
-        throw new Error('Search failed');
+    const timer = setTimeout(async () => {
+      setIsSearching(true);
+      try {
+        const response = await fetch(
+          `/api/products-v2?search=${encodeURIComponent(searchQuery)}&limit=${SEARCH_RESULTS_LIMIT}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setSearchResults(data.products || []);
+        }
+      } catch (error) {
+        console.error('Search error:', error);
+        setSearchResults([]);
+      } finally {
+        setIsSearching(false);
       }
-
-      const data = await response.json();
-      setSearchResults(data.products || []);
-    } catch (error) {
-      console.error('Search error:', error);
-      setSearchResults([]);
-    } finally {
-      setIsSearching(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      searchProducts(searchQuery);
     }, SEARCH_DEBOUNCE_MS);
 
     return () => clearTimeout(timer);
-  }, [searchQuery, searchProducts]);
+  }, [searchQuery]);
 
   // Handlers
-  const handleSearchSubmit = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      const trimmedQuery = searchQuery.trim();
-      
-      if (trimmedQuery) {
-        router.push(`/catalog?search=${encodeURIComponent(trimmedQuery)}`);
-        setShowSearch(false);
-        setSearchQuery('');
-      }
-    },
-    [searchQuery, router]
-  );
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/catalog?search=${encodeURIComponent(searchQuery.trim())}`);
+      setShowSearch(false);
+      setSearchQuery('');
+    }
+  };
 
-  const handleOpenSearch = useCallback(() => {
-    previousFocusRef.current = document.activeElement as HTMLElement;
-    setShowSearch(true);
-  }, []);
-
-  const handleCloseSearch = useCallback(() => {
-    setShowSearch(false);
-    setSearchQuery('');
-    setSearchResults([]);
-    previousFocusRef.current?.focus();
-  }, []);
-
-  const handleOpenMobileMenu = useCallback(() => {
-    previousFocusRef.current = document.activeElement as HTMLElement;
-    setShowMobileMenu(true);
-  }, []);
-
-  const handleCloseMobileMenu = useCallback(() => {
-    setShowMobileMenu(false);
-    previousFocusRef.current?.focus();
-  }, []);
-
-  const handleNavigate = useCallback(() => {
+  const handleNavigate = () => {
     setShowMobileMenu(false);
     setShowSearch(false);
     setSearchQuery('');
-  }, []);
+  };
 
-  const handlePopularSearch = useCallback((query: string) => {
-    setSearchQuery(query);
-  }, []);
+  const handleCollectionsEnter = () => {
+    if (collectionsTimeoutRef.current) {
+      clearTimeout(collectionsTimeoutRef.current);
+    }
+    if (!isLoading) {
+      setShowCollectionsMenu(true);
+    }
+  };
 
-  // Format cart count
+  const handleCollectionsLeave = () => {
+    collectionsTimeoutRef.current = setTimeout(() => {
+      setShowCollectionsMenu(false);
+    }, 150);
+  };
+
   const displayCartCount = cartCount > MAX_CART_DISPLAY ? '99+' : cartCount;
 
   return (
     <>
-      {/* ====================================================================== */}
-      {/* HEADER */}
-      {/* ====================================================================== */}
+      {/* ================================================================== */}
+      {/* HEADER PRINCIPAL */}
+      {/* ================================================================== */}
       <header
-        className={`header-luxe ${isScrolled ? 'header-luxe--scrolled' : ''}`}
-        role="banner"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-white/95 backdrop-blur-md shadow-sm'
+            : 'bg-[#FDFBF7]'
+        }`}
       >
-        <div className="header-luxe__inner">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="header-luxe__brand"
-            aria-label="Atelier Art Royal - Retour à l'accueil"
-          >
-            <Image
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691cd26ea8838a859856a6b6/b5c892460_logo-dark-web.png"
-              alt="Atelier Art Royal"
-              width={180}
-              height={50}
-              className="header-luxe__logo"
-              priority
-            />
-          </Link>
-
-          {/* Séparateur + Drapeau */}
-          <div className="header-luxe__separator" />
-          <span className="header-luxe__flag" role="img" aria-label="Drapeau français" />
-
-          {/* Navigation */}
-          <nav className="header-luxe__nav" aria-label="Navigation principale">
-            <Link href="/maison" className="header-luxe__link">La Maison</Link>
-
-            {/* Collections avec mega-menu */}
-            <div
-              className="header-luxe__link-wrapper"
-              onMouseEnter={() => !isLoading && setShowCollectionsMenu(true)}
-              onMouseLeave={() => setShowCollectionsMenu(false)}
-            >
-              <button
-                className="header-luxe__link header-luxe__link--dropdown"
-                onClick={() => setShowCollectionsMenu(!showCollectionsMenu)}
-                aria-expanded={showCollectionsMenu}
-                aria-haspopup="true"
-                aria-controls="collections-megamenu"
-                disabled={isLoading}
-              >
-                Collections
-                <ChevronDown 
-                  className={`w-3 h-3 ml-1 transition-transform ${showCollectionsMenu ? 'rotate-180' : ''}`}
-                  aria-hidden="true"
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16 lg:h-20">
+            
+            {/* === GAUCHE: Logo + Drapeau === */}
+            <div className="flex items-center gap-3 lg:gap-4">
+              <Link href="/" className="flex-shrink-0">
+                <Image
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691cd26ea8838a859856a6b6/b5c892460_logo-dark-web.png"
+                  alt="Atelier Art Royal"
+                  width={160}
+                  height={45}
+                  className="h-8 lg:h-10 w-auto"
+                  priority
                 />
-              </button>
-
-              {/* Mega Menu Collections */}
-              <div 
-                id="collections-megamenu"
-                className={`mega-menu ${showCollectionsMenu ? 'mega-menu--visible' : ''}`}
-                role="menu"
-                aria-label="Menu des collections"
-              >
-                <div className="mega-menu__inner">
-                  {/* Obédiences */}
-                  <div className="mega-menu__section" role="group" aria-labelledby="obediences-title">
-                    <h3 id="obediences-title" className="mega-menu__title">Par Obédience</h3>
-                    <div className="mega-menu__grid mega-menu__grid--obediences" role="list">
-                      {isLoading ? (
-                        <div className="mega-menu__loading" role="status" aria-live="polite">
-                          Chargement...
-                        </div>
-                      ) : obediences.length > 0 ? (
-                        obediences.map((ob) => (
-                          <Link
-                            key={ob._id}
-                            href={`/catalog?obedience=${ob._id}`}
-                            className="mega-menu__item mega-menu__item--obedience"
-                            role="menuitem"
-                            onClick={handleNavigate}
-                            aria-label={`Filtrer par obédience ${ob.name}`}
-                          >
-                            {ob.image_url && (
-                              <Image
-                                src={ob.image_url}
-                                alt=""
-                                width={32}
-                                height={32}
-                                className="mega-menu__item-image"
-                                aria-hidden="true"
-                              />
-                            )}
-                            <span className="mega-menu__item-code">{ob.code}</span>
-                          </Link>
-                        ))
-                      ) : (
-                        <p className="mega-menu__empty">Aucune obédience disponible</p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Rites */}
-                  <div className="mega-menu__section" role="group" aria-labelledby="rites-title">
-                    <h3 id="rites-title" className="mega-menu__title">Par Rite</h3>
-                    <div className="mega-menu__list" role="list">
-                      {isLoading ? (
-                        <div className="mega-menu__loading" role="status" aria-live="polite">
-                          Chargement...
-                        </div>
-                      ) : rites.length > 0 ? (
-                        rites.slice(0, 6).map((rite) => (
-                          <Link
-                            key={rite._id}
-                            href={`/catalog?rite=${rite._id}`}
-                            className="mega-menu__item"
-                            role="menuitem"
-                            onClick={handleNavigate}
-                          >
-                            {rite.name}
-                          </Link>
-                        ))
-                      ) : (
-                        <p className="mega-menu__empty">Aucun rite disponible</p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Degrés - Loges Symboliques */}
-                  <div className="mega-menu__section" role="group" aria-labelledby="degrees-title">
-                    <h3 id="degrees-title" className="mega-menu__title">Loges Bleues</h3>
-                    <div className="mega-menu__list" role="list">
-                      {isLoading ? (
-                        <div className="mega-menu__loading" role="status" aria-live="polite">
-                          Chargement...
-                        </div>
-                      ) : logesSymboliques.length > 0 ? (
-                        logesSymboliques.map((degree) => (
-                          <Link
-                            key={degree._id}
-                            href={`/catalog?degree=${degree._id}`}
-                            className="mega-menu__item"
-                            role="menuitem"
-                            onClick={handleNavigate}
-                          >
-                            {degree.name}
-                          </Link>
-                        ))
-                      ) : (
-                        <>
-                          <Link 
-                            href="/catalog?logeType=Loge Symbolique" 
-                            className="mega-menu__item"
-                            role="menuitem"
-                            onClick={handleNavigate}
-                          >
-                            Apprenti (1°)
-                          </Link>
-                          <Link 
-                            href="/catalog?logeType=Loge Symbolique" 
-                            className="mega-menu__item"
-                            role="menuitem"
-                            onClick={handleNavigate}
-                          >
-                            Compagnon (2°)
-                          </Link>
-                          <Link 
-                            href="/catalog?logeType=Loge Symbolique" 
-                            className="mega-menu__item"
-                            role="menuitem"
-                            onClick={handleNavigate}
-                          >
-                            Maître (3°)
-                          </Link>
-                        </>
-                      )}
-                    </div>
-
-                    <h3 id="hauts-grades-title" className="mega-menu__title mt-4">Hauts Grades</h3>
-                    <div className="mega-menu__list" role="list">
-                      {isLoading ? (
-                        <div className="mega-menu__loading" role="status" aria-live="polite">
-                          Chargement...
-                        </div>
-                      ) : hautsGrades.length > 0 ? (
-                        hautsGrades.slice(0, 5).map((degree) => (
-                          <Link
-                            key={degree._id}
-                            href={`/catalog?degree=${degree._id}`}
-                            className="mega-menu__item"
-                            role="menuitem"
-                            onClick={handleNavigate}
-                          >
-                            {degree.name}
-                          </Link>
-                        ))
-                      ) : (
-                        <Link 
-                          href="/catalog?logeType=Loge Hauts Grades" 
-                          className="mega-menu__item"
-                          role="menuitem"
-                          onClick={handleNavigate}
-                        >
-                          Voir tous les Hauts Grades
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Catégories produits */}
-                  <div className="mega-menu__section" role="group" aria-labelledby="categories-title">
-                    <h3 id="categories-title" className="mega-menu__title">Catégories</h3>
-                    <div className="mega-menu__list" role="list">
-                      {PRODUCT_CATEGORIES.map((category) => (
-                        <Link
-                          key={category.href}
-                          href={category.href}
-                          className="mega-menu__item"
-                          role="menuitem"
-                          onClick={handleNavigate}
-                        >
-                          {category.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mega-menu__footer" role="group">
-                  <Link 
-                    href="/equiper-ma-loge" 
-                    className="mega-menu__cta mega-menu__cta--highlight"
-                    onClick={handleNavigate}
-                  >
-                    Équiper ma Loge complète →
-                  </Link>
-                  <Link 
-                    href="/catalog" 
-                    className="mega-menu__cta"
-                    onClick={handleNavigate}
-                  >
-                    Voir toutes les collections →
-                  </Link>
-                </div>
+              </Link>
+              
+              {/* Séparateur + Drapeau - visible tablette+ */}
+              <div className="hidden sm:flex items-center gap-3">
+                <div className="w-px h-6 bg-gray-300" />
+                <span 
+                  className="w-6 h-4 rounded-sm border border-gray-200 shadow-sm"
+                  style={{
+                    background: 'linear-gradient(90deg, #002395 0% 33.33%, #FFFFFF 33.33% 66.66%, #ED2939 66.66% 100%)'
+                  }}
+                  title="Fabriqué en France"
+                />
               </div>
             </div>
 
-            {NAVIGATION_LINKS.map((link) => (
-              <Link key={link.href} href={link.href} className="header-luxe__link">
-                {link.label}
+            {/* === CENTRE: Navigation Desktop === */}
+            <nav className="hidden lg:flex items-center gap-1">
+              <Link
+                href="/maison"
+                className="px-4 py-2 text-xs font-medium tracking-wider uppercase text-gray-700 hover:text-[#C9A227] transition-colors"
+              >
+                La Maison
               </Link>
-            ))}
-          </nav>
 
-          {/* Actions */}
-          <div className="header-luxe__actions">
-            {/* Search Button avec CTRL+K */}
-            <button
-              onClick={handleOpenSearch}
-              className="header-luxe__search-btn"
-              aria-label="Ouvrir la recherche (Ctrl+K)"
-              aria-expanded={showSearch}
-              aria-controls="search-overlay"
-            >
-              <Search className="w-4 h-4" aria-hidden="true" />
-              <span className="header-luxe__search-text">Rechercher...</span>
-              <kbd className="header-luxe__search-kbd">
-                <span>⌘</span>K
-              </kbd>
-            </button>
-
-            {/* Cart Button */}
-            <Link 
-              href="/cart" 
-              className="header-luxe__icon-btn header-luxe__cart-btn"
-              aria-label={`Panier, ${cartCount} ${cartCount > 1 ? 'articles' : 'article'}`}
-            >
-              <ShoppingBag className="w-5 h-5" aria-hidden="true" />
-              {cartCount > 0 && (
-                <span 
-                  className="header-luxe__cart-count"
-                  aria-label={`${displayCartCount} articles dans le panier`}
+              {/* Collections avec Mega Menu */}
+              <div
+                className="relative"
+                onMouseEnter={handleCollectionsEnter}
+                onMouseLeave={handleCollectionsLeave}
+              >
+                <button
+                  className="flex items-center gap-1 px-4 py-2 text-xs font-medium tracking-wider uppercase text-gray-700 hover:text-[#C9A227] transition-colors"
+                  aria-expanded={showCollectionsMenu}
                 >
-                  {displayCartCount}
-                </span>
-              )}
-            </Link>
+                  Collections
+                  <ChevronDown
+                    className={`w-3 h-3 transition-transform duration-200 ${
+                      showCollectionsMenu ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
 
-            <Link href="/contact" className="hidden lg:block">
-              <button className="btn-luxe btn-luxe--outline">Rendez-vous</button>
-            </Link>
-            <Link href="/auth/login">
-              <button className="btn-luxe btn-luxe--primary">Espace Client</button>
-            </Link>
+                {/* Mega Menu */}
+                <div
+                  className={`absolute top-full left-1/2 -translate-x-1/2 w-[800px] bg-white border border-gray-200 shadow-xl transition-all duration-200 ${
+                    showCollectionsMenu
+                      ? 'opacity-100 visible translate-y-0'
+                      : 'opacity-0 invisible -translate-y-2'
+                  }`}
+                >
+                  <div className="grid grid-cols-4 gap-0 p-6">
+                    {/* Obédiences */}
+                    <div className="pr-4 border-r border-gray-200">
+                      <h3 className="text-[10px] font-semibold tracking-widest uppercase text-[#C9A227] mb-3 pb-2 border-b border-gray-200">
+                        Par Obédience
+                      </h3>
+                      <div className="grid grid-cols-2 gap-2">
+                        {isLoading ? (
+                          <p className="text-xs text-gray-400 col-span-2">Chargement...</p>
+                        ) : obediences.length > 0 ? (
+                          obediences.map((ob) => (
+                            <Link
+                              key={ob._id}
+                              href={`/catalog?obedience=${ob._id}`}
+                              className="flex items-center gap-2 p-2 bg-gray-50 hover:bg-[#C9A227]/10 transition-colors"
+                              onClick={handleNavigate}
+                            >
+                              {ob.image_url && (
+                                <Image
+                                  src={ob.image_url}
+                                  alt=""
+                                  width={24}
+                                  height={24}
+                                  className="w-6 h-6 object-contain rounded-full"
+                                />
+                              )}
+                              <span className="text-[11px] font-semibold tracking-wide">
+                                {ob.code}
+                              </span>
+                            </Link>
+                          ))
+                        ) : (
+                          <p className="text-xs text-gray-400 col-span-2">Aucune obédience</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Rites */}
+                    <div className="px-4 border-r border-gray-200">
+                      <h3 className="text-[10px] font-semibold tracking-widest uppercase text-[#C9A227] mb-3 pb-2 border-b border-gray-200">
+                        Par Rite
+                      </h3>
+                      <div className="space-y-1">
+                        {isLoading ? (
+                          <p className="text-xs text-gray-400">Chargement...</p>
+                        ) : rites.length > 0 ? (
+                          rites.slice(0, 6).map((rite) => (
+                            <Link
+                              key={rite._id}
+                              href={`/catalog?rite=${rite._id}`}
+                              className="block text-xs text-gray-600 hover:text-[#C9A227] hover:pl-1 transition-all py-1"
+                              onClick={handleNavigate}
+                            >
+                              {rite.name}
+                            </Link>
+                          ))
+                        ) : (
+                          <p className="text-xs text-gray-400">Aucun rite</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Degrés */}
+                    <div className="px-4 border-r border-gray-200">
+                      <h3 className="text-[10px] font-semibold tracking-widest uppercase text-[#C9A227] mb-3 pb-2 border-b border-gray-200">
+                        Loges Bleues
+                      </h3>
+                      <div className="space-y-1 mb-4">
+                        {logesSymboliques.length > 0 ? (
+                          logesSymboliques.map((degree) => (
+                            <Link
+                              key={degree._id}
+                              href={`/catalog?degree=${degree._id}`}
+                              className="block text-xs text-gray-600 hover:text-[#C9A227] hover:pl-1 transition-all py-1"
+                              onClick={handleNavigate}
+                            >
+                              {degree.name}
+                            </Link>
+                          ))
+                        ) : (
+                          <>
+                            <Link href="/catalog?logeType=Loge Symbolique" className="block text-xs text-gray-600 hover:text-[#C9A227] py-1" onClick={handleNavigate}>Apprenti (1°)</Link>
+                            <Link href="/catalog?logeType=Loge Symbolique" className="block text-xs text-gray-600 hover:text-[#C9A227] py-1" onClick={handleNavigate}>Compagnon (2°)</Link>
+                            <Link href="/catalog?logeType=Loge Symbolique" className="block text-xs text-gray-600 hover:text-[#C9A227] py-1" onClick={handleNavigate}>Maître (3°)</Link>
+                          </>
+                        )}
+                      </div>
+
+                      <h3 className="text-[10px] font-semibold tracking-widest uppercase text-[#C9A227] mb-3 pb-2 border-b border-gray-200">
+                        Hauts Grades
+                      </h3>
+                      <div className="space-y-1">
+                        {hautsGrades.length > 0 ? (
+                          hautsGrades.slice(0, 4).map((degree) => (
+                            <Link
+                              key={degree._id}
+                              href={`/catalog?degree=${degree._id}`}
+                              className="block text-xs text-gray-600 hover:text-[#C9A227] hover:pl-1 transition-all py-1"
+                              onClick={handleNavigate}
+                            >
+                              {degree.name}
+                            </Link>
+                          ))
+                        ) : (
+                          <Link href="/catalog?logeType=Loge Hauts Grades" className="block text-xs text-gray-600 hover:text-[#C9A227] py-1" onClick={handleNavigate}>
+                            Voir les Hauts Grades
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Catégories */}
+                    <div className="pl-4">
+                      <h3 className="text-[10px] font-semibold tracking-widest uppercase text-[#C9A227] mb-3 pb-2 border-b border-gray-200">
+                        Catégories
+                      </h3>
+                      <div className="space-y-1">
+                        {PRODUCT_CATEGORIES.map((cat) => (
+                          <Link
+                            key={cat.href}
+                            href={cat.href}
+                            className="block text-xs text-gray-600 hover:text-[#C9A227] hover:pl-1 transition-all py-1"
+                            onClick={handleNavigate}
+                          >
+                            {cat.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Footer Mega Menu */}
+                  <div className="flex items-center justify-center gap-6 px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    <Link
+                      href="/equiper-ma-loge"
+                      className="text-xs font-semibold text-white bg-[#C9A227] px-4 py-2 hover:bg-[#D4B44A] transition-colors"
+                      onClick={handleNavigate}
+                    >
+                      Équiper ma Loge complète →
+                    </Link>
+                    <Link
+                      href="/catalog"
+                      className="text-xs font-semibold text-[#C9A227] hover:text-[#1B3A5F] transition-colors"
+                      onClick={handleNavigate}
+                    >
+                      Voir toutes les collections →
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/sur-mesure"
+                className="px-4 py-2 text-xs font-medium tracking-wider uppercase text-gray-700 hover:text-[#C9A227] transition-colors"
+              >
+                Sur Mesure
+              </Link>
+
+              <Link
+                href="/savoir-faire"
+                className="px-4 py-2 text-xs font-medium tracking-wider uppercase text-gray-700 hover:text-[#C9A227] transition-colors"
+              >
+                Savoir-Faire
+              </Link>
+
+              <Link
+                href="/contact"
+                className="px-4 py-2 text-xs font-medium tracking-wider uppercase text-gray-700 hover:text-[#C9A227] transition-colors"
+              >
+                Contact
+              </Link>
+            </nav>
+
+            {/* === DROITE: Actions === */}
+            <div className="flex items-center gap-2 lg:gap-3">
+              {/* Bouton Recherche Desktop */}
+              <button
+                onClick={() => setShowSearch(true)}
+                className="hidden lg:flex items-center gap-2 px-3 py-2 bg-gray-100 border border-gray-200 rounded-lg text-gray-500 text-sm hover:border-[#C9A227] hover:bg-gray-50 transition-colors min-w-[180px]"
+              >
+                <Search className="w-4 h-4" />
+                <span className="flex-1 text-left">Rechercher...</span>
+              </button>
+
+              {/* Bouton Recherche Mobile */}
+              <button
+                onClick={() => setShowSearch(true)}
+                className="lg:hidden p-2 text-gray-700 hover:text-[#C9A227] transition-colors"
+                aria-label="Rechercher"
+              >
+                <Search className="w-5 h-5" />
+              </button>
+
+              {/* Panier */}
+              <Link
+                href="/cart"
+                className="relative p-2 text-gray-700 hover:text-[#C9A227] transition-colors"
+                aria-label={`Panier (${cartCount} articles)`}
+              >
+                <ShoppingBag className="w-5 h-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center bg-[#C9A227] text-white text-[10px] font-bold rounded-full px-1">
+                    {displayCartCount}
+                  </span>
+                )}
+              </Link>
+
+              {/* Rendez-vous - Desktop */}
+              <Link href="/contact" className="hidden xl:block">
+                <button className="px-4 py-2 text-[11px] font-semibold tracking-wider uppercase border border-[#C9A227] text-[#C9A227] hover:bg-[#C9A227] hover:text-white transition-colors">
+                  Rendez-vous
+                </button>
+              </Link>
+
+              {/* Espace Client */}
+              <Link href="/auth/login" className="hidden sm:block">
+                <button className="px-4 py-2 text-[11px] font-semibold tracking-wider uppercase bg-[#1B3A5F] text-white hover:bg-[#0F2340] transition-colors">
+                  Espace Client
+                </button>
+              </Link>
+
+              {/* Menu Mobile */}
+              <button
+                onClick={() => setShowMobileMenu(true)}
+                className="lg:hidden p-2 text-gray-700 hover:text-[#C9A227] transition-colors"
+                aria-label="Menu"
+              >
+                <Menu className="w-6 h-6" />
+              </button>
+            </div>
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="header-luxe__mobile-toggle lg:hidden"
-            onClick={handleOpenMobileMenu}
-            aria-label={showMobileMenu ? 'Fermer le menu' : 'Ouvrir le menu'}
-            aria-expanded={showMobileMenu}
-            aria-controls="mobile-menu"
-          >
-            <span className={`hamburger ${showMobileMenu ? 'hamburger--active' : ''}`}>
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-          </button>
         </div>
       </header>
 
-      {/* Search Overlay */}
+      {/* Spacer pour le contenu */}
+      <div className="h-16 lg:h-20" />
+
+      {/* ================================================================== */}
+      {/* MODAL RECHERCHE */}
+      {/* ================================================================== */}
       {showSearch && (
-        <div 
-          className="search-overlay" 
-          onClick={handleCloseSearch}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="search-title"
+        <div
+          className="fixed inset-0 z-[100] bg-black/80 flex items-start justify-center pt-[15vh]"
+          onClick={() => setShowSearch(false)}
         >
-          <div 
-            ref={searchRef}
-            className="search-overlay__content" 
-            onClick={e => e.stopPropagation()}
+          <div
+            className="w-full max-w-2xl mx-4"
+            onClick={(e) => e.stopPropagation()}
           >
-            <form onSubmit={handleSearchSubmit} className="search-overlay__form" role="search">
-              <Search className="search-overlay__icon" aria-hidden="true" />
-              <label htmlFor="search-input" className="sr-only" id="search-title">
-                Rechercher un produit
-              </label>
+            <form
+              onSubmit={handleSearchSubmit}
+              className="flex items-center gap-4 bg-white p-4 shadow-2xl"
+            >
+              <Search className="w-6 h-6 text-gray-400 flex-shrink-0" />
               <input
-                id="search-input"
+                ref={searchInputRef}
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Rechercher un produit, un rite, une obédience..."
-                className="search-overlay__input"
-                aria-describedby="search-description"
-                autoFocus
+                className="flex-1 text-lg outline-none bg-transparent text-gray-800 placeholder-gray-400"
                 autoComplete="off"
               />
               <button
                 type="button"
-                onClick={handleCloseSearch}
-                className="search-overlay__close"
-                aria-label="Fermer la recherche"
+                onClick={() => setShowSearch(false)}
+                className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                aria-label="Fermer"
               >
-                <X className="w-6 h-6" aria-hidden="true" />
+                <X className="w-6 h-6" />
               </button>
             </form>
 
-            {/* Search Results */}
+            {/* Résultats */}
             {searchQuery.length >= SEARCH_MIN_LENGTH && (
-              <div 
-                className="search-overlay__results"
-                role="region"
-                aria-live="polite"
-                aria-atomic="true"
-              >
+              <div className="bg-white shadow-2xl max-h-[50vh] overflow-y-auto">
                 {isSearching ? (
-                  <div className="search-overlay__loading" role="status">
-                    <span className="sr-only">Recherche en cours...</span>
-                    Recherche en cours...
-                  </div>
+                  <p className="p-6 text-center text-gray-500">Recherche en cours...</p>
                 ) : searchResults.length > 0 ? (
                   <>
-                    <div className="search-overlay__results-list" role="list">
+                    <div className="divide-y divide-gray-100">
                       {searchResults.map((product) => (
                         <Link
                           key={product._id}
                           href={`/product/${product.slug || product._id}`}
-                          className="search-overlay__result-item"
-                          role="listitem"
+                          className="flex items-center gap-4 p-4 hover:bg-gray-50 transition-colors"
                           onClick={handleNavigate}
-                          aria-label={`${product.name}, ${product.price?.toFixed(2)} euros`}
                         >
-                          <div className="search-overlay__result-image" aria-hidden="true">
+                          <div className="w-12 h-12 bg-gray-100 flex items-center justify-center flex-shrink-0">
                             {product.images?.[0] ? (
                               <Image
                                 src={product.images[0]}
@@ -746,45 +635,47 @@ export default function LuxeHeader() {
                                 className="w-full h-full object-cover"
                               />
                             ) : (
-                              <span>🎭</span>
+                              <span className="text-xl">🎭</span>
                             )}
                           </div>
-                          <div className="search-overlay__result-info">
-                            <p className="search-overlay__result-name">{product.name}</p>
-                            <p className="search-overlay__result-price">{product.price?.toFixed(2)} €</p>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-gray-800 truncate">{product.name}</p>
+                            <p className="text-sm font-semibold text-[#C9A227]">
+                              {product.price?.toFixed(2)} €
+                            </p>
                           </div>
                         </Link>
                       ))}
                     </div>
                     <Link
                       href={`/catalog?search=${encodeURIComponent(searchQuery)}`}
-                      className="search-overlay__view-all"
+                      className="block p-4 text-center text-[#C9A227] font-medium border-t border-gray-200 hover:bg-[#C9A227]/5 transition-colors"
                       onClick={handleNavigate}
                     >
                       Voir tous les résultats →
                     </Link>
                   </>
                 ) : (
-                  <div className="search-overlay__no-results" role="status">
+                  <p className="p-6 text-center text-gray-500">
                     Aucun produit trouvé pour "{searchQuery}"
-                  </div>
+                  </p>
                 )}
               </div>
             )}
 
-            {/* Quick Links */}
+            {/* Recherches populaires */}
             {searchQuery.length < SEARCH_MIN_LENGTH && (
-              <div className="search-overlay__quick-links">
-                <p className="search-overlay__quick-title" id="search-description">
+              <div className="bg-white p-6 shadow-2xl">
+                <p className="text-[10px] font-semibold tracking-widest uppercase text-gray-400 mb-3">
                   Recherches populaires
                 </p>
-                <div className="search-overlay__quick-tags" role="list">
+                <div className="flex flex-wrap gap-2">
                   {POPULAR_SEARCHES.map((query) => (
-                    <button 
+                    <button
                       key={query}
-                      onClick={() => handlePopularSearch(query)}
-                      role="listitem"
+                      onClick={() => setSearchQuery(query)}
                       type="button"
+                      className="px-3 py-1.5 bg-gray-100 border border-gray-200 text-sm text-gray-700 hover:bg-[#C9A227]/10 hover:border-[#C9A227] hover:text-[#C9A227] transition-colors"
                     >
                       {query}
                     </button>
@@ -796,130 +687,153 @@ export default function LuxeHeader() {
         </div>
       )}
 
-      {/* Mobile Menu Overlay */}
+      {/* ================================================================== */}
+      {/* MENU MOBILE */}
+      {/* ================================================================== */}
       {showMobileMenu && (
-        <div 
-          className="mobile-menu-overlay" 
-          onClick={handleCloseMobileMenu}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="mobile-menu-title"
+        <div
+          className="fixed inset-0 z-[100] bg-black/50"
+          onClick={() => setShowMobileMenu(false)}
         >
-          <nav 
-            id="mobile-menu"
-            ref={mobileMenuRef}
-            className="mobile-menu" 
+          <nav
+            className="absolute top-0 right-0 w-80 max-w-[85vw] h-full bg-[#FDFBF7] overflow-y-auto animate-slide-in"
             onClick={(e) => e.stopPropagation()}
-            aria-label="Menu de navigation mobile"
           >
-            <div className="mobile-menu__header">
+            {/* Header Mobile Menu */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
               <Image
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691cd26ea8838a859856a6b6/b5c892460_logo-dark-web.png"
                 alt="Atelier Art Royal"
-                width={150}
-                height={42}
-                id="mobile-menu-title"
+                width={130}
+                height={36}
+                className="h-8 w-auto"
               />
-              <button 
-                onClick={handleCloseMobileMenu} 
-                className="mobile-menu__close"
-                aria-label="Fermer le menu"
+              <button
+                onClick={() => setShowMobileMenu(false)}
+                className="p-2 text-gray-600 hover:text-gray-800"
+                aria-label="Fermer"
               >
-                ✕
+                <X className="w-6 h-6" />
               </button>
             </div>
 
-            <div className="mobile-menu__section">
-              <h3 className="mobile-menu__title">Navigation</h3>
-              {NAVIGATION_LINKS.map((link) => (
-                <Link 
-                  key={link.href}
-                  href={link.href} 
-                  onClick={handleNavigate}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Link href="/catalog" onClick={handleNavigate}>Collections</Link>
-              <Link href="/equiper-ma-loge" onClick={handleNavigate}>Équiper ma Loge</Link>
+            {/* Navigation */}
+            <div className="p-4 border-b border-gray-200">
+              <h3 className="text-[10px] font-semibold tracking-widest uppercase text-[#C9A227] mb-3">
+                Navigation
+              </h3>
+              <div className="space-y-0">
+                {[
+                  { href: '/maison', label: 'La Maison' },
+                  { href: '/catalog', label: 'Collections' },
+                  { href: '/sur-mesure', label: 'Sur Mesure' },
+                  { href: '/savoir-faire', label: 'Savoir-Faire' },
+                  { href: '/contact', label: 'Contact' },
+                  { href: '/equiper-ma-loge', label: 'Équiper ma Loge' },
+                ].map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="block py-3 text-gray-700 border-b border-gray-100 hover:text-[#C9A227] transition-colors"
+                    onClick={handleNavigate}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
             </div>
 
-            <div className="mobile-menu__section">
-              <h3 className="mobile-menu__title">Votre Obédience</h3>
+            {/* Obédiences */}
+            <div className="p-4 border-b border-gray-200">
+              <h3 className="text-[10px] font-semibold tracking-widest uppercase text-[#C9A227] mb-3">
+                Votre Obédience
+              </h3>
               {isLoading ? (
-                <div className="mobile-menu__loading" role="status" aria-live="polite">
-                  Chargement...
-                </div>
+                <p className="text-sm text-gray-400">Chargement...</p>
               ) : obediences.length > 0 ? (
-                <div className="mobile-menu__obediences" role="list">
+                <div className="grid grid-cols-2 gap-2">
                   {obediences.map((ob) => (
                     <Link
                       key={ob._id}
                       href={`/catalog?obedience=${ob._id}`}
-                      className="mobile-menu__obedience"
+                      className="flex items-center gap-2 p-2 bg-gray-100 text-center justify-center hover:bg-[#C9A227]/10 transition-colors"
                       onClick={handleNavigate}
-                      role="listitem"
-                      aria-label={`Filtrer par obédience ${ob.name}`}
                     >
                       {ob.image_url && (
-                        <Image 
-                          src={ob.image_url} 
-                          alt="" 
-                          width={28} 
-                          height={28}
-                          aria-hidden="true"
+                        <Image
+                          src={ob.image_url}
+                          alt=""
+                          width={24}
+                          height={24}
+                          className="w-6 h-6 object-contain"
                         />
                       )}
-                      <span>{ob.code}</span>
+                      <span className="text-xs font-semibold">{ob.code}</span>
                     </Link>
                   ))}
                 </div>
               ) : (
-                <p className="mobile-menu__empty">Aucune obédience disponible</p>
+                <p className="text-sm text-gray-400">Aucune obédience</p>
               )}
             </div>
 
-            <div className="mobile-menu__section">
-              <h3 className="mobile-menu__title">Par Rite</h3>
+            {/* Rites */}
+            <div className="p-4 border-b border-gray-200">
+              <h3 className="text-[10px] font-semibold tracking-widest uppercase text-[#C9A227] mb-3">
+                Par Rite
+              </h3>
               {isLoading ? (
-                <div className="mobile-menu__loading" role="status" aria-live="polite">
-                  Chargement...
-                </div>
+                <p className="text-sm text-gray-400">Chargement...</p>
               ) : rites.length > 0 ? (
-                <div className="mobile-menu__rites" role="list">
+                <div className="space-y-0">
                   {rites.slice(0, 4).map((rite) => (
                     <Link
                       key={rite._id}
                       href={`/catalog?rite=${rite._id}`}
+                      className="block py-2 text-sm text-gray-700 border-b border-gray-100 hover:text-[#C9A227] transition-colors"
                       onClick={handleNavigate}
-                      role="listitem"
                     >
                       {rite.name}
                     </Link>
                   ))}
                 </div>
               ) : (
-                <p className="mobile-menu__empty">Aucun rite disponible</p>
+                <p className="text-sm text-gray-400">Aucun rite</p>
               )}
             </div>
 
-            <div className="mobile-menu__actions">
+            {/* Actions */}
+            <div className="p-4">
               <Link href="/cart" onClick={handleNavigate}>
-                <button 
-                  className="btn-luxe btn-luxe--outline w-full mb-3"
-                  aria-label={`Voir le panier, ${cartCount} ${cartCount > 1 ? 'articles' : 'article'}`}
-                >
-                  <ShoppingBag className="w-4 h-4 mr-2" aria-hidden="true" />
+                <button className="w-full mb-3 px-4 py-3 text-xs font-semibold tracking-wider uppercase border border-[#C9A227] text-[#C9A227] hover:bg-[#C9A227] hover:text-white transition-colors flex items-center justify-center gap-2">
+                  <ShoppingBag className="w-4 h-4" />
                   Panier {cartCount > 0 && `(${displayCartCount})`}
                 </button>
               </Link>
               <Link href="/auth/login" onClick={handleNavigate}>
-                <button className="btn-luxe btn-luxe--primary w-full">Espace Client</button>
+                <button className="w-full px-4 py-3 text-xs font-semibold tracking-wider uppercase bg-[#1B3A5F] text-white hover:bg-[#0F2340] transition-colors">
+                  Espace Client
+                </button>
               </Link>
             </div>
           </nav>
         </div>
       )}
+
+      {/* Style pour l'animation slide-in */}
+      <style jsx global>{`
+        @keyframes slide-in {
+          from {
+            transform: translateX(100%);
+          }
+          to {
+            transform: translateX(0);
+          }
+        }
+        .animate-slide-in {
+          animation: slide-in 0.3s ease-out;
+        }
+      `}</style>
     </>
   );
 }
