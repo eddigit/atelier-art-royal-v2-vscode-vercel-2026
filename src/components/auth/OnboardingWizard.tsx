@@ -139,7 +139,7 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
         const [obediencesRes, ritesRes, degreesRes] = await Promise.all([
           fetch('/api/obediences'),
           fetch('/api/rites'),
-          fetch('/api/admin/degrees'),
+          fetch('/api/degrees'),
         ]);
         
         if (obediencesRes.ok) {
