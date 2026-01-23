@@ -2,12 +2,21 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, ImageOff } from 'lucide-react';
+import mongoose from 'mongoose';
 import dbConnect from '@/lib/mongodb';
 import Product from '@/models/Product';
+import Category from '@/models/Category';
+import Rite from '@/models/Rite';
+import Obedience from '@/models/Obedience';
+import DegreeOrder from '@/models/DegreeOrder';
 import LuxeHeaderDark from '@/components/layout/LuxeHeaderDark';
 import LuxeFooterDark from '@/components/layout/LuxeFooterDark';
 import ProductClient from '@/components/product/ProductClient';
 import ProductReviews from '@/components/product/ProductReviews';
+
+// Forcer l'enregistrement des modèles pour le populate
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _models = { Category, Rite, Obedience, DegreeOrder };
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -17,11 +26,17 @@ async function getProduct(slug: string) {
   try {
     await dbConnect();
 
+    // Construire la condition de recherche
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const orConditions: any[] = [{ slug }];
+    
+    // N'ajouter la condition _id que si le slug est un ObjectId valide
+    if (mongoose.Types.ObjectId.isValid(slug)) {
+      orConditions.push({ _id: slug });
+    }
+
     const product = await Product.findOne({
-      $or: [
-        { slug },
-        { _id: slug }
-      ],
+      $or: orConditions,
       is_active: true
     })
       .populate('category_ids', 'name slug')
