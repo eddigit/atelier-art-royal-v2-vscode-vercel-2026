@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronRight, Users, Package, ShoppingBag, Send, Check } from 'lucide-react';
+import { ChevronRight, Users, Package, ShoppingBag, Send, Check, ImageOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import LuxeHeaderDark from '@/components/layout/LuxeHeaderDark';
 import LuxeFooterDark from '@/components/layout/LuxeFooterDark';
@@ -495,7 +495,9 @@ export default function EquiperMaLogePage() {
                                   className="w-full h-full object-cover"
                                 />
                               ) : (
-                                <div className="w-full h-full flex items-center justify-center text-4xl">🎭</div>
+                                <div className="w-full h-full flex items-center justify-center">
+                                  <ImageOff className="w-10 h-10 text-white/20 stroke-[1.5]" />
+                                </div>
                               )}
                             </div>
                           </Link>
@@ -583,7 +585,9 @@ export default function EquiperMaLogePage() {
                                   className="w-full h-full object-cover"
                                 />
                               ) : (
-                                <div className="w-full h-full flex items-center justify-center">🎭</div>
+                                <div className="w-full h-full flex items-center justify-center">
+                                  <ImageOff className="w-6 h-6 text-white/20 stroke-[1.5]" />
+                                </div>
                               )}
                             </div>
                             <div className="flex-1 min-w-0">

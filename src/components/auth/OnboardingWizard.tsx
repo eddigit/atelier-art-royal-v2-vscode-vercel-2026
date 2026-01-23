@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
+import { User, Building2, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 
@@ -401,21 +402,23 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
             type: 'personal' as AccountType,
             title: 'Usage personnel',
             description: 'Je commande pour moi-même',
-            icon: '👤',
+            icon: User,
           },
           {
             type: 'lodge' as AccountType,
             title: 'Pour ma Loge',
             description: 'Je commande pour ma Loge (souvent en quantité)',
-            icon: '🏛️',
+            icon: Building2,
           },
           {
             type: 'both' as AccountType,
             title: 'Les deux',
             description: 'Je commande pour moi et pour ma Loge',
-            icon: '👥',
+            icon: Users,
           },
-        ].map((option) => (
+        ].map((option) => {
+          const IconComponent = option.icon;
+          return (
           <button
             key={option.type}
             onClick={() => updateFormData('account_type', option.type)}
@@ -426,7 +429,7 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
             }`}
           >
             <div className="flex items-start gap-4">
-              <span className="text-3xl">{option.icon}</span>
+              <IconComponent className="w-8 h-8 text-[#C4A052] stroke-[1.5]" />
               <div>
                 <h3 className="font-semibold text-lg text-white">{option.title}</h3>
                 <p className="text-white/60 mt-1">{option.description}</p>
@@ -436,7 +439,8 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
               )}
             </div>
           </button>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -585,7 +589,9 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
       {/* Adresse de la Loge */}
       {formData.account_type !== 'personal' && (
         <div className="bg-[#C4A052]/5 border border-[#C4A052]/20 p-4 rounded-xl">
-          <h3 className="font-semibold text-white mb-4">🏛️ Adresse de la Loge</h3>
+          <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
+            <Building2 className="w-5 h-5 text-[#C4A052] stroke-[1.5]" /> Adresse de la Loge
+          </h3>
           <div className="space-y-4">
             <input
               type="text"

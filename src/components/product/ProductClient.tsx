@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ShoppingCart, Check, Truck, Shield, Phone, Plus, Minus, Heart } from 'lucide-react';
+import { ShoppingCart, Check, Truck, Shield, Phone, Plus, Minus, Heart, ImageOff } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 interface ProductClientProps {
@@ -129,7 +129,7 @@ export default function ProductClient({ product }: ProductClientProps) {
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
-              <span className="text-8xl">🎭</span>
+              <ImageOff className="w-20 h-20 text-white/20 stroke-[1.5]" />
             </div>
           )}
           

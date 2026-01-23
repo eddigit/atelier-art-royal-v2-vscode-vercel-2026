@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, ArrowLeft, Truck, Shield, Package } from 'lucide-react';
+import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, ArrowLeft, Truck, Shield, Package, ImageOff } from 'lucide-react';
 import LuxeHeaderDark from '@/components/layout/LuxeHeaderDark';
 import LuxeFooterDark from '@/components/layout/LuxeFooterDark';
 
@@ -157,7 +157,7 @@ export default function CartPage() {
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
-                          <span className="text-4xl">🎭</span>
+                          <ImageOff className="w-10 h-10 text-white/20 stroke-[1.5]" />
                         </div>
                       )}
                     </Link>

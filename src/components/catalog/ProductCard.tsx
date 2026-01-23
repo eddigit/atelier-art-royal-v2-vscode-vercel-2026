@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ShoppingCart, Heart, Eye } from 'lucide-react';
+import { ShoppingCart, Heart, Eye, Star, ImageOff } from 'lucide-react';
 
 interface ProductCardProps {
   product: {
@@ -65,8 +65,8 @@ export function ProductCard({
           </span>
         )}
         {product.featured && (
-          <span className="bg-[#C5A059] text-white text-xs font-bold px-2 py-1 rounded">
-            ⭐ Vedette
+          <span className="bg-[#C5A059] text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
+            <Star className="w-3 h-3 fill-current" /> Vedette
           </span>
         )}
       </div>
@@ -123,7 +123,7 @@ export function ProductCard({
           </>
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
-            <span className="text-6xl">🎭</span>
+            <ImageOff className="w-12 h-12 text-white/20 stroke-[1.5]" />
           </div>
         )}
         

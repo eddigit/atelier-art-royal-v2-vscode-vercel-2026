@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Search, X, Menu, ChevronRight, Phone, Mail, Sun, Moon } from 'lucide-react';
+import { ShoppingBag, Search, X, Menu, ChevronRight, Phone, Mail, Sun, Moon, Building2, ScrollText, Star, Award, Gem, Scissors, Hand, Landmark, Grid3X3 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 // Types
@@ -28,12 +28,12 @@ interface DegreeOrder {
 }
 
 const CATEGORIES = [
-  { href: '/catalog?category=tabliers', label: 'Tabliers', icon: '🎖️' },
-  { href: '/catalog?category=cordons', label: 'Cordons & Sautoirs', icon: '🏅' },
-  { href: '/catalog?category=bijoux', label: 'Bijoux', icon: '💎' },
-  { href: '/catalog?category=accessoires', label: 'Accessoires', icon: '⚜️' },
-  { href: '/catalog?category=gants', label: 'Gants', icon: '🧤' },
-  { href: '/catalog?category=decors', label: 'Décors de Loge', icon: '🏛️' },
+  { href: '/catalog?category=tabliers', label: 'Tabliers', icon: Award },
+  { href: '/catalog?category=cordons', label: 'Cordons & Sautoirs', icon: ScrollText },
+  { href: '/catalog?category=bijoux', label: 'Bijoux', icon: Gem },
+  { href: '/catalog?category=accessoires', label: 'Accessoires', icon: Scissors },
+  { href: '/catalog?category=gants', label: 'Gants', icon: Hand },
+  { href: '/catalog?category=decors', label: 'Décors de Loge', icon: Landmark },
 ];
 
 const NAV_LINKS = [
@@ -323,7 +323,7 @@ export default function LuxeHeaderDark() {
                       onClick={() => setActiveTab('obediences')}
                       className="flex flex-col items-start p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-[#C5A059]/10 hover:border-[#C5A059]/30 transition-all group"
                     >
-                      <span className="text-2xl mb-2">🏛️</span>
+                      <Building2 className="w-6 h-6 mb-2 text-[#C5A059] stroke-[1.5]" />
                       <span className="text-sm font-medium text-white/80 group-hover:text-[#C5A059]">Par Obédience</span>
                       <span className="text-xs text-white/40">{obediences.length} disponibles</span>
                     </button>
@@ -332,7 +332,7 @@ export default function LuxeHeaderDark() {
                       onClick={() => setActiveTab('rites')}
                       className="flex flex-col items-start p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-[#C5A059]/10 hover:border-[#C5A059]/30 transition-all group"
                     >
-                      <span className="text-2xl mb-2">📜</span>
+                      <ScrollText className="w-6 h-6 mb-2 text-[#C5A059] stroke-[1.5]" />
                       <span className="text-sm font-medium text-white/80 group-hover:text-[#C5A059]">Par Rite</span>
                       <span className="text-xs text-white/40">{rites.length} disponibles</span>
                     </button>
@@ -341,7 +341,7 @@ export default function LuxeHeaderDark() {
                       onClick={() => setActiveTab('degrees')}
                       className="flex flex-col items-start p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-[#C5A059]/10 hover:border-[#C5A059]/30 transition-all group"
                     >
-                      <span className="text-2xl mb-2">⭐</span>
+                      <Star className="w-6 h-6 mb-2 text-[#C5A059] stroke-[1.5]" />
                       <span className="text-sm font-medium text-white/80 group-hover:text-[#C5A059]">Par Degré</span>
                       <span className="text-xs text-white/40">{degrees.length} disponibles</span>
                     </button>
@@ -350,7 +350,7 @@ export default function LuxeHeaderDark() {
                       onClick={() => setActiveTab('categories')}
                       className="flex flex-col items-start p-4 bg-white/5 border border-white/10 rounded-lg hover:bg-[#C5A059]/10 hover:border-[#C5A059]/30 transition-all group"
                     >
-                      <span className="text-2xl mb-2">🎖️</span>
+                      <Grid3X3 className="w-6 h-6 mb-2 text-[#C5A059] stroke-[1.5]" />
                       <span className="text-sm font-medium text-white/80 group-hover:text-[#C5A059]">Catégories</span>
                       <span className="text-xs text-white/40">{CATEGORIES.length} types</span>
                     </button>
@@ -527,18 +527,21 @@ export default function LuxeHeaderDark() {
                 </button>
                 <h2 className="text-xl font-semibold text-white mb-6">Catégories</h2>
                 <div className="space-y-2">
-                  {CATEGORIES.map((cat) => (
+                  {CATEGORIES.map((cat) => {
+                    const IconComponent = cat.icon;
+                    return (
                     <Link
                       key={cat.href}
                       href={cat.href}
                       className="flex items-center gap-4 p-4 bg-white/5 rounded-lg hover:bg-[#C5A059]/20 transition-colors group"
                       onClick={closeMenu}
                     >
-                      <span className="text-2xl">{cat.icon}</span>
+                      <IconComponent className="w-6 h-6 text-[#C5A059] stroke-[1.5]" />
                       <span className="font-medium text-white/90 group-hover:text-[#C5A059]">{cat.label}</span>
                       <ChevronRight className="w-5 h-5 text-white/30 ml-auto" />
                     </Link>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -603,17 +606,20 @@ export default function LuxeHeaderDark() {
               <div className="w-full max-w-2xl mt-10">
                 <p className="text-sm font-medium text-white/40 mb-4">Accès rapide</p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {CATEGORIES.slice(0, 6).map((cat) => (
+                  {CATEGORIES.slice(0, 6).map((cat) => {
+                    const IconComponent = cat.icon;
+                    return (
                     <Link
                       key={cat.href}
                       href={cat.href}
                       className="flex items-center gap-3 p-3 bg-white/5 rounded-lg hover:bg-[#C5A059]/20 transition-colors group"
                       onClick={() => setShowSearch(false)}
                     >
-                      <span className="text-xl">{cat.icon}</span>
+                      <IconComponent className="w-5 h-5 text-[#C5A059] stroke-[1.5]" />
                       <span className="text-sm text-white/70 group-hover:text-white">{cat.label}</span>
                     </Link>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>

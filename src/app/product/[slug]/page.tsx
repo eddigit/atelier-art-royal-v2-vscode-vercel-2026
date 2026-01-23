@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ImageOff } from 'lucide-react';
 import dbConnect from '@/lib/mongodb';
 import Product from '@/models/Product';
 import LuxeHeaderDark from '@/components/layout/LuxeHeaderDark';
@@ -167,7 +167,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
-                          <span className="text-4xl">🎭</span>
+                          <ImageOff className="w-10 h-10 text-white/20 stroke-[1.5]" />
                         </div>
                       )}
                     </div>

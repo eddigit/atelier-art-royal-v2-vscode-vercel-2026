@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { LayoutDashboard, Package, User, Building2, MapPin } from 'lucide-react';
 import LuxeHeaderDark from '@/components/layout/LuxeHeaderDark';
 import LuxeFooterDark from '@/components/layout/LuxeFooterDark';
 import { Button } from '@/components/ui/button';
@@ -198,11 +199,11 @@ export default function AccountPage() {
   }
 
   const tabs = [
-    { id: 'dashboard' as ActiveTab, label: 'Tableau de bord', icon: '📊' },
-    { id: 'orders' as ActiveTab, label: 'Mes commandes', icon: '📦' },
-    { id: 'profile' as ActiveTab, label: 'Mon profil', icon: '👤' },
-    ...(profile?.account_type !== 'personal' ? [{ id: 'lodge' as ActiveTab, label: 'Ma Loge', icon: '🏛️' }] : []),
-    { id: 'addresses' as ActiveTab, label: 'Mes adresses', icon: '📍' },
+    { id: 'dashboard' as ActiveTab, label: 'Tableau de bord', icon: LayoutDashboard },
+    { id: 'orders' as ActiveTab, label: 'Mes commandes', icon: Package },
+    { id: 'profile' as ActiveTab, label: 'Mon profil', icon: User },
+    ...(profile?.account_type !== 'personal' ? [{ id: 'lodge' as ActiveTab, label: 'Ma Loge', icon: Building2 }] : []),
+    { id: 'addresses' as ActiveTab, label: 'Mes adresses', icon: MapPin },
   ];
 
   const renderDashboard = () => (
@@ -385,7 +386,9 @@ export default function AccountPage() {
             {/* Sidebar */}
             <aside className="lg:w-64 flex-shrink-0">
               <nav className="bg-white/[0.03] border border-white/10 rounded-xl overflow-hidden">
-                {tabs.map((tab) => (
+                {tabs.map((tab) => {
+                  const IconComponent = tab.icon;
+                  return (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
@@ -395,10 +398,11 @@ export default function AccountPage() {
                         : 'hover:bg-white/5 text-white/70'
                     }`}
                   >
-                    <span>{tab.icon}</span>
+                    <IconComponent className="w-5 h-5 stroke-[1.5]" />
                     <span className="font-medium">{tab.label}</span>
                   </button>
-                ))}
+                  );
+                })}
               </nav>
             </aside>
 
@@ -582,7 +586,9 @@ function LodgeForm({ profile, onSave, isSaving }: { profile: UserProfile | null;
 
   return (
     <div className="bg-white/[0.03] border border-white/10 rounded-xl p-6">
-      <h2 className="text-2xl font-bold text-white mb-6">🏛️ Ma Loge</h2>
+      <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <Building2 className="w-6 h-6 text-[#C4A052] stroke-[1.5]" /> Ma Loge
+      </h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

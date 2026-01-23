@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ShoppingCart, Grid3X3, List, LayoutGrid } from 'lucide-react';
+import { ShoppingCart, Grid3X3, List, LayoutGrid, Star, ImageOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CatalogFilters, type FilterOptions, type ActiveFilters } from '@/components/catalog/CatalogFilters';
 import { ProductSort } from '@/components/catalog/ProductSort';
@@ -276,7 +276,7 @@ export function CatalogClient({
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <span className="text-4xl">🎭</span>
+                            <ImageOff className="w-10 h-10 text-white/20 stroke-[1.5]" />
                           </div>
                         )}
                         
@@ -366,8 +366,8 @@ export function CatalogClient({
                           </span>
                         )}
                         {product.featured && (
-                          <span className="bg-gold-500 text-white text-xs font-bold px-2 py-1 rounded">
-                            ⭐ Vedette
+                          <span className="bg-gold-500 text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
+                            <Star className="w-3 h-3 fill-current" /> Vedette
                           </span>
                         )}
                       </div>
@@ -398,7 +398,7 @@ export function CatalogClient({
                           </>
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
-                            <span className="text-6xl">🎭</span>
+                            <ImageOff className="w-12 h-12 text-white/20 stroke-[1.5]" />
                           </div>
                         )}
                         

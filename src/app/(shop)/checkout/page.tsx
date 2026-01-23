@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { MapPin, Building2 } from 'lucide-react';
 import LuxeHeaderDark from '@/components/layout/LuxeHeaderDark';
 import LuxeFooterDark from '@/components/layout/LuxeFooterDark';
 import { Button } from '@/components/ui/button';
@@ -428,7 +429,7 @@ export default function CheckoutPage() {
               formData.shipping_type === 'personal' ? 'border-[#C5A059] bg-[#C5A059]/10' : 'border-white/10 bg-white/5'
             }`}
           >
-            <span className="text-2xl">📍</span>
+            <MapPin className="w-6 h-6 text-[#C5A059] stroke-[1.5]" />
             <p className="font-medium mt-2 text-white">Adresse personnelle</p>
           </button>
           <button
@@ -437,7 +438,7 @@ export default function CheckoutPage() {
               formData.shipping_type === 'lodge' ? 'border-[#C5A059] bg-[#C5A059]/10' : 'border-white/10 bg-white/5'
             }`}
           >
-            <span className="text-2xl">🏛️</span>
+            <Building2 className="w-6 h-6 text-[#C5A059] stroke-[1.5]" />
             <p className="font-medium mt-2 text-white">Adresse de la Loge</p>
             {profile.lodge_name && <p className="text-sm text-white/50">{profile.lodge_name}</p>}
           </button>
