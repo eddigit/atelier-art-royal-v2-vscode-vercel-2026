@@ -298,13 +298,13 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
                 ? 'bg-[#C4A052] text-white'
                 : index + 1 < step
                 ? 'bg-green-500 text-white'
-                : 'bg-gray-200 text-gray-500'
+                : 'bg-white/10 text-white/50'
             }`}
           >
             {index + 1 < step ? '✓' : index + 1}
           </div>
           {index < totalSteps - 1 && (
-            <div className={`w-12 h-1 mx-2 ${index + 1 < step ? 'bg-green-500' : 'bg-gray-200'}`} />
+            <div className={`w-12 h-1 mx-2 ${index + 1 < step ? 'bg-green-500' : 'bg-white/10'}`} />
           )}
         </div>
       ))}
@@ -314,73 +314,73 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
   const renderStep1 = () => (
     <div className="space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Créer votre compte</h2>
-        <p className="text-gray-600 mt-2">Rejoignez l'Atelier Art Royal</p>
+        <h2 className="text-2xl font-bold text-white">Créer votre compte</h2>
+        <p className="text-white/60 mt-2">Rejoignez l'Atelier Art Royal</p>
       </div>
       
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Prénom *</label>
+          <label className="block text-sm font-medium text-white/70 mb-1">Prénom *</label>
           <input
             type="text"
             value={formData.first_name}
             onChange={(e) => updateFormData('first_name', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
             placeholder="Votre prénom"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Nom *</label>
+          <label className="block text-sm font-medium text-white/70 mb-1">Nom *</label>
           <input
             type="text"
             value={formData.last_name}
             onChange={(e) => updateFormData('last_name', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
             placeholder="Votre nom"
           />
         </div>
       </div>
       
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+        <label className="block text-sm font-medium text-white/70 mb-1">Email *</label>
         <input
           type="email"
           value={formData.email}
           onChange={(e) => updateFormData('email', e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
           placeholder="votre@email.com"
         />
       </div>
       
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+        <label className="block text-sm font-medium text-white/70 mb-1">Téléphone</label>
         <input
           type="tel"
           value={formData.phone}
           onChange={(e) => updateFormData('phone', e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
           placeholder="06 00 00 00 00"
         />
       </div>
       
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Mot de passe *</label>
+          <label className="block text-sm font-medium text-white/70 mb-1">Mot de passe *</label>
           <input
             type="password"
             value={formData.password}
             onChange={(e) => updateFormData('password', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
             placeholder="••••••••"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Confirmer *</label>
+          <label className="block text-sm font-medium text-white/70 mb-1">Confirmer *</label>
           <input
             type="password"
             value={formData.confirmPassword}
             onChange={(e) => updateFormData('confirmPassword', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
             placeholder="••••••••"
           />
         </div>
@@ -391,8 +391,8 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
   const renderStep2 = () => (
     <div className="space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Type de compte</h2>
-        <p className="text-gray-600 mt-2">Comment comptez-vous utiliser votre compte ?</p>
+        <h2 className="text-2xl font-bold text-white">Type de compte</h2>
+        <p className="text-white/60 mt-2">Comment comptez-vous utiliser votre compte ?</p>
       </div>
       
       <div className="grid gap-4">
@@ -421,15 +421,15 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
             onClick={() => updateFormData('account_type', option.type)}
             className={`p-6 border-2 rounded-xl text-left transition-all ${
               formData.account_type === option.type
-                ? 'border-[#C4A052] bg-[#C4A052]/5'
-                : 'border-gray-200 hover:border-gray-300'
+                ? 'border-[#C4A052] bg-[#C4A052]/10'
+                : 'border-white/10 hover:border-white/20 bg-white/[0.02]'
             }`}
           >
             <div className="flex items-start gap-4">
               <span className="text-3xl">{option.icon}</span>
               <div>
-                <h3 className="font-semibold text-lg text-gray-900">{option.title}</h3>
-                <p className="text-gray-600 mt-1">{option.description}</p>
+                <h3 className="font-semibold text-lg text-white">{option.title}</h3>
+                <p className="text-white/60 mt-1">{option.description}</p>
               </div>
               {formData.account_type === option.type && (
                 <span className="ml-auto text-[#C4A052] text-xl">✓</span>
@@ -444,8 +444,8 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
   const renderStep3 = () => (
     <div className="space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Votre profil maçonnique</h2>
-        <p className="text-gray-600 mt-2">
+        <h2 className="text-2xl font-bold text-white">Votre profil maçonnique</h2>
+        <p className="text-white/60 mt-2">
           {formData.account_type === 'personal' 
             ? 'Ces informations sont optionnelles'
             : 'Ces informations nous aident à mieux vous servir'}
@@ -454,45 +454,45 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
       
       {/* Obédience */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Obédience</label>
+        <label className="block text-sm font-medium text-white/70 mb-1">Obédience</label>
         <select
           value={formData.obedience_id}
           onChange={(e) => updateFormData('obedience_id', e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
         >
-          <option value="">Sélectionnez une obédience</option>
+          <option value="" className="bg-[#0f0f12] text-white">Sélectionnez une obédience</option>
           {obediences.map((ob) => (
-            <option key={ob._id} value={ob._id}>{ob.name}</option>
+            <option key={ob._id} value={ob._id} className="bg-[#0f0f12] text-white">{ob.name}</option>
           ))}
         </select>
       </div>
       
       {/* Rite */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Rite pratiqué</label>
+        <label className="block text-sm font-medium text-white/70 mb-1">Rite pratiqué</label>
         <select
           value={formData.rite_id}
           onChange={(e) => updateFormData('rite_id', e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
         >
-          <option value="">Sélectionnez un rite</option>
+          <option value="" className="bg-[#0f0f12] text-white">Sélectionnez un rite</option>
           {rites.map((rite) => (
-            <option key={rite._id} value={rite._id}>{rite.name}</option>
+            <option key={rite._id} value={rite._id} className="bg-[#0f0f12] text-white">{rite.name}</option>
           ))}
         </select>
       </div>
       
       {/* Degré */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Degré</label>
+        <label className="block text-sm font-medium text-white/70 mb-1">Degré</label>
         <select
           value={formData.degree}
           onChange={(e) => updateFormData('degree', e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
         >
-          <option value="">Sélectionnez votre degré</option>
+          <option value="" className="bg-[#0f0f12] text-white">Sélectionnez votre degré</option>
           {degrees.sort((a, b) => a.level - b.level).map((deg) => (
-            <option key={deg._id} value={deg.level}>{deg.level}° - {deg.name}</option>
+            <option key={deg._id} value={deg.level} className="bg-[#0f0f12] text-white">{deg.level}° - {deg.name}</option>
           ))}
         </select>
       </div>
@@ -500,43 +500,43 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
       {/* Infos Loge (si lodge ou both) */}
       {formData.account_type !== 'personal' && (
         <>
-          <div className="border-t pt-6 mt-6">
-            <h3 className="font-semibold text-lg text-gray-900 mb-4">Informations de votre Loge</h3>
+          <div className="border-t border-white/10 pt-6 mt-6">
+            <h3 className="font-semibold text-lg text-white mb-4">Informations de votre Loge</h3>
           </div>
           
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2 sm:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nom de la Loge *</label>
+              <label className="block text-sm font-medium text-white/70 mb-1">Nom de la Loge *</label>
               <input
                 type="text"
                 value={formData.lodge_name}
                 onChange={(e) => updateFormData('lodge_name', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
                 placeholder="Ex: La Parfaite Union"
               />
             </div>
             <div className="col-span-2 sm:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">N° de Loge</label>
+              <label className="block text-sm font-medium text-white/70 mb-1">N° de Loge</label>
               <input
                 type="text"
                 value={formData.lodge_number}
                 onChange={(e) => updateFormData('lodge_number', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
                 placeholder="Ex: 123"
               />
             </div>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Votre fonction en Loge</label>
+            <label className="block text-sm font-medium text-white/70 mb-1">Votre fonction en Loge</label>
             <select
               value={formData.lodge_role}
               onChange={(e) => updateFormData('lodge_role', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
             >
-              <option value="">Sélectionnez votre fonction</option>
+              <option value="" className="bg-[#0f0f12] text-white">Sélectionnez votre fonction</option>
               {LODGE_ROLES.map((role) => (
-                <option key={role} value={role}>{role}</option>
+                <option key={role} value={role} className="bg-[#0f0f12] text-white">{role}</option>
               ))}
             </select>
           </div>
@@ -548,19 +548,19 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
   const renderStep4 = () => (
     <div className="space-y-6">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Adresses de livraison</h2>
-        <p className="text-gray-600 mt-2">Où souhaitez-vous recevoir vos commandes ?</p>
+        <h2 className="text-2xl font-bold text-white">Adresses de livraison</h2>
+        <p className="text-white/60 mt-2">Où souhaitez-vous recevoir vos commandes ?</p>
       </div>
       
       {/* Adresse personnelle */}
-      <div className="bg-gray-50 p-4 rounded-xl">
-        <h3 className="font-semibold text-gray-900 mb-4">📍 Adresse personnelle</h3>
+      <div className="bg-white/[0.03] border border-white/10 p-4 rounded-xl">
+        <h3 className="font-semibold text-white mb-4">📍 Adresse personnelle</h3>
         <div className="space-y-4">
           <input
             type="text"
             value={formData.billing_street}
             onChange={(e) => updateFormData('billing_street', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
             placeholder="Rue et numéro"
           />
           <div className="grid grid-cols-2 gap-4">
@@ -568,14 +568,14 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
               type="text"
               value={formData.billing_postal_code}
               onChange={(e) => updateFormData('billing_postal_code', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
               placeholder="Code postal"
             />
             <input
               type="text"
               value={formData.billing_city}
               onChange={(e) => updateFormData('billing_city', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
               placeholder="Ville"
             />
           </div>
@@ -584,14 +584,14 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
       
       {/* Adresse de la Loge */}
       {formData.account_type !== 'personal' && (
-        <div className="bg-blue-50 p-4 rounded-xl">
-          <h3 className="font-semibold text-gray-900 mb-4">🏛️ Adresse de la Loge</h3>
+        <div className="bg-[#C4A052]/5 border border-[#C4A052]/20 p-4 rounded-xl">
+          <h3 className="font-semibold text-white mb-4">🏛️ Adresse de la Loge</h3>
           <div className="space-y-4">
             <input
               type="text"
               value={formData.lodge_street}
               onChange={(e) => updateFormData('lodge_street', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
               placeholder="Rue et numéro du Temple"
             />
             <div className="grid grid-cols-2 gap-4">
@@ -599,14 +599,14 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
                 type="text"
                 value={formData.lodge_postal_code}
                 onChange={(e) => updateFormData('lodge_postal_code', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
                 placeholder="Code postal"
               />
               <input
                 type="text"
                 value={formData.lodge_city}
                 onChange={(e) => updateFormData('lodge_city', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
                 placeholder="Ville"
               />
             </div>
@@ -617,7 +617,7 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
       {/* Choix adresse par défaut */}
       {formData.account_type !== 'personal' && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-white/70 mb-2">
             Adresse de livraison par défaut
           </label>
           <div className="flex gap-4">
@@ -629,7 +629,7 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
                 onChange={() => updateFormData('default_shipping_type', 'personal')}
                 className="w-4 h-4 text-[#C4A052]"
               />
-              <span>Personnelle</span>
+              <span className="text-white/70">Personnelle</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input
@@ -639,33 +639,33 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
                 onChange={() => updateFormData('default_shipping_type', 'lodge')}
                 className="w-4 h-4 text-[#C4A052]"
               />
-              <span>Loge</span>
+              <span className="text-white/70">Loge</span>
             </label>
           </div>
         </div>
       )}
       
       {/* Préférences */}
-      <div className="border-t pt-6 mt-6">
-        <h3 className="font-semibold text-gray-900 mb-4">Préférences de communication</h3>
+      <div className="border-t border-white/10 pt-6 mt-6">
+        <h3 className="font-semibold text-white mb-4">Préférences de communication</h3>
         <div className="space-y-3">
           <label className="flex items-center gap-3 cursor-pointer">
             <input
               type="checkbox"
               checked={formData.newsletter_subscribed}
               onChange={(e) => updateFormData('newsletter_subscribed', e.target.checked)}
-              className="w-5 h-5 text-[#C4A052] rounded"
+              className="w-5 h-5 text-[#C4A052] bg-white/5 border-white/20 rounded"
             />
-            <span className="text-gray-700">Recevoir notre newsletter (nouveautés, promotions)</span>
+            <span className="text-white/70">Recevoir notre newsletter (nouveautés, promotions)</span>
           </label>
           <label className="flex items-center gap-3 cursor-pointer">
             <input
               type="checkbox"
               checked={formData.order_notifications}
               onChange={(e) => updateFormData('order_notifications', e.target.checked)}
-              className="w-5 h-5 text-[#C4A052] rounded"
+              className="w-5 h-5 text-[#C4A052] bg-white/5 border-white/20 rounded"
             />
-            <span className="text-gray-700">Notifications sur mes commandes par email</span>
+            <span className="text-white/70">Notifications sur mes commandes par email</span>
           </label>
         </div>
       </div>
@@ -690,28 +690,35 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
   const isLastStep = step === totalSteps;
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
-      <div className="max-w-2xl mx-auto px-4">
+    <div className="min-h-screen bg-[#0a0a0c] py-12 relative">
+      {/* Cercles décoratifs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#C4A052]/5 rounded-full blur-3xl" />
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#C4A052]/5 rounded-full blur-3xl" />
+      </div>
+      
+      <div className="max-w-2xl mx-auto px-4 relative z-10">
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-white">
             Atelier <span className="text-[#C4A052]">Art Royal</span>
           </h1>
         </div>
         
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 backdrop-blur-sm">
           {renderStepIndicator()}
           
           {renderCurrentStep()}
           
           {/* Navigation */}
-          <div className="flex justify-between mt-8 pt-6 border-t">
+          <div className="flex justify-between mt-8 pt-6 border-t border-white/10">
             {step > 1 ? (
               <Button
                 variant="outline"
                 onClick={handlePrevious}
                 disabled={isLoading}
+                className="border-white/20 text-white hover:bg-white/5"
               >
                 ← Précédent
               </Button>
@@ -739,7 +746,7 @@ export default function OnboardingWizard({ redirectTo = '/account', onComplete }
         </div>
         
         {/* Login link */}
-        <p className="text-center mt-6 text-gray-600">
+        <p className="text-center mt-6 text-white/60">
           Déjà un compte ?{' '}
           <a href="/auth/login" className="text-[#C4A052] hover:underline font-medium">
             Se connecter

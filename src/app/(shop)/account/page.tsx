@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import LuxeHeader from '@/components/layout/LuxeHeader';
-import LuxeFooter from '@/components/layout/LuxeFooter';
+import LuxeHeaderDark from '@/components/layout/LuxeHeaderDark';
+import LuxeFooterDark from '@/components/layout/LuxeFooterDark';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 
@@ -171,24 +171,24 @@ export default function AccountPage() {
 
   const getStatusBadge = (status: string) => {
     const statusConfig: Record<string, { color: string; label: string }> = {
-      pending: { color: 'bg-yellow-100 text-yellow-800', label: 'En attente' },
-      processing: { color: 'bg-blue-100 text-blue-800', label: 'En préparation' },
-      shipped: { color: 'bg-purple-100 text-purple-800', label: 'Expédié' },
-      delivered: { color: 'bg-green-100 text-green-800', label: 'Livré' },
-      cancelled: { color: 'bg-red-100 text-red-800', label: 'Annulé' },
+      pending: { color: 'bg-yellow-500/20 text-yellow-400', label: 'En attente' },
+      processing: { color: 'bg-blue-500/20 text-blue-400', label: 'En préparation' },
+      shipped: { color: 'bg-purple-500/20 text-purple-400', label: 'Expédié' },
+      delivered: { color: 'bg-green-500/20 text-green-400', label: 'Livré' },
+      cancelled: { color: 'bg-red-500/20 text-red-400', label: 'Annulé' },
     };
-    const config = statusConfig[status] || { color: 'bg-gray-100 text-gray-800', label: status };
+    const config = statusConfig[status] || { color: 'bg-white/10 text-white/60', label: status };
     return <span className={`px-3 py-1 rounded-full text-xs font-medium ${config.color}`}>{config.label}</span>;
   };
 
   if (status === 'loading' || isLoading) {
     return (
       <>
-        <LuxeHeader />
-        <div className="min-h-screen flex items-center justify-center">
+        <LuxeHeaderDark />
+        <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C4A052]" />
         </div>
-        <LuxeFooter />
+        <LuxeFooterDark />
       </>
     );
   }
@@ -213,37 +213,37 @@ export default function AccountPage() {
           <p className="text-sm opacity-80">Points fidélité</p>
           <p className="text-3xl font-bold">{profile?.loyalty_points || 0}</p>
         </div>
-        <div className="bg-white rounded-xl p-6 shadow border">
-          <p className="text-sm text-gray-500">Commandes totales</p>
-          <p className="text-3xl font-bold text-gray-900">{profile?.total_orders || 0}</p>
+        <div className="bg-white/[0.03] border border-white/10 rounded-xl p-6">
+          <p className="text-sm text-white/50">Commandes totales</p>
+          <p className="text-3xl font-bold text-white">{profile?.total_orders || 0}</p>
         </div>
-        <div className="bg-white rounded-xl p-6 shadow border">
-          <p className="text-sm text-gray-500">Total dépensé</p>
-          <p className="text-3xl font-bold text-gray-900">{(profile?.total_spent || 0).toFixed(2)} €</p>
+        <div className="bg-white/[0.03] border border-white/10 rounded-xl p-6">
+          <p className="text-sm text-white/50">Total dépensé</p>
+          <p className="text-3xl font-bold text-white">{(profile?.total_spent || 0).toFixed(2)} €</p>
         </div>
       </div>
 
       {/* Dernières commandes */}
-      <div className="bg-white rounded-xl p-6 shadow border">
+      <div className="bg-white/[0.03] border border-white/10 rounded-xl p-6">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Dernières commandes</h3>
+          <h3 className="text-lg font-semibold text-white">Dernières commandes</h3>
           <Button variant="ghost" onClick={() => setActiveTab('orders')} className="text-[#C4A052]">
             Voir tout →
           </Button>
         </div>
         {orders.length === 0 ? (
-          <p className="text-gray-500 text-center py-8">Vous n'avez pas encore de commandes</p>
+          <p className="text-white/50 text-center py-8">Vous n'avez pas encore de commandes</p>
         ) : (
           <div className="space-y-3">
             {orders.slice(0, 3).map((order) => (
-              <div key={order._id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div key={order._id} className="flex items-center justify-between p-4 bg-white/[0.03] border border-white/10 rounded-lg">
                 <div>
-                  <p className="font-medium text-gray-900">Commande #{order.order_number}</p>
-                  <p className="text-sm text-gray-500">{new Date(order.created_at).toLocaleDateString('fr-FR')}</p>
+                  <p className="font-medium text-white">Commande #{order.order_number}</p>
+                  <p className="text-sm text-white/50">{new Date(order.created_at).toLocaleDateString('fr-FR')}</p>
                 </div>
                 <div className="text-right">
                   {getStatusBadge(order.status)}
-                  <p className="text-sm font-medium mt-1">{order.total.toFixed(2)} €</p>
+                  <p className="text-sm font-medium text-white mt-1">{order.total.toFixed(2)} €</p>
                 </div>
               </div>
             ))}
@@ -253,21 +253,21 @@ export default function AccountPage() {
 
       {/* Actions rapides */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Link href="/catalog" className="bg-white rounded-xl p-4 text-center shadow border hover:shadow-md transition-shadow">
+        <Link href="/catalog" className="bg-white/[0.03] border border-white/10 rounded-xl p-4 text-center hover:bg-white/[0.05] transition-colors">
           <span className="text-2xl">🛒</span>
-          <p className="mt-2 font-medium text-gray-900">Continuer mes achats</p>
+          <p className="mt-2 font-medium text-white">Continuer mes achats</p>
         </Link>
-        <button onClick={() => setActiveTab('profile')} className="bg-white rounded-xl p-4 text-center shadow border hover:shadow-md transition-shadow">
+        <button onClick={() => setActiveTab('profile')} className="bg-white/[0.03] border border-white/10 rounded-xl p-4 text-center hover:bg-white/[0.05] transition-colors">
           <span className="text-2xl">✏️</span>
-          <p className="mt-2 font-medium text-gray-900">Modifier mon profil</p>
+          <p className="mt-2 font-medium text-white">Modifier mon profil</p>
         </button>
-        <button onClick={() => setActiveTab('addresses')} className="bg-white rounded-xl p-4 text-center shadow border hover:shadow-md transition-shadow">
+        <button onClick={() => setActiveTab('addresses')} className="bg-white/[0.03] border border-white/10 rounded-xl p-4 text-center hover:bg-white/[0.05] transition-colors">
           <span className="text-2xl">📍</span>
-          <p className="mt-2 font-medium text-gray-900">Gérer mes adresses</p>
+          <p className="mt-2 font-medium text-white">Gérer mes adresses</p>
         </button>
-        <Link href="/catalog" className="bg-white rounded-xl p-4 text-center shadow border hover:shadow-md transition-shadow">
+        <Link href="/catalog" className="bg-white/[0.03] border border-white/10 rounded-xl p-4 text-center hover:bg-white/[0.05] transition-colors">
           <span className="text-2xl">🎁</span>
-          <p className="mt-2 font-medium text-gray-900">Nouveautés</p>
+          <p className="mt-2 font-medium text-white">Nouveautés</p>
         </Link>
       </div>
     </div>
@@ -275,13 +275,13 @@ export default function AccountPage() {
 
   const renderOrders = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Mes commandes</h2>
+      <h2 className="text-2xl font-bold text-white">Mes commandes</h2>
       
       {orders.length === 0 ? (
-        <div className="bg-white rounded-xl p-8 text-center shadow border">
+        <div className="bg-white/[0.03] border border-white/10 rounded-xl p-8 text-center">
           <span className="text-6xl">📦</span>
-          <h3 className="mt-4 text-xl font-medium text-gray-900">Aucune commande</h3>
-          <p className="text-gray-500 mt-2">Vous n'avez pas encore passé de commande</p>
+          <h3 className="mt-4 text-xl font-medium text-white">Aucune commande</h3>
+          <p className="text-white/50 mt-2">Vous n'avez pas encore passé de commande</p>
           <Link href="/catalog">
             <Button className="mt-4 bg-[#C4A052] hover:bg-[#b39142]">Découvrir nos produits</Button>
           </Link>
@@ -289,15 +289,15 @@ export default function AccountPage() {
       ) : (
         <div className="space-y-4">
           {orders.map((order) => (
-            <div key={order._id} className="bg-white rounded-xl shadow border overflow-hidden">
-              <div className="p-4 bg-gray-50 border-b flex flex-wrap justify-between items-center gap-4">
+            <div key={order._id} className="bg-white/[0.03] border border-white/10 rounded-xl overflow-hidden">
+              <div className="p-4 bg-white/[0.02] border-b border-white/10 flex flex-wrap justify-between items-center gap-4">
                 <div>
-                  <p className="font-semibold text-gray-900">Commande #{order.order_number}</p>
-                  <p className="text-sm text-gray-500">{new Date(order.created_at).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                  <p className="font-semibold text-white">Commande #{order.order_number}</p>
+                  <p className="text-sm text-white/50">{new Date(order.created_at).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
                 </div>
                 <div className="flex items-center gap-3">
                   {getStatusBadge(order.status)}
-                  <span className="font-bold text-lg">{order.total.toFixed(2)} €</span>
+                  <span className="font-bold text-lg text-white">{order.total.toFixed(2)} €</span>
                 </div>
               </div>
               
@@ -305,7 +305,7 @@ export default function AccountPage() {
                 <div className="space-y-3">
                   {order.items.map((item, idx) => (
                     <div key={idx} className="flex items-center gap-4">
-                      <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                      <div className="w-16 h-16 bg-white/5 rounded-lg overflow-hidden flex-shrink-0">
                         {item.product_id?.images?.[0] ? (
                           <img src={item.product_id.images[0]} alt={item.product_id.name} className="w-full h-full object-cover" />
                         ) : (
@@ -313,21 +313,21 @@ export default function AccountPage() {
                         )}
                       </div>
                       <div className="flex-1">
-                        <p className="font-medium text-gray-900">{item.product_id?.name || 'Produit'}</p>
-                        <p className="text-sm text-gray-500">Qté: {item.quantity} × {item.price.toFixed(2)} €</p>
+                        <p className="font-medium text-white">{item.product_id?.name || 'Produit'}</p>
+                        <p className="text-sm text-white/50">Qté: {item.quantity} × {item.price.toFixed(2)} €</p>
                       </div>
                     </div>
                   ))}
                 </div>
                 
-                <div className="flex gap-3 mt-4 pt-4 border-t">
-                  <Button variant="outline" onClick={() => reorderItems(order._id)}>
+                <div className="flex gap-3 mt-4 pt-4 border-t border-white/10">
+                  <Button variant="outline" onClick={() => reorderItems(order._id)} className="border-white/20 text-white hover:bg-white/5">
                     🔄 Recommander
                   </Button>
                   <Link href={`/orders/${order._id}`}>
-                    <Button variant="ghost">Voir les détails</Button>
+                    <Button variant="ghost" className="text-white/70 hover:text-white hover:bg-white/5">Voir les détails</Button>
                   </Link>
-                  <Button variant="ghost" className="ml-auto">
+                  <Button variant="ghost" className="ml-auto text-white/70 hover:text-white hover:bg-white/5">
                     📄 Télécharger la facture
                   </Button>
                 </div>
@@ -370,21 +370,21 @@ export default function AccountPage() {
 
   return (
     <>
-      <LuxeHeader />
-      <main className="min-h-screen bg-gray-50 py-8">
+      <LuxeHeaderDark />
+      <main className="min-h-screen bg-[#0a0a0c] py-8">
         <div className="max-w-7xl mx-auto px-4">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-white">
               Bonjour, {profile?.first_name || profile?.name || session.user?.name} 👋
             </h1>
-            <p className="text-gray-600 mt-1">Bienvenue dans votre espace client</p>
+            <p className="text-white/60 mt-1">Bienvenue dans votre espace client</p>
           </div>
 
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Sidebar */}
             <aside className="lg:w-64 flex-shrink-0">
-              <nav className="bg-white rounded-xl shadow border overflow-hidden">
+              <nav className="bg-white/[0.03] border border-white/10 rounded-xl overflow-hidden">
                 {tabs.map((tab) => (
                   <button
                     key={tab.id}
@@ -392,7 +392,7 @@ export default function AccountPage() {
                     className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
                       activeTab === tab.id
                         ? 'bg-[#C4A052] text-white'
-                        : 'hover:bg-gray-50 text-gray-700'
+                        : 'hover:bg-white/5 text-white/70'
                     }`}
                   >
                     <span>{tab.icon}</span>
@@ -409,7 +409,7 @@ export default function AccountPage() {
           </div>
         </div>
       </main>
-      <LuxeFooter />
+      <LuxeFooterDark />
     </>
   );
 }
@@ -446,87 +446,87 @@ function ProfileForm({ profile, onSave, isSaving }: { profile: UserProfile | nul
   };
 
   return (
-    <div className="bg-white rounded-xl shadow border p-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Mon profil</h2>
+    <div className="bg-white/[0.03] border border-white/10 rounded-xl p-6">
+      <h2 className="text-2xl font-bold text-white mb-6">Mon profil</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
+            <label className="block text-sm font-medium text-white/70 mb-1">Prénom</label>
             <input
               type="text"
               value={formData.first_name}
               onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+              className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+            <label className="block text-sm font-medium text-white/70 mb-1">Nom</label>
             <input
               type="text"
               value={formData.last_name}
               onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+              className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
             />
           </div>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-          <input type="email" value={profile?.email || ''} disabled className="w-full px-4 py-2 border rounded-lg bg-gray-100" />
-          <p className="text-xs text-gray-500 mt-1">L'email ne peut pas être modifié</p>
+          <label className="block text-sm font-medium text-white/70 mb-1">Email</label>
+          <input type="email" value={profile?.email || ''} disabled className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white/50" />
+          <p className="text-xs text-white/40 mt-1">L'email ne peut pas être modifié</p>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+          <label className="block text-sm font-medium text-white/70 mb-1">Téléphone</label>
           <input
             type="tel"
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+            className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
           />
         </div>
         
         {/* Profil maçonnique */}
-        <div className="border-t pt-6">
-          <h3 className="font-semibold text-gray-900 mb-4">Profil maçonnique</h3>
+        <div className="border-t border-white/10 pt-6">
+          <h3 className="font-semibold text-white mb-4">Profil maçonnique</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-gray-500">Obédience</label>
-              <p className="font-medium">{profile?.obedience_id?.name || 'Non renseignée'}</p>
+              <label className="block text-sm text-white/50">Obédience</label>
+              <p className="font-medium text-white">{profile?.obedience_id?.name || 'Non renseignée'}</p>
             </div>
             <div>
-              <label className="block text-sm text-gray-500">Rite</label>
-              <p className="font-medium">{profile?.rite_id?.name || 'Non renseigné'}</p>
+              <label className="block text-sm text-white/50">Rite</label>
+              <p className="font-medium text-white">{profile?.rite_id?.name || 'Non renseigné'}</p>
             </div>
             <div>
-              <label className="block text-sm text-gray-500">Degré</label>
-              <p className="font-medium">{profile?.degree ? `${profile.degree}°` : 'Non renseigné'}</p>
+              <label className="block text-sm text-white/50">Degré</label>
+              <p className="font-medium text-white">{profile?.degree ? `${profile.degree}°` : 'Non renseigné'}</p>
             </div>
           </div>
         </div>
         
         {/* Préférences */}
-        <div className="border-t pt-6">
-          <h3 className="font-semibold text-gray-900 mb-4">Préférences de communication</h3>
+        <div className="border-t border-white/10 pt-6">
+          <h3 className="font-semibold text-white mb-4">Préférences de communication</h3>
           <div className="space-y-3">
             <label className="flex items-center gap-3 cursor-pointer">
               <input
                 type="checkbox"
                 checked={formData.newsletter_subscribed}
                 onChange={(e) => setFormData({ ...formData, newsletter_subscribed: e.target.checked })}
-                className="w-5 h-5 text-[#C4A052] rounded"
+                className="w-5 h-5 text-[#C4A052] bg-white/5 border-white/20 rounded"
               />
-              <span>Recevoir la newsletter</span>
+              <span className="text-white/70">Recevoir la newsletter</span>
             </label>
             <label className="flex items-center gap-3 cursor-pointer">
               <input
                 type="checkbox"
                 checked={formData.order_notifications}
                 onChange={(e) => setFormData({ ...formData, order_notifications: e.target.checked })}
-                className="w-5 h-5 text-[#C4A052] rounded"
+                className="w-5 h-5 text-[#C4A052] bg-white/5 border-white/20 rounded"
               />
-              <span>Notifications sur mes commandes</span>
+              <span className="text-white/70">Notifications sur mes commandes</span>
             </label>
           </div>
         </div>
@@ -581,52 +581,52 @@ function LodgeForm({ profile, onSave, isSaving }: { profile: UserProfile | null;
   };
 
   return (
-    <div className="bg-white rounded-xl shadow border p-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">🏛️ Ma Loge</h2>
+    <div className="bg-white/[0.03] border border-white/10 rounded-xl p-6">
+      <h2 className="text-2xl font-bold text-white mb-6">🏛️ Ma Loge</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nom de la Loge</label>
+            <label className="block text-sm font-medium text-white/70 mb-1">Nom de la Loge</label>
             <input
               type="text"
               value={formData.lodge_name}
               onChange={(e) => setFormData({ ...formData, lodge_name: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+              className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
               placeholder="Ex: La Parfaite Union"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Numéro de Loge</label>
+            <label className="block text-sm font-medium text-white/70 mb-1">Numéro de Loge</label>
             <input
               type="text"
               value={formData.lodge_number}
               onChange={(e) => setFormData({ ...formData, lodge_number: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+              className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
               placeholder="Ex: 123"
             />
           </div>
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Votre fonction en Loge</label>
+          <label className="block text-sm font-medium text-white/70 mb-1">Votre fonction en Loge</label>
           <input
             type="text"
             value={formData.lodge_role}
             onChange={(e) => setFormData({ ...formData, lodge_role: e.target.value })}
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+            className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
             placeholder="Ex: Secrétaire, Trésorier, Frère..."
           />
         </div>
         
-        <div className="border-t pt-6">
-          <h3 className="font-semibold text-gray-900 mb-4">Adresse du Temple</h3>
+        <div className="border-t border-white/10 pt-6">
+          <h3 className="font-semibold text-white mb-4">Adresse du Temple</h3>
           <div className="space-y-4">
             <input
               type="text"
               value={formData.lodge_street}
               onChange={(e) => setFormData({ ...formData, lodge_street: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+              className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
               placeholder="Rue et numéro"
             />
             <div className="grid grid-cols-2 gap-4">
@@ -634,14 +634,14 @@ function LodgeForm({ profile, onSave, isSaving }: { profile: UserProfile | null;
                 type="text"
                 value={formData.lodge_postal_code}
                 onChange={(e) => setFormData({ ...formData, lodge_postal_code: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+                className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
                 placeholder="Code postal"
               />
               <input
                 type="text"
                 value={formData.lodge_city}
                 onChange={(e) => setFormData({ ...formData, lodge_city: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+                className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
                 placeholder="Ville"
               />
             </div>
@@ -704,19 +704,19 @@ function AddressesForm({ profile, onSave, isSaving }: { profile: UserProfile | n
   };
 
   return (
-    <div className="bg-white rounded-xl shadow border p-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">📍 Mes adresses</h2>
+    <div className="bg-white/[0.03] border border-white/10 rounded-xl p-6">
+      <h2 className="text-2xl font-bold text-white mb-6">📍 Mes adresses</h2>
       
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Adresse de facturation */}
         <div>
-          <h3 className="font-semibold text-gray-900 mb-4">Adresse de facturation</h3>
+          <h3 className="font-semibold text-white mb-4">Adresse de facturation</h3>
           <div className="space-y-4">
             <input
               type="text"
               value={billingAddress.street}
               onChange={(e) => setBillingAddress({ ...billingAddress, street: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+              className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
               placeholder="Rue et numéro"
             />
             <div className="grid grid-cols-2 gap-4">
@@ -724,14 +724,14 @@ function AddressesForm({ profile, onSave, isSaving }: { profile: UserProfile | n
                 type="text"
                 value={billingAddress.postal_code}
                 onChange={(e) => setBillingAddress({ ...billingAddress, postal_code: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+                className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
                 placeholder="Code postal"
               />
               <input
                 type="text"
                 value={billingAddress.city}
                 onChange={(e) => setBillingAddress({ ...billingAddress, city: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+                className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
                 placeholder="Ville"
               />
             </div>
@@ -739,17 +739,17 @@ function AddressesForm({ profile, onSave, isSaving }: { profile: UserProfile | n
         </div>
         
         {/* Adresse de livraison */}
-        <div className="border-t pt-6">
+        <div className="border-t border-white/10 pt-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-gray-900">Adresse de livraison</h3>
+            <h3 className="font-semibold text-white">Adresse de livraison</h3>
             <label className="flex items-center gap-2 text-sm cursor-pointer">
               <input
                 type="checkbox"
                 checked={shippingAddress.use_billing_address}
                 onChange={(e) => setShippingAddress({ ...shippingAddress, use_billing_address: e.target.checked })}
-                className="w-4 h-4 text-[#C4A052] rounded"
+                className="w-4 h-4 text-[#C4A052] bg-white/5 border-white/20 rounded"
               />
-              <span>Identique à la facturation</span>
+              <span className="text-white/70">Identique à la facturation</span>
             </label>
           </div>
           
@@ -759,7 +759,7 @@ function AddressesForm({ profile, onSave, isSaving }: { profile: UserProfile | n
                 type="text"
                 value={shippingAddress.street}
                 onChange={(e) => setShippingAddress({ ...shippingAddress, street: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+                className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
                 placeholder="Rue et numéro"
               />
               <div className="grid grid-cols-2 gap-4">
@@ -767,14 +767,14 @@ function AddressesForm({ profile, onSave, isSaving }: { profile: UserProfile | n
                   type="text"
                   value={shippingAddress.postal_code}
                   onChange={(e) => setShippingAddress({ ...shippingAddress, postal_code: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+                  className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
                   placeholder="Code postal"
                 />
                 <input
                   type="text"
                   value={shippingAddress.city}
                   onChange={(e) => setShippingAddress({ ...shippingAddress, city: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+                  className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent"
                   placeholder="Ville"
                 />
               </div>
@@ -784,8 +784,8 @@ function AddressesForm({ profile, onSave, isSaving }: { profile: UserProfile | n
         
         {/* Adresse par défaut (si compte loge) */}
         {profile?.account_type !== 'personal' && (
-          <div className="border-t pt-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Adresse de livraison par défaut</h3>
+          <div className="border-t border-white/10 pt-6">
+            <h3 className="font-semibold text-white mb-4">Adresse de livraison par défaut</h3>
             <div className="flex gap-4">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -795,7 +795,7 @@ function AddressesForm({ profile, onSave, isSaving }: { profile: UserProfile | n
                   onChange={() => setDefaultShipping('personal')}
                   className="w-4 h-4 text-[#C4A052]"
                 />
-                <span>Mon adresse personnelle</span>
+                <span className="text-white/70">Mon adresse personnelle</span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -805,7 +805,7 @@ function AddressesForm({ profile, onSave, isSaving }: { profile: UserProfile | n
                   onChange={() => setDefaultShipping('lodge')}
                   className="w-4 h-4 text-[#C4A052]"
                 />
-                <span>Adresse de la Loge</span>
+                <span className="text-white/70">Adresse de la Loge</span>
               </label>
             </div>
           </div>

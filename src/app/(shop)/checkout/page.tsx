@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import LuxeHeader from '@/components/layout/LuxeHeader';
-import LuxeFooter from '@/components/layout/LuxeFooter';
+import LuxeHeaderDark from '@/components/layout/LuxeHeaderDark';
+import LuxeFooterDark from '@/components/layout/LuxeFooterDark';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 
@@ -344,16 +344,16 @@ export default function CheckoutPage() {
           <div
             className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${
               step.id === currentStep
-                ? 'bg-[#C4A052] text-white'
+                ? 'bg-[#C5A059] text-black'
                 : steps.findIndex(s => s.id === currentStep) > index
                 ? 'bg-green-500 text-white'
-                : 'bg-gray-200 text-gray-500'
+                : 'bg-white/10 text-white/50'
             }`}
           >
             {steps.findIndex(s => s.id === currentStep) > index ? '✓' : step.icon}
           </div>
           {index < steps.length - 1 && (
-            <div className={`w-12 h-1 mx-2 ${steps.findIndex(s => s.id === currentStep) > index ? 'bg-green-500' : 'bg-gray-200'}`} />
+            <div className={`w-12 h-1 mx-2 ${steps.findIndex(s => s.id === currentStep) > index ? 'bg-green-500' : 'bg-white/10'}`} />
           )}
         </div>
       ))}
@@ -362,54 +362,54 @@ export default function CheckoutPage() {
   
   const renderInfoStep = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Vos informations</h2>
+      <h2 className="text-2xl font-light text-white">Vos informations</h2>
       
       {!session && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <p className="text-blue-800">
-            <Link href="/auth/login?callbackUrl=/checkout" className="font-medium underline">Connectez-vous</Link> pour retrouver vos informations et historique de commandes, ou continuez en tant qu'invité.
+        <div className="bg-[#C5A059]/10 border border-[#C5A059]/20 rounded-lg p-4">
+          <p className="text-white">
+            <Link href="/auth/login?callbackUrl=/checkout" className="font-medium underline text-[#C5A059]">Connectez-vous</Link> pour retrouver vos informations et historique de commandes, ou continuez en tant qu'invité.
           </p>
         </div>
       )}
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Prénom *</label>
+          <label className="block text-sm font-medium text-white/60 mb-1">Prénom *</label>
           <input
             type="text"
             value={formData.first_name}
             onChange={(e) => updateFormData('first_name', e.target.value)}
-            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059] outline-none"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Nom *</label>
+          <label className="block text-sm font-medium text-white/60 mb-1">Nom *</label>
           <input
             type="text"
             value={formData.last_name}
             onChange={(e) => updateFormData('last_name', e.target.value)}
-            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059] outline-none"
           />
         </div>
       </div>
       
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+        <label className="block text-sm font-medium text-white/60 mb-1">Email *</label>
         <input
           type="email"
           value={formData.email}
           onChange={(e) => updateFormData('email', e.target.value)}
-          className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059] outline-none"
         />
       </div>
       
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+        <label className="block text-sm font-medium text-white/60 mb-1">Téléphone</label>
         <input
           type="tel"
           value={formData.phone}
           onChange={(e) => updateFormData('phone', e.target.value)}
-          className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059] outline-none"
         />
       </div>
     </div>
@@ -417,7 +417,7 @@ export default function CheckoutPage() {
   
   const renderShippingStep = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Adresse de livraison</h2>
+      <h2 className="text-2xl font-light text-white">Adresse de livraison</h2>
       
       {/* Choix rapide pour compte loge */}
       {profile && profile.account_type !== 'personal' && (
@@ -425,65 +425,65 @@ export default function CheckoutPage() {
           <button
             onClick={usePersonalAddress}
             className={`p-4 border-2 rounded-lg text-left transition-all ${
-              formData.shipping_type === 'personal' ? 'border-[#C4A052] bg-[#C4A052]/5' : 'border-gray-200'
+              formData.shipping_type === 'personal' ? 'border-[#C5A059] bg-[#C5A059]/10' : 'border-white/10 bg-white/5'
             }`}
           >
             <span className="text-2xl">📍</span>
-            <p className="font-medium mt-2">Adresse personnelle</p>
+            <p className="font-medium mt-2 text-white">Adresse personnelle</p>
           </button>
           <button
             onClick={useLodgeAddress}
             className={`p-4 border-2 rounded-lg text-left transition-all ${
-              formData.shipping_type === 'lodge' ? 'border-[#C4A052] bg-[#C4A052]/5' : 'border-gray-200'
+              formData.shipping_type === 'lodge' ? 'border-[#C5A059] bg-[#C5A059]/10' : 'border-white/10 bg-white/5'
             }`}
           >
             <span className="text-2xl">🏛️</span>
-            <p className="font-medium mt-2">Adresse de la Loge</p>
-            {profile.lodge_name && <p className="text-sm text-gray-500">{profile.lodge_name}</p>}
+            <p className="font-medium mt-2 text-white">Adresse de la Loge</p>
+            {profile.lodge_name && <p className="text-sm text-white/50">{profile.lodge_name}</p>}
           </button>
         </div>
       )}
       
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Adresse *</label>
+          <label className="block text-sm font-medium text-white/60 mb-1">Adresse *</label>
           <input
             type="text"
             value={formData.shipping_street}
             onChange={(e) => updateFormData('shipping_street', e.target.value)}
-            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059] outline-none"
             placeholder="Rue et numéro"
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Code postal *</label>
+            <label className="block text-sm font-medium text-white/60 mb-1">Code postal *</label>
             <input
               type="text"
               value={formData.shipping_postal_code}
               onChange={(e) => updateFormData('shipping_postal_code', e.target.value)}
-              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059] outline-none"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Ville *</label>
+            <label className="block text-sm font-medium text-white/60 mb-1">Ville *</label>
             <input
               type="text"
               value={formData.shipping_city}
               onChange={(e) => updateFormData('shipping_city', e.target.value)}
-              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059] outline-none"
             />
           </div>
         </div>
       </div>
       
-      <div className="pt-4 border-t">
-        <label className="flex items-center gap-3 cursor-pointer">
+      <div className="pt-4 border-t border-white/10">
+        <label className="flex items-center gap-3 cursor-pointer text-white">
           <input
             type="checkbox"
             checked={formData.use_shipping_for_billing}
             onChange={(e) => updateFormData('use_shipping_for_billing', e.target.checked)}
-            className="w-5 h-5 text-[#C4A052] rounded"
+            className="w-5 h-5 text-[#C5A059] rounded bg-white/5 border-white/10"
           />
           <span>Utiliser la même adresse pour la facturation</span>
         </label>
@@ -491,12 +491,12 @@ export default function CheckoutPage() {
       
       {!formData.use_shipping_for_billing && (
         <div className="space-y-4 pt-4">
-          <h3 className="font-semibold text-gray-900">Adresse de facturation</h3>
+          <h3 className="font-medium text-white">Adresse de facturation</h3>
           <input
             type="text"
             value={formData.billing_street}
             onChange={(e) => updateFormData('billing_street', e.target.value)}
-            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059] outline-none"
             placeholder="Rue et numéro"
           />
           <div className="grid grid-cols-2 gap-4">
@@ -504,14 +504,14 @@ export default function CheckoutPage() {
               type="text"
               value={formData.billing_postal_code}
               onChange={(e) => updateFormData('billing_postal_code', e.target.value)}
-              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059] outline-none"
               placeholder="Code postal"
             />
             <input
               type="text"
               value={formData.billing_city}
               onChange={(e) => updateFormData('billing_city', e.target.value)}
-              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059] outline-none"
               placeholder="Ville"
             />
           </div>
@@ -519,12 +519,12 @@ export default function CheckoutPage() {
       )}
       
       <div className="pt-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Notes de commande (optionnel)</label>
+        <label className="block text-sm font-medium text-white/60 mb-1">Notes de commande (optionnel)</label>
         <textarea
           value={formData.notes}
           onChange={(e) => updateFormData('notes', e.target.value)}
           rows={3}
-          className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#C4A052]"
+          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059] outline-none"
           placeholder="Instructions spéciales pour la livraison..."
         />
       </div>
@@ -533,22 +533,22 @@ export default function CheckoutPage() {
   
   const renderPaymentStep = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Paiement</h2>
+      <h2 className="text-2xl font-bold text-white">Paiement</h2>
       
-      <div className="bg-gray-50 rounded-lg p-4">
-        <p className="text-gray-700">
+      <div className="bg-[#C4A052]/10 border border-[#C4A052]/30 rounded-lg p-4">
+        <p className="text-[#C4A052]">
           Pour le moment, les paiements sont traités par validation téléphonique. Vous recevrez un appel pour confirmer votre commande.
         </p>
       </div>
       
-      <div className="bg-white border rounded-lg p-6">
-        <h3 className="font-semibold text-gray-900 mb-4">Récapitulatif de la commande</h3>
+      <div className="bg-white/[0.03] border border-white/10 rounded-lg p-6">
+        <h3 className="font-semibold text-white mb-4">Récapitulatif de la commande</h3>
         
         <div className="space-y-3 mb-4">
           {cart.map((item) => (
             <div key={item._id} className="flex justify-between items-center">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gray-100 rounded overflow-hidden">
+                <div className="w-12 h-12 bg-white/5 rounded overflow-hidden">
                   {item.product.images?.[0] ? (
                     <img src={item.product.images[0]} alt={item.product.name} className="w-full h-full object-cover" />
                   ) : (
@@ -556,25 +556,25 @@ export default function CheckoutPage() {
                   )}
                 </div>
                 <div>
-                  <p className="font-medium text-gray-900">{item.product.name}</p>
-                  <p className="text-sm text-gray-500">Qté: {item.quantity}</p>
+                  <p className="font-medium text-white">{item.product.name}</p>
+                  <p className="text-sm text-white/50">Qté: {item.quantity}</p>
                 </div>
               </div>
-              <span className="font-medium">{(item.product.price * item.quantity).toFixed(2)} €</span>
+              <span className="font-medium text-white">{(item.product.price * item.quantity).toFixed(2)} €</span>
             </div>
           ))}
         </div>
         
-        <div className="border-t pt-4 space-y-2">
-          <div className="flex justify-between text-gray-600">
+        <div className="border-t border-white/10 pt-4 space-y-2">
+          <div className="flex justify-between text-white/60">
             <span>Sous-total</span>
             <span>{subtotal.toFixed(2)} €</span>
           </div>
-          <div className="flex justify-between text-gray-600">
+          <div className="flex justify-between text-white/60">
             <span>Livraison</span>
             <span>{shipping === 0 ? 'Gratuit' : `${shipping.toFixed(2)} €`}</span>
           </div>
-          <div className="flex justify-between text-lg font-bold text-gray-900 pt-2 border-t">
+          <div className="flex justify-between text-lg font-bold text-white pt-2 border-t border-white/10">
             <span>Total</span>
             <span>{total.toFixed(2)} €</span>
           </div>
@@ -586,9 +586,9 @@ export default function CheckoutPage() {
           type="checkbox"
           checked={formData.accept_terms}
           onChange={(e) => updateFormData('accept_terms', e.target.checked)}
-          className="w-5 h-5 text-[#C4A052] rounded mt-0.5"
+          className="w-5 h-5 text-[#C4A052] bg-white/5 border-white/20 rounded mt-0.5"
         />
-        <span className="text-sm text-gray-700">
+        <span className="text-sm text-white/70">
           J'accepte les <Link href="/terms" className="text-[#C4A052] underline">conditions générales de vente</Link> et la <Link href="/privacy" className="text-[#C4A052] underline">politique de confidentialité</Link>
         </span>
       </label>
@@ -597,22 +597,22 @@ export default function CheckoutPage() {
   
   const renderConfirmation = () => (
     <div className="text-center space-y-6">
-      <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-        <span className="text-4xl">✓</span>
+      <div className="w-20 h-20 bg-[#C4A052]/20 rounded-full flex items-center justify-center mx-auto border border-[#C4A052]/30">
+        <span className="text-4xl text-[#C4A052]">✓</span>
       </div>
       
-      <h2 className="text-3xl font-bold text-gray-900">Merci pour votre commande !</h2>
+      <h2 className="text-3xl font-bold text-white">Merci pour votre commande !</h2>
       
-      <p className="text-gray-600">
-        Votre commande a été enregistrée. Vous recevrez un email de confirmation à l'adresse <strong>{formData.email}</strong>.
+      <p className="text-white/60">
+        Votre commande a été enregistrée. Vous recevrez un email de confirmation à l'adresse <strong className="text-white">{formData.email}</strong>.
       </p>
       
-      <div className="bg-gray-50 rounded-lg p-6 inline-block">
-        <p className="text-sm text-gray-500">Numéro de commande</p>
+      <div className="bg-white/[0.03] border border-white/10 rounded-lg p-6 inline-block">
+        <p className="text-sm text-white/50">Numéro de commande</p>
         <p className="text-2xl font-bold text-[#C4A052]">{formData.order_number || 'AR2024XXXX'}</p>
       </div>
       
-      <p className="text-gray-600">
+      <p className="text-white/60">
         Notre équipe vous contactera prochainement pour confirmer votre commande.
       </p>
       
@@ -627,7 +627,7 @@ export default function CheckoutPage() {
           </Link>
         )}
         <Link href="/catalog">
-          <Button variant="outline">Continuer mes achats</Button>
+          <Button variant="outline" className="border-white/20 text-white hover:bg-white/5">Continuer mes achats</Button>
         </Link>
       </div>
     </div>
@@ -651,32 +651,32 @@ export default function CheckoutPage() {
   if (isLoading) {
     return (
       <>
-        <LuxeHeader />
-        <div className="min-h-screen flex items-center justify-center">
+        <LuxeHeaderDark />
+        <div className="min-h-screen bg-[#0a0a0c] flex items-center justify-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C4A052]" />
         </div>
-        <LuxeFooter />
+        <LuxeFooterDark />
       </>
     );
   }
   
   return (
     <>
-      <LuxeHeader />
-      <main className="min-h-screen bg-gray-50 py-8">
+      <LuxeHeaderDark />
+      <main className="min-h-screen bg-[#0a0a0c] py-8">
         <div className="max-w-4xl mx-auto px-4">
-          <h1 className="text-3xl font-bold text-gray-900 text-center mb-8">Finaliser ma commande</h1>
+          <h1 className="text-3xl font-light text-white text-center mb-8">Finaliser ma commande</h1>
           
           {currentStep !== 'confirmation' && renderStepIndicator()}
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Formulaire principal */}
             <div className={`${currentStep === 'confirmation' ? 'lg:col-span-3' : 'lg:col-span-2'}`}>
-              <div className="bg-white rounded-xl shadow p-6">
+              <div className="bg-white/[0.03] border border-white/10 rounded-xl p-6">
                 {renderCurrentStep()}
                 
                 {currentStep !== 'confirmation' && (
-                  <div className="flex justify-between mt-8 pt-6 border-t">
+                  <div className="flex justify-between mt-8 pt-6 border-t border-white/10">
                     {currentStep !== 'info' ? (
                       <Button variant="outline" onClick={handlePrevious}>
                         ← Précédent
@@ -711,13 +711,13 @@ export default function CheckoutPage() {
             {/* Résumé panier (visible sur étapes 1-3) */}
             {currentStep !== 'confirmation' && (
               <div className="lg:col-span-1">
-                <div className="bg-white rounded-xl shadow p-6 sticky top-4">
-                  <h3 className="font-semibold text-gray-900 mb-4">Votre panier</h3>
+                <div className="bg-white/[0.03] border border-white/10 rounded-xl p-6 sticky top-4">
+                  <h3 className="font-medium text-white mb-4">Votre panier</h3>
                   
                   <div className="space-y-3 mb-4 max-h-60 overflow-y-auto">
                     {cart.map((item) => (
                       <div key={item._id} className="flex gap-3">
-                        <div className="w-12 h-12 bg-gray-100 rounded overflow-hidden flex-shrink-0">
+                        <div className="w-12 h-12 bg-white/5 rounded overflow-hidden flex-shrink-0">
                           {item.product.images?.[0] ? (
                             <img src={item.product.images[0]} alt={item.product.name} className="w-full h-full object-cover" />
                           ) : (
@@ -725,30 +725,30 @@ export default function CheckoutPage() {
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium text-gray-900 text-sm truncate">{item.product.name}</p>
-                          <p className="text-sm text-gray-500">{item.quantity} × {item.product.price.toFixed(2)} €</p>
+                          <p className="font-medium text-white text-sm truncate">{item.product.name}</p>
+                          <p className="text-sm text-white/50">{item.quantity} × {item.product.price.toFixed(2)} €</p>
                         </div>
                       </div>
                     ))}
                   </div>
                   
-                  <div className="border-t pt-4 space-y-2">
-                    <div className="flex justify-between text-sm text-gray-600">
+                  <div className="border-t border-white/10 pt-4 space-y-2">
+                    <div className="flex justify-between text-sm text-white/60">
                       <span>Sous-total</span>
                       <span>{subtotal.toFixed(2)} €</span>
                     </div>
-                    <div className="flex justify-between text-sm text-gray-600">
+                    <div className="flex justify-between text-sm text-white/60">
                       <span>Livraison</span>
                       <span>{shipping === 0 ? 'Gratuit' : `${shipping.toFixed(2)} €`}</span>
                     </div>
                     {shipping > 0 && (
-                      <p className="text-xs text-green-600">
+                      <p className="text-xs text-green-400">
                         Livraison gratuite à partir de {FREE_SHIPPING_THRESHOLD} €
                       </p>
                     )}
-                    <div className="flex justify-between font-bold text-gray-900 pt-2 border-t">
+                    <div className="flex justify-between font-bold text-white pt-2 border-t border-white/10">
                       <span>Total</span>
-                      <span>{total.toFixed(2)} €</span>
+                      <span className="text-[#C5A059]">{total.toFixed(2)} €</span>
                     </div>
                   </div>
                 </div>
@@ -757,7 +757,7 @@ export default function CheckoutPage() {
           </div>
         </div>
       </main>
-      <LuxeFooter />
+      <LuxeFooterDark />
     </>
   );
 }

@@ -6,8 +6,8 @@ import Rite from '@/models/Rite';
 import Obedience from '@/models/Obedience';
 import DegreeOrder from '@/models/DegreeOrder';
 import { CatalogClient } from './CatalogClient';
-import LuxeHeader from '@/components/layout/LuxeHeader';
-import LuxeFooter from '@/components/layout/LuxeFooter';
+import LuxeHeaderDark from '@/components/layout/LuxeHeaderDark';
+import LuxeFooterDark from '@/components/layout/LuxeFooterDark';
 
 interface SearchParams {
   category?: string;
@@ -305,7 +305,7 @@ export default async function CatalogPage({
 
   return (
     <>
-      <LuxeHeader />
+      <LuxeHeaderDark />
       <Suspense fallback={<CatalogSkeleton />}>
         <CatalogClient 
           initialProducts={products}
@@ -314,26 +314,26 @@ export default async function CatalogPage({
           initialFilters={searchParams}
         />
       </Suspense>
-      <LuxeFooter />
+      <LuxeFooterDark />
     </>
   );
 }
 
 function CatalogSkeleton() {
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-[#0a0a0c]">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar skeleton */}
           <aside className="w-full lg:w-64 flex-shrink-0">
-            <div className="bg-white rounded-lg p-6 shadow-sm animate-pulse">
-              <div className="h-6 bg-gray-200 rounded w-24 mb-4"></div>
-              <div className="h-10 bg-gray-200 rounded mb-6"></div>
+            <div className="bg-white/5 border border-white/10 rounded-lg p-6 animate-pulse">
+              <div className="h-6 bg-white/10 rounded w-24 mb-4"></div>
+              <div className="h-10 bg-white/10 rounded mb-6"></div>
               {[...Array(5)].map((_, i) => (
                 <div key={i} className="mb-4">
-                  <div className="h-4 bg-gray-200 rounded w-20 mb-2"></div>
+                  <div className="h-4 bg-white/10 rounded w-20 mb-2"></div>
                   {[...Array(3)].map((_, j) => (
-                    <div key={j} className="h-8 bg-gray-100 rounded mb-1"></div>
+                    <div key={j} className="h-8 bg-white/5 rounded mb-1"></div>
                   ))}
                 </div>
               ))}
@@ -344,12 +344,12 @@ function CatalogSkeleton() {
           <div className="flex-1">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="bg-white rounded-lg overflow-hidden shadow-sm animate-pulse">
-                  <div className="aspect-square bg-gray-200"></div>
+                <div key={i} className="bg-white/5 border border-white/10 rounded-lg overflow-hidden animate-pulse">
+                  <div className="aspect-square bg-white/10"></div>
                   <div className="p-4">
-                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
-                    <div className="h-6 bg-gray-200 rounded w-1/4"></div>
+                    <div className="h-4 bg-white/10 rounded w-3/4 mb-2"></div>
+                    <div className="h-4 bg-white/10 rounded w-1/2 mb-4"></div>
+                    <div className="h-6 bg-white/10 rounded w-1/4"></div>
                   </div>
                 </div>
               ))}

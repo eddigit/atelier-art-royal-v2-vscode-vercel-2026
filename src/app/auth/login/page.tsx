@@ -66,21 +66,27 @@ function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-navy-900 via-navy-800 to-navy-900 px-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 space-y-6">
+    <div className="min-h-screen flex items-center justify-center bg-[#0a0a0c] px-4">
+      {/* Cercles décoratifs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#C4A052]/5 rounded-full blur-3xl" />
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#C4A052]/5 rounded-full blur-3xl" />
+      </div>
+      
+      <div className="w-full max-w-md relative z-10">
+        <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-8 space-y-6 backdrop-blur-sm">
           <div className="text-center space-y-2">
-            <h1 className="text-3xl font-playfair font-bold text-navy-900">
+            <h1 className="text-3xl font-playfair font-bold text-white">
               Connexion
             </h1>
-            <p className="text-gray-600">
+            <p className="text-white/60">
               Accédez à votre espace Atelier Art Royal
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-white/70 mb-1">
                 Email
               </label>
               <input
@@ -89,13 +95,13 @@ function LoginForm() {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold-500 focus:border-transparent"
+                className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
                 placeholder="votre@email.com"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="password" className="block text-sm font-medium text-white/70 mb-1">
                 Mot de passe
               </label>
               <input
@@ -104,7 +110,7 @@ function LoginForm() {
                 required
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold-500 focus:border-transparent"
+                className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:ring-2 focus:ring-[#C4A052] focus:border-transparent placeholder:text-white/30"
                 placeholder="••••••••"
               />
             </div>
@@ -112,21 +118,21 @@ function LoginForm() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gold-600 hover:bg-gold-700 text-white"
+              className="w-full bg-[#C4A052] hover:bg-[#b39142] text-white"
             >
               {isLoading ? 'Connexion...' : 'Se connecter'}
             </Button>
           </form>
 
-          <div className="text-center space-y-2 pt-4 border-t">
-            <p className="text-sm text-gray-600">
+          <div className="text-center space-y-2 pt-4 border-t border-white/10">
+            <p className="text-sm text-white/60">
               Pas encore de compte ?{' '}
-              <Link href="/auth/register" className="text-gold-600 hover:text-gold-700 font-medium">
+              <Link href="/auth/register" className="text-[#C4A052] hover:text-[#d4b066] font-medium">
                 Créer un compte
               </Link>
             </p>
             <p className="text-sm">
-              <Link href="/" className="text-gray-500 hover:text-gray-700">
+              <Link href="/" className="text-white/40 hover:text-white/60">
                 ← Retour à l'accueil
               </Link>
             </p>
@@ -140,8 +146,8 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-navy-900 via-navy-800 to-navy-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gold-500"></div>
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0c]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C4A052]"></div>
       </div>
     }>
       <LoginForm />

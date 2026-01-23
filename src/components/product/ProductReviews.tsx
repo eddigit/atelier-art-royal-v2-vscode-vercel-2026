@@ -54,7 +54,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
           <Star
             key={star}
             className={`${sizeClass} ${
-              star <= rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
+              star <= rating ? 'text-yellow-400 fill-yellow-400' : 'text-white/30'
             }`}
           />
         ))}
@@ -64,48 +64,48 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
 
   if (isLoading) {
     return (
-      <section className="mt-12 bg-white rounded-lg p-8 shadow-sm">
-        <h2 className="font-display text-2xl font-bold mb-4">Avis clients</h2>
+      <section className="mt-12 bg-white/[0.03] border border-white/10 rounded-lg p-8">
+        <h2 className="font-display text-2xl font-bold mb-4 text-white">Avis clients</h2>
         <div className="animate-pulse space-y-4">
-          <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-          <div className="h-20 bg-gray-200 rounded"></div>
+          <div className="h-4 bg-white/10 rounded w-1/4"></div>
+          <div className="h-20 bg-white/10 rounded"></div>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="mt-12 bg-white rounded-lg p-8 shadow-sm">
+    <section className="mt-12 bg-white/[0.03] border border-white/10 rounded-lg p-8">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="font-display text-2xl font-bold">Avis clients</h2>
+        <h2 className="font-display text-2xl font-bold text-white">Avis clients</h2>
         {reviews.length > 0 && (
           <div className="flex items-center gap-2">
             {renderStars(averageRating, 'md')}
-            <span className="font-semibold text-lg">{averageRating}</span>
-            <span className="text-gray-500">({reviews.length} avis)</span>
+            <span className="font-semibold text-lg text-white">{averageRating}</span>
+            <span className="text-white/50">({reviews.length} avis)</span>
           </div>
         )}
       </div>
 
       {reviews.length === 0 ? (
-        <div className="text-center py-8 text-gray-500">
+        <div className="text-center py-8 text-white/50">
           <p>Aucun avis pour ce produit.</p>
           <p className="text-sm mt-2">Soyez le premier à donner votre avis !</p>
         </div>
       ) : (
         <div className="space-y-6">
           {reviews.map((review) => (
-            <div key={review._id} className="border-b pb-6 last:border-b-0">
+            <div key={review._id} className="border-b border-white/10 pb-6 last:border-b-0">
               <div className="flex items-start justify-between mb-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                    <User className="h-5 w-5 text-gray-400" />
+                  <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                    <User className="h-5 w-5 text-white/50" />
                   </div>
                   <div>
-                    <p className="font-medium">
+                    <p className="font-medium text-white">
                       {review.user_id?.first_name || 'Anonyme'} {review.user_id?.last_name?.[0] || ''}.
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-white/50">
                       {new Date(review.created_at).toLocaleDateString('fr-FR', {
                         year: 'numeric',
                         month: 'long',
@@ -116,7 +116,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
                 </div>
                 {renderStars(review.rating)}
               </div>
-              <p className="text-gray-700 mt-3">{review.comment}</p>
+              <p className="text-white/70 mt-3">{review.comment}</p>
             </div>
           ))}
         </div>

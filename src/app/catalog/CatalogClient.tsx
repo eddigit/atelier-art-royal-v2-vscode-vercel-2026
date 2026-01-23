@@ -173,17 +173,17 @@ export function CatalogClient({
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-[#0a0a0c]">
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
-        <nav className="mb-6 text-sm text-gray-600">
-          <Link href="/" className="hover:text-gold-600">Accueil</Link>
+        <nav className="mb-6 text-sm text-white/50">
+          <Link href="/" className="hover:text-[#C5A059]">Accueil</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">Catalogue</span>
+          <span className="text-white">Catalogue</span>
         </nav>
 
         {/* Titre de la page */}
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-6">
           {getPageTitle()}
         </h1>
 
@@ -199,36 +199,36 @@ export function CatalogClient({
           {/* Contenu principal */}
           <div className="flex-1">
             {/* Barre d'outils */}
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6 bg-white p-4 rounded-lg shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-6 bg-white/5 border border-white/10 p-4 rounded-lg">
               <div className="flex items-center gap-4">
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">{initialPagination.total}</span> produit{initialPagination.total > 1 ? 's' : ''}
+                <p className="text-sm text-white/60">
+                  <span className="font-medium text-white">{initialPagination.total}</span> produit{initialPagination.total > 1 ? 's' : ''}
                 </p>
                 
                 {/* Toggle vue grille/liste - Desktop */}
-                <div className="hidden md:flex items-center gap-1 border-l pl-4">
+                <div className="hidden md:flex items-center gap-1 border-l border-white/10 pl-4">
                   <button
                     onClick={() => setViewMode('grid')}
-                    className={`p-2 rounded ${viewMode === 'grid' ? 'bg-gray-100 text-gold-600' : 'text-gray-400 hover:text-gray-600'}`}
+                    className={`p-2 rounded ${viewMode === 'grid' ? 'bg-white/10 text-[#C5A059]' : 'text-white/40 hover:text-white'}`}
                     title="Vue grille"
                   >
                     <LayoutGrid className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => setViewMode('list')}
-                    className={`p-2 rounded ${viewMode === 'list' ? 'bg-gray-100 text-gold-600' : 'text-gray-400 hover:text-gray-600'}`}
+                    className={`p-2 rounded ${viewMode === 'list' ? 'bg-white/10 text-[#C5A059]' : 'text-white/40 hover:text-white'}`}
                     title="Vue liste"
                   >
                     <List className="h-4 w-4" />
                   </button>
                   
                   {viewMode === 'grid' && (
-                    <div className="flex items-center gap-1 border-l pl-2 ml-2">
+                    <div className="flex items-center gap-1 border-l border-white/10 pl-2 ml-2">
                       {[2, 3, 4].map(cols => (
                         <button
                           key={cols}
                           onClick={() => setGridColumns(cols)}
-                          className={`p-1 rounded text-xs ${gridColumns === cols ? 'bg-gray-100 text-gold-600' : 'text-gray-400 hover:text-gray-600'}`}
+                          className={`p-1 rounded text-xs ${gridColumns === cols ? 'bg-white/10 text-[#C5A059]' : 'text-white/40 hover:text-white'}`}
                         >
                           {cols}
                         </button>
@@ -260,11 +260,11 @@ export function CatalogClient({
                     // Vue Liste
                     <article 
                       key={product._id}
-                      className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all flex"
+                      className="bg-white/5 border border-white/10 rounded-lg overflow-hidden hover:border-[#C5A059]/50 transition-all flex"
                     >
                       <Link 
                         href={`/product/${product.slug || product._id}`}
-                        className="w-48 h-48 flex-shrink-0 overflow-hidden bg-gray-100 relative"
+                        className="w-48 h-48 flex-shrink-0 overflow-hidden bg-white/5 relative"
                       >
                         {product.images?.[0] ? (
                           <Image
@@ -301,7 +301,7 @@ export function CatalogClient({
                           {product.rite_ids && product.rite_ids.length > 0 && (
                             <div className="flex flex-wrap gap-1 mb-2">
                               {product.rite_ids.slice(0, 3).map((rite, i) => (
-                                <span key={i} className="text-xs text-gold-600 bg-gold-50 px-2 py-0.5 rounded">
+                                <span key={i} className="text-xs text-[#C5A059] bg-[#C5A059]/10 px-2 py-0.5 rounded">
                                   {rite.code || rite.name}
                                 </span>
                               ))}
@@ -309,13 +309,13 @@ export function CatalogClient({
                           )}
                           
                           <Link href={`/product/${product.slug || product._id}`}>
-                            <h3 className="font-medium text-lg mb-2 hover:text-gold-600 transition-colors">
+                            <h3 className="font-medium text-lg mb-2 text-white hover:text-[#C5A059] transition-colors">
                               {product.name}
                             </h3>
                           </Link>
                           
                           {product.short_description && (
-                            <p className="text-sm text-gray-500 mb-3 line-clamp-2">
+                            <p className="text-sm text-white/50 mb-3 line-clamp-2">
                               {product.short_description}
                             </p>
                           )}
@@ -351,7 +351,7 @@ export function CatalogClient({
                     // Vue Grille
                     <article 
                       key={product._id}
-                      className="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 relative"
+                      className="group bg-white/5 border border-white/10 rounded-lg overflow-hidden hover:border-[#C5A059]/50 transition-all duration-300 relative"
                     >
                       {/* Badges */}
                       <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
@@ -375,7 +375,7 @@ export function CatalogClient({
                       {/* Image */}
                       <Link 
                         href={`/product/${product.slug || product._id}`} 
-                        className="block aspect-square overflow-hidden bg-gray-100 relative"
+                        className="block aspect-square overflow-hidden bg-white/5 relative"
                       >
                         {product.images?.[0] ? (
                           <>
@@ -397,15 +397,15 @@ export function CatalogClient({
                             )}
                           </>
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
                             <span className="text-6xl">🎭</span>
                           </div>
                         )}
                         
                         {/* Overlay rupture de stock */}
                         {isOutOfStock(product) && (
-                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                            <span className="bg-white text-gray-900 text-sm font-medium px-4 py-2 rounded">
+                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                            <span className="bg-white/10 backdrop-blur-sm text-white text-sm font-medium px-4 py-2 rounded border border-white/20">
                               Rupture de stock
                             </span>
                           </div>
@@ -418,7 +418,7 @@ export function CatalogClient({
                         {product.rite_ids && product.rite_ids.length > 0 && (
                           <div className="flex flex-wrap gap-1 mb-2">
                             {product.rite_ids.slice(0, 2).map((rite, i) => (
-                              <span key={i} className="text-xs text-gold-600 bg-gold-50 px-2 py-0.5 rounded">
+                              <span key={i} className="text-xs text-[#C5A059] bg-[#C5A059]/10 px-2 py-0.5 rounded">
                                 {rite.code || rite.name}
                               </span>
                             ))}
@@ -427,7 +427,7 @@ export function CatalogClient({
 
                         {/* Nom */}
                         <Link href={`/product/${product.slug || product._id}`}>
-                          <h3 className="font-medium mb-2 line-clamp-2 group-hover:text-gold-600 transition-colors min-h-[2.5rem]">
+                          <h3 className="font-medium mb-2 line-clamp-2 text-white group-hover:text-[#C5A059] transition-colors min-h-[2.5rem]">
                             {product.name}
                           </h3>
                         </Link>
@@ -435,11 +435,11 @@ export function CatalogClient({
                         {/* Prix */}
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-baseline gap-2">
-                            <span className={`text-lg font-bold ${isOnSale(product) ? 'text-red-600' : 'text-gold-600'}`}>
+                            <span className={`text-lg font-bold ${isOnSale(product) ? 'text-red-500' : 'text-[#C5A059]'}`}>
                               {product.price.toFixed(2)} €
                             </span>
                             {isOnSale(product) && product.compare_at_price && (
-                              <span className="text-sm text-gray-400 line-through">
+                              <span className="text-sm text-white/40 line-through">
                                 {product.compare_at_price.toFixed(2)} €
                               </span>
                             )}
@@ -450,7 +450,7 @@ export function CatalogClient({
                         {!isOutOfStock(product) && (
                           <button
                             onClick={() => handleAddToCart(product._id)}
-                            className="w-full bg-gray-900 hover:bg-gold-600 text-white text-sm font-medium py-2.5 px-4 rounded transition-colors flex items-center justify-center gap-2"
+                            className="w-full bg-[#C5A059] hover:bg-[#D4B44A] text-[#0a0a0c] text-sm font-medium py-2.5 px-4 rounded transition-colors flex items-center justify-center gap-2"
                           >
                             <ShoppingCart className="h-4 w-4" />
                             Ajouter au panier
@@ -462,16 +462,16 @@ export function CatalogClient({
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16 bg-white rounded-lg">
+              <div className="text-center py-16 bg-white/5 border border-white/10 rounded-lg">
                 <div className="text-6xl mb-4">🔍</div>
-                <h2 className="text-xl font-medium text-gray-900 mb-2">
+                <h2 className="text-xl font-medium text-white mb-2">
                   Aucun produit trouvé
                 </h2>
-                <p className="text-gray-500 mb-6">
+                <p className="text-white/50 mb-6">
                   Essayez de modifier vos critères de recherche ou de supprimer certains filtres.
                 </p>
                 <Link href="/catalog">
-                  <Button variant="outline">
+                  <Button variant="outline" className="border-[#C5A059] text-[#C5A059] hover:bg-[#C5A059] hover:text-[#0a0a0c]">
                     Voir tous les produits
                   </Button>
                 </Link>

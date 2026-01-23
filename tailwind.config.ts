@@ -23,8 +23,8 @@ const config: Config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "#C5A059",
+          foreground: "#000000",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -50,50 +50,54 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Couleurs spécifiques Art Royal - Nouveau Design System
+        // Dark Luxury Theme - Atelier Art Royal
+        "background-light": "#f6f6f8",
+        "background-dark": "#0a0a0c",
+        gold: {
+          DEFAULT: "#C5A059",
+          50: "#FAF6E8",
+          100: "#F5EDD1",
+          200: "#EBDBA3",
+          300: "#E1C975",
+          400: "#D7B747",
+          500: "#C5A059",
+          600: "#A8861F",
+          700: "#7D6417",
+          800: "#524210",
+          900: "#2A2108",
+        },
         royal: {
           50: "#EBF0F7",
           100: "#D6E0EE",
           200: "#ADC1DD",
           300: "#84A2CC",
           400: "#5B83BB",
-          500: "#1B3A5F",  // PRIMARY
-          600: "#162E4C",
-          700: "#112339",
-          800: "#0C1726",
-          900: "#0A1628",  // DARK
-        },
-        gold: {
-          50: "#FAF6E8",
-          100: "#F5EDD1",
-          200: "#EBDBA3",
-          300: "#E1C975",
-          400: "#D7B747",
-          500: "#C9A227",  // ACCENT
-          600: "#A8861F",
-          700: "#7D6417",
-          800: "#524210",
-          900: "#2A2108",
+          500: "#1152d4",  // PRIMARY BLUE
+          600: "#0d42ab",
+          700: "#0a3282",
+          800: "#072259",
+          900: "#0a0a0c",  // DARK BACKGROUND
         },
         ivory: {
           50: "#FEFDFB",
-          100: "#F8F6F0",  // IVORY
+          100: "#F8F6F0",
           200: "#F5F3ED",
           300: "#F2F0EA",
           400: "#EFEDE7",
           500: "#ECEAE4",
         },
         neutral: {
-          50: "#F5F5F5",   // GRAY-100
-          100: "#D1D1D1",  // GRAY-300
-          200: "#6B6B6B",  // GRAY-500
-          300: "#4A4A4A",  // GRAY-700
-          400: "#1A1A1A",  // GRAY-900
-          500: "#181818",  // BLACK
+          50: "#F5F5F5",
+          100: "#D1D1D1",
+          200: "#6B6B6B",
+          300: "#4A4A4A",
+          400: "#1A1A1A",
+          500: "#0a0a0c",
         },
       },
       fontFamily: {
-        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+        sans: ["Manrope", "Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+        display: ["Manrope", "sans-serif"],
         signature: ["var(--font-signature)", "cursive"],
       },
       borderRadius: {

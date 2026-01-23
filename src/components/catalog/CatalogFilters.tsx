@@ -176,16 +176,16 @@ export function CatalogFilters({
     sectionKey: string; 
     children: React.ReactNode;
   }) => (
-    <div className="border-b pb-4 mb-4">
+    <div className="border-b border-white/10 pb-4 mb-4">
       <button
-        className="flex items-center justify-between w-full text-left font-medium text-sm mb-3"
+        className="flex items-center justify-between w-full text-left font-medium text-sm mb-3 text-white"
         onClick={() => toggleSection(sectionKey)}
       >
         {title}
         {expandedSections[sectionKey] ? (
-          <ChevronUp className="h-4 w-4" />
+          <ChevronUp className="h-4 w-4 text-white/70" />
         ) : (
-          <ChevronDown className="h-4 w-4" />
+          <ChevronDown className="h-4 w-4 text-white/70" />
         )}
       </button>
       {expandedSections[sectionKey] && children}
@@ -197,13 +197,13 @@ export function CatalogFilters({
       {/* Barre de recherche */}
       <div className="mb-6">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50" />
           <input
             type="search"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Rechercher..."
-            className="w-full pl-10 pr-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-gold-500"
+            className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-md text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059]"
           />
           {searchInput && (
             <button
@@ -213,7 +213,7 @@ export function CatalogFilters({
               }}
               className="absolute right-3 top-1/2 -translate-y-1/2"
             >
-              <X className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+              <X className="h-4 w-4 text-white/50 hover:text-white/70" />
             </button>
           )}
         </div>
@@ -225,8 +225,8 @@ export function CatalogFilters({
           onClick={() => toggleBooleanFilter('showPromotions')}
           className={`px-3 py-1 text-xs rounded-full border transition-colors ${
             localFilters.showPromotions === 'true'
-              ? 'bg-red-100 border-red-300 text-red-700'
-              : 'border-gray-300 hover:bg-gray-100'
+              ? 'bg-red-500/20 border-red-500/30 text-red-400'
+              : 'border-white/20 text-white/70 hover:bg-white/10'
           }`}
         >
           🏷️ Promos
@@ -235,8 +235,8 @@ export function CatalogFilters({
           onClick={() => toggleBooleanFilter('showNew')}
           className={`px-3 py-1 text-xs rounded-full border transition-colors ${
             localFilters.showNew === 'true'
-              ? 'bg-green-100 border-green-300 text-green-700'
-              : 'border-gray-300 hover:bg-gray-100'
+              ? 'bg-green-500/20 border-green-500/30 text-green-400'
+              : 'border-white/20 text-white/70 hover:bg-white/10'
           }`}
         >
           ✨ Nouveautés
@@ -245,8 +245,8 @@ export function CatalogFilters({
           onClick={() => toggleBooleanFilter('inStockOnly')}
           className={`px-3 py-1 text-xs rounded-full border transition-colors ${
             localFilters.inStockOnly === 'true'
-              ? 'bg-blue-100 border-blue-300 text-blue-700'
-              : 'border-gray-300 hover:bg-gray-100'
+              ? 'bg-blue-500/20 border-blue-500/30 text-blue-400'
+              : 'border-white/20 text-white/70 hover:bg-white/10'
           }`}
         >
           📦 En stock
@@ -263,13 +263,13 @@ export function CatalogFilters({
                 onClick={() => applyFilter('category', localFilters.category === cat._id ? undefined : cat._id)}
                 className={`block w-full text-left text-sm py-1.5 px-2 rounded transition-colors ${
                   localFilters.category === cat._id
-                    ? 'bg-gold-100 text-gold-700 font-medium'
-                    : 'hover:bg-gray-100'
+                    ? 'bg-[#C5A059]/20 text-[#C5A059] border border-[#C5A059]/50 font-medium'
+                    : 'text-white/70 hover:bg-white/10'
                 }`}
               >
                 {cat.name}
                 {cat.product_count !== undefined && (
-                  <span className="text-gray-400 text-xs ml-1">({cat.product_count})</span>
+                  <span className="text-white/50 text-xs ml-1">({cat.product_count})</span>
                 )}
               </button>
             ))}
@@ -287,13 +287,13 @@ export function CatalogFilters({
                 onClick={() => applyFilter('rite', localFilters.rite === rite._id ? undefined : rite._id)}
                 className={`block w-full text-left text-sm py-1.5 px-2 rounded transition-colors ${
                   localFilters.rite === rite._id
-                    ? 'bg-gold-100 text-gold-700 font-medium'
-                    : 'hover:bg-gray-100'
+                    ? 'bg-[#C5A059]/20 text-[#C5A059] border border-[#C5A059]/50 font-medium'
+                    : 'text-white/70 hover:bg-white/10'
                 }`}
               >
                 {rite.name}
                 {rite.product_count !== undefined && (
-                  <span className="text-gray-400 text-xs ml-1">({rite.product_count})</span>
+                  <span className="text-white/50 text-xs ml-1">({rite.product_count})</span>
                 )}
               </button>
             ))}
@@ -311,13 +311,13 @@ export function CatalogFilters({
                 onClick={() => applyFilter('obedience', localFilters.obedience === ob._id ? undefined : ob._id)}
                 className={`block w-full text-left text-sm py-1.5 px-2 rounded transition-colors ${
                   localFilters.obedience === ob._id
-                    ? 'bg-gold-100 text-gold-700 font-medium'
-                    : 'hover:bg-gray-100'
+                    ? 'bg-[#C5A059]/20 text-[#C5A059] border border-[#C5A059]/50 font-medium'
+                    : 'text-white/70 hover:bg-white/10'
                 }`}
               >
                 {ob.name}
                 {ob.product_count !== undefined && (
-                  <span className="text-gray-400 text-xs ml-1">({ob.product_count})</span>
+                  <span className="text-white/50 text-xs ml-1">({ob.product_count})</span>
                 )}
               </button>
             ))}
@@ -330,14 +330,14 @@ export function CatalogFilters({
         <FilterSection title="Degrés & Ordres" sectionKey="degrees">
           {/* Filtre par type de loge */}
           <div className="mb-3">
-            <p className="text-xs text-gray-500 mb-2">Type de Loge</p>
+            <p className="text-xs text-white/50 mb-2">Type de Loge</p>
             <div className="flex gap-2">
               <button
                 onClick={() => applyFilter('logeType', localFilters.logeType === 'Loge Symbolique' ? undefined : 'Loge Symbolique')}
                 className={`flex-1 text-xs py-1.5 px-2 rounded border transition-colors ${
                   localFilters.logeType === 'Loge Symbolique'
-                    ? 'bg-gold-100 border-gold-300 text-gold-700'
-                    : 'border-gray-300 hover:bg-gray-100'
+                    ? 'bg-[#C5A059]/20 border-[#C5A059]/50 text-[#C5A059]'
+                    : 'border-white/20 text-white/70 hover:bg-white/10'
                 }`}
               >
                 Symbolique
@@ -346,8 +346,8 @@ export function CatalogFilters({
                 onClick={() => applyFilter('logeType', localFilters.logeType === 'Loge Hauts Grades' ? undefined : 'Loge Hauts Grades')}
                 className={`flex-1 text-xs py-1.5 px-2 rounded border transition-colors ${
                   localFilters.logeType === 'Loge Hauts Grades'
-                    ? 'bg-gold-100 border-gold-300 text-gold-700'
-                    : 'border-gray-300 hover:bg-gray-100'
+                    ? 'bg-[#C5A059]/20 border-[#C5A059]/50 text-[#C5A059]'
+                    : 'border-white/20 text-white/70 hover:bg-white/10'
                 }`}
               >
                 Hauts Grades
@@ -360,7 +360,7 @@ export function CatalogFilters({
             {Object.entries(degreesByLogeType).map(([logeType, degrees]) => (
               degrees.length > 0 && (
                 <div key={logeType}>
-                  <p className="text-xs font-medium text-gray-500 mb-1">{logeType}</p>
+                  <p className="text-xs font-medium text-white/50 mb-1">{logeType}</p>
                   <div className="space-y-1 pl-2">
                     {degrees.map((deg) => (
                       <button
@@ -368,13 +368,13 @@ export function CatalogFilters({
                         onClick={() => applyFilter('degree', localFilters.degree === deg._id ? undefined : deg._id)}
                         className={`block w-full text-left text-sm py-1 px-2 rounded transition-colors ${
                           localFilters.degree === deg._id
-                            ? 'bg-gold-100 text-gold-700 font-medium'
-                            : 'hover:bg-gray-100'
+                            ? 'bg-[#C5A059]/20 text-[#C5A059] border border-[#C5A059]/50 font-medium'
+                            : 'text-white/70 hover:bg-white/10'
                         }`}
                       >
                         {deg.name}
                         {deg.product_count !== undefined && (
-                          <span className="text-gray-400 text-xs ml-1">({deg.product_count})</span>
+                          <span className="text-white/50 text-xs ml-1">({deg.product_count})</span>
                         )}
                       </button>
                     ))}
@@ -394,21 +394,21 @@ export function CatalogFilters({
             placeholder="Min"
             value={localFilters.minPrice || ''}
             onChange={(e) => applyFilter('minPrice', e.target.value || undefined)}
-            className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-gold-500"
+            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-md text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059]"
             min="0"
           />
-          <span className="text-gray-400">-</span>
+          <span className="text-white/50">-</span>
           <input
             type="number"
             placeholder="Max"
             value={localFilters.maxPrice || ''}
             onChange={(e) => applyFilter('maxPrice', e.target.value || undefined)}
-            className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-gold-500"
+            className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-md text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#C5A059] focus:border-[#C5A059]"
             min="0"
           />
         </div>
         {options.priceRange && (
-          <p className="text-xs text-gray-400 mt-2">
+          <p className="text-xs text-white/50 mt-2">
             Plage : {options.priceRange.min}€ - {options.priceRange.max}€
           </p>
         )}
@@ -419,7 +419,7 @@ export function CatalogFilters({
         <FilterSection title="Attributs" sectionKey="attributes">
           {options.sizes && options.sizes.length > 0 && (
             <div className="mb-3">
-              <p className="text-xs text-gray-500 mb-2">Tailles</p>
+              <p className="text-xs text-white/50 mb-2">Tailles</p>
               <div className="flex flex-wrap gap-1">
                 {options.sizes.map((size) => (
                   <button
@@ -427,8 +427,8 @@ export function CatalogFilters({
                     onClick={() => applyFilter('size', localFilters.size === size ? undefined : size)}
                     className={`px-2 py-1 text-xs rounded border transition-colors ${
                       localFilters.size === size
-                        ? 'bg-gold-100 border-gold-300 text-gold-700'
-                        : 'border-gray-300 hover:bg-gray-100'
+                        ? 'bg-[#C5A059]/20 border-[#C5A059]/50 text-[#C5A059]'
+                        : 'border-white/20 text-white/70 hover:bg-white/10'
                     }`}
                   >
                     {size}
@@ -440,7 +440,7 @@ export function CatalogFilters({
           
           {options.colors && options.colors.length > 0 && (
             <div className="mb-3">
-              <p className="text-xs text-gray-500 mb-2">Couleurs</p>
+              <p className="text-xs text-white/50 mb-2">Couleurs</p>
               <div className="flex flex-wrap gap-1">
                 {options.colors.map((color) => (
                   <button
@@ -448,8 +448,8 @@ export function CatalogFilters({
                     onClick={() => applyFilter('color', localFilters.color === color ? undefined : color)}
                     className={`px-2 py-1 text-xs rounded border transition-colors ${
                       localFilters.color === color
-                        ? 'bg-gold-100 border-gold-300 text-gold-700'
-                        : 'border-gray-300 hover:bg-gray-100'
+                        ? 'bg-[#C5A059]/20 border-[#C5A059]/50 text-[#C5A059]'
+                        : 'border-white/20 text-white/70 hover:bg-white/10'
                     }`}
                   >
                     {color}
@@ -461,7 +461,7 @@ export function CatalogFilters({
           
           {options.materials && options.materials.length > 0 && (
             <div>
-              <p className="text-xs text-gray-500 mb-2">Matières</p>
+              <p className="text-xs text-white/50 mb-2">Matières</p>
               <div className="flex flex-wrap gap-1">
                 {options.materials.map((material) => (
                   <button
@@ -469,8 +469,8 @@ export function CatalogFilters({
                     onClick={() => applyFilter('material', localFilters.material === material ? undefined : material)}
                     className={`px-2 py-1 text-xs rounded border transition-colors ${
                       localFilters.material === material
-                        ? 'bg-gold-100 border-gold-300 text-gold-700'
-                        : 'border-gray-300 hover:bg-gray-100'
+                        ? 'bg-[#C5A059]/20 border-[#C5A059]/50 text-[#C5A059]'
+                        : 'border-white/20 text-white/70 hover:bg-white/10'
                     }`}
                   >
                     {material}
@@ -518,12 +518,12 @@ export function CatalogFilters({
 
       {/* Sidebar desktop */}
       <aside className={`hidden lg:block ${className}`}>
-        <div className="bg-white rounded-lg p-6 shadow-sm sticky top-24">
-          <h2 className="font-semibold mb-4 flex items-center gap-2">
-            <Filter className="h-4 w-4" />
+        <div className="bg-white/[0.03] border border-white/10 rounded-lg p-6 shadow-sm sticky top-24">
+          <h2 className="font-semibold mb-4 flex items-center gap-2 text-white">
+            <Filter className="h-4 w-4 text-white/70" />
             Filtres
             {totalProducts > 0 && (
-              <span className="text-sm font-normal text-gray-500">
+              <span className="text-sm font-normal text-white/50">
                 ({totalProducts} produit{totalProducts > 1 ? 's' : ''})
               </span>
             )}
@@ -536,17 +536,17 @@ export function CatalogFilters({
       {isMobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div 
-            className="absolute inset-0 bg-black/50" 
+            className="absolute inset-0 bg-black/60" 
             onClick={() => setIsMobileOpen(false)} 
           />
-          <div className="absolute right-0 top-0 bottom-0 w-80 max-w-full bg-white overflow-y-auto">
-            <div className="p-4 border-b flex items-center justify-between">
-              <h2 className="font-semibold flex items-center gap-2">
-                <Filter className="h-4 w-4" />
+          <div className="absolute right-0 top-0 bottom-0 w-80 max-w-full bg-[#0f0f12] overflow-y-auto">
+            <div className="p-4 border-b border-white/10 flex items-center justify-between">
+              <h2 className="font-semibold flex items-center gap-2 text-white">
+                <Filter className="h-4 w-4 text-white/70" />
                 Filtres
               </h2>
               <button onClick={() => setIsMobileOpen(false)}>
-                <X className="h-5 w-5" />
+                <X className="h-5 w-5 text-white/70 hover:text-white" />
               </button>
             </div>
             <div className="p-4">

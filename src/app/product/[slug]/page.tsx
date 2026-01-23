@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import dbConnect from '@/lib/mongodb';
 import Product from '@/models/Product';
-import LuxeHeader from '@/components/layout/LuxeHeader';
-import LuxeFooter from '@/components/layout/LuxeFooter';
+import LuxeHeaderDark from '@/components/layout/LuxeHeaderDark';
+import LuxeFooterDark from '@/components/layout/LuxeFooterDark';
 import ProductClient from '@/components/product/ProductClient';
 import ProductReviews from '@/components/product/ProductReviews';
 
@@ -94,34 +94,34 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <>
-      <LuxeHeader />
-      <main className="min-h-screen bg-gray-50">
+      <LuxeHeaderDark />
+      <main className="min-h-screen bg-[#0a0a0c]">
         <div className="container mx-auto px-4 py-8">
-          {/* Breadcrumb */}
-          <nav className="mb-6">
-            <ol className="flex items-center gap-2 text-sm text-gray-600">
+          {/* Breadcrumb */}}
+          <nav className="mb-8">
+            <ol className="flex items-center gap-2 text-sm text-white/50">
               <li>
-                <Link href="/" className="hover:text-[#C9A227]">Accueil</Link>
+                <Link href="/" className="hover:text-[#C5A059] transition-colors">Accueil</Link>
               </li>
-              <li>/</li>
+              <li className="text-white/30">/</li>
               <li>
-                <Link href="/catalog" className="hover:text-[#C9A227]">Catalogue</Link>
+                <Link href="/catalog" className="hover:text-[#C5A059] transition-colors">Catalogue</Link>
               </li>
               {product.category_ids?.[0] && (
                 <>
-                  <li>/</li>
+                  <li className="text-white/30">/</li>
                   <li>
                     <Link
                       href={`/catalog?category=${product.category_ids[0].slug}`}
-                      className="hover:text-[#C9A227]"
+                      className="hover:text-[#C5A059] transition-colors"
                     >
                       {product.category_ids[0].name}
                     </Link>
                   </li>
                 </>
               )}
-              <li>/</li>
-              <li className="text-gray-900 font-medium truncate max-w-[200px]">
+              <li className="text-white/30">/</li>
+              <li className="text-white font-medium truncate max-w-[200px]">
                 {product.name}
               </li>
             </ol>
@@ -132,9 +132,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           {/* Description */}
           {product.description && (
-            <section className="mt-12 bg-white rounded-lg p-8 shadow-sm">
-              <h2 className="font-display text-2xl font-bold mb-4">Description</h2>
-              <div className="prose max-w-none text-gray-600">
+            <section className="mt-16 bg-white/[0.03] border border-white/10 rounded-2xl p-8">
+              <h2 className="text-2xl font-light text-white mb-6 pb-4 border-b border-white/10">Description</h2>
+              <div className="prose prose-invert max-w-none text-white/70">
                 {product.description.split('\n').map((paragraph: string, idx: number) => (
                   <p key={idx} className="mb-4">{paragraph}</p>
                 ))}
@@ -147,35 +147,35 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           {/* Related Products */}
           {relatedProducts.length > 0 && (
-            <section className="mt-12">
-              <h2 className="font-display text-2xl font-bold mb-6">Produits similaires</h2>
+            <section className="mt-16">
+              <h2 className="text-2xl font-light text-white mb-8">Produits similaires</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {relatedProducts.map((related: any) => (
                   <Link
                     key={related._id}
                     href={`/product/${related.slug || related._id}`}
-                    className="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                    className="group bg-white/[0.03] border border-white/10 rounded-xl overflow-hidden hover:border-[#C5A059]/50 transition-all duration-300"
                   >
-                    <div className="aspect-square overflow-hidden">
+                    <div className="aspect-square overflow-hidden bg-white/5 relative">
                       {related.images?.[0] ? (
                         <Image
                           src={related.images[0]}
                           alt={related.name}
                           width={200}
                           height={200}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/5 to-white/10">
                           <span className="text-4xl">🎭</span>
                         </div>
                       )}
                     </div>
                     <div className="p-4">
-                      <h3 className="font-medium text-sm line-clamp-2 group-hover:text-[#C9A227]">
+                      <h3 className="font-medium text-sm text-white line-clamp-2 group-hover:text-[#C5A059] transition-colors min-h-[2.5rem]">
                         {related.name}
                       </h3>
-                      <p className="text-[#C9A227] font-bold mt-2">
+                      <p className="text-[#C5A059] font-bold mt-2">
                         {related.price?.toFixed(2)} €
                       </p>
                     </div>
@@ -187,14 +187,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           {/* Back Link */}
           <div className="mt-12">
-            <Link href="/catalog" className="inline-flex items-center text-[#C9A227] hover:text-[#b89223]">
+            <Link href="/catalog" className="inline-flex items-center text-white/60 hover:text-[#C5A059] transition-colors">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Retour au catalogue
             </Link>
           </div>
         </div>
       </main>
-      <LuxeFooter />
+      <LuxeFooterDark />
     </>
   );
 }

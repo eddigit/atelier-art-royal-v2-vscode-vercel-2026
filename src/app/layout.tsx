@@ -1,18 +1,14 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display, Great_Vibes } from 'next/font/google';
+import { Manrope, Great_Vibes } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import AuthProvider from '@/components/providers/AuthProvider';
 import ChatWidget from '@/components/layout/ChatWidget';
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ['latin'],
-  variable: '--font-inter',
-});
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-manrope',
+  weight: ['200', '300', '400', '500', '600', '700', '800'],
 });
 
 const greatVibes = Great_Vibes({
@@ -86,8 +82,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${playfair.variable} ${greatVibes.variable}`}>
-      <body className="min-h-screen bg-background font-sans antialiased">
+    <html lang="fr" className={`dark ${manrope.variable} ${greatVibes.variable}`}>
+      <body className="min-h-screen bg-background-dark font-sans antialiased selection:bg-primary selection:text-white">
         <AuthProvider>
           {children}
           <ChatWidget />

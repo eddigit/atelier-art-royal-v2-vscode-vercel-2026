@@ -27,22 +27,26 @@ function ErrorContent() {
   const errorMessage = errorMessages[error] || errorMessages.Default;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0A1628] via-[#1a2a4a] to-[#0A1628] px-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-2xl p-8 space-y-6 text-center">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto">
-            <AlertCircle className="w-8 h-8 text-red-600" />
+    <div className="min-h-screen flex items-center justify-center bg-[#0a0a0c] px-4 relative overflow-hidden">
+      {/* Decorative circles */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-[#C4A052]/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#C4A052]/5 rounded-full blur-3xl" />
+      
+      <div className="w-full max-w-md relative z-10">
+        <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-8 space-y-6 text-center">
+          <div className="w-16 h-16 bg-red-500/20 border border-red-500/30 rounded-full flex items-center justify-center mx-auto">
+            <AlertCircle className="w-8 h-8 text-red-400" />
           </div>
           
           <div className="space-y-2">
-            <h1 className="text-2xl font-serif font-bold text-[#0A1628]">
+            <h1 className="text-2xl font-serif font-bold text-white">
               Erreur d'authentification
             </h1>
-            <p className="text-gray-600">
+            <p className="text-white/60">
               {errorMessage}
             </p>
             {error !== 'Default' && (
-              <p className="text-xs text-gray-400 mt-2">
+              <p className="text-xs text-white/40 mt-2">
                 Code erreur: {error}
               </p>
             )}
@@ -50,24 +54,24 @@ function ErrorContent() {
 
           <div className="space-y-3 pt-4">
             <Link href="/auth/login" className="block">
-              <Button className="w-full bg-[#B8860B] hover:bg-[#C9A84C]">
+              <Button className="w-full bg-[#C4A052] hover:bg-[#b39142] text-white">
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Réessayer de se connecter
               </Button>
             </Link>
             
             <Link href="/" className="block">
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Retour à l'accueil
               </Button>
             </Link>
           </div>
 
-          <div className="pt-4 border-t border-gray-100">
-            <p className="text-sm text-gray-500">
+          <div className="pt-4 border-t border-white/10">
+            <p className="text-sm text-white/50">
               Besoin d'aide ?{' '}
-              <a href="mailto:contact@artroyal.fr" className="text-[#B8860B] hover:underline">
+              <a href="mailto:contact@artroyal.fr" className="text-[#C4A052] hover:underline">
                 Contactez-nous
               </a>
             </p>
@@ -81,7 +85,7 @@ function ErrorContent() {
 export default function AuthErrorPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-[#0A1628]">
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0c]">
         <div className="text-white">Chargement...</div>
       </div>
     }>

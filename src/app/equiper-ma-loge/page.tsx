@@ -5,8 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronRight, Users, Package, ShoppingBag, Send, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import LuxeHeader from '@/components/layout/LuxeHeader';
-import LuxeFooter from '@/components/layout/LuxeFooter';
+import LuxeHeaderDark from '@/components/layout/LuxeHeaderDark';
+import LuxeFooterDark from '@/components/layout/LuxeFooterDark';
 import { toast } from '@/hooks/use-toast';
 
 interface Obedience {
@@ -238,22 +238,22 @@ export default function EquiperMaLogePage() {
   if (isLoading) {
     return (
       <>
-        <LuxeHeader />
-        <main className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <LuxeHeaderDark />
+        <main className="min-h-screen bg-[#0a0a0c] flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C9A227] mx-auto mb-4" />
-            <p className="text-gray-500">Chargement...</p>
+            <p className="text-white/60">Chargement...</p>
           </div>
         </main>
-        <LuxeFooter />
+        <LuxeFooterDark />
       </>
     );
   }
 
   return (
     <>
-      <LuxeHeader />
-      <main className="min-h-screen bg-gray-50">
+      <LuxeHeaderDark />
+      <main className="min-h-screen bg-[#0a0a0c]">
         {/* Hero */}
         <section className="bg-[#1B3A5F] text-white py-16">
           <div className="container mx-auto px-4 text-center">
@@ -271,7 +271,7 @@ export default function EquiperMaLogePage() {
         </section>
 
         {/* Progress Steps */}
-        <div className="bg-white border-b">
+        <div className="bg-white/[0.03] border-b border-white/10">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-center gap-4 md:gap-8">
               {[
@@ -283,15 +283,15 @@ export default function EquiperMaLogePage() {
                 <div key={s.num} className="flex items-center">
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                      step >= s.num ? 'bg-[#C9A227] text-white' : 'bg-gray-200 text-gray-500'
+                      step >= s.num ? 'bg-[#C9A227] text-white' : 'bg-white/10 text-white/60'
                     }`}
                   >
                     {step > s.num ? <Check className="w-4 h-4" /> : s.num}
                   </div>
-                  <span className={`ml-2 text-sm hidden md:inline ${step >= s.num ? 'text-gray-900' : 'text-gray-400'}`}>
+                  <span className={`ml-2 text-sm hidden md:inline ${step >= s.num ? 'text-white' : 'text-white/40'}`}>
                     {s.label}
                   </span>
-                  {idx < 3 && <ChevronRight className="w-4 h-4 mx-2 text-gray-300" />}
+                  {idx < 3 && <ChevronRight className="w-4 h-4 mx-2 text-white/40" />}
                 </div>
               ))}
             </div>
@@ -303,10 +303,10 @@ export default function EquiperMaLogePage() {
           {/* Step 1: Configuration */}
           {step === 1 && (
             <div className="max-w-3xl mx-auto">
-              <h2 className="text-2xl font-bold mb-6">Configuration de votre Loge</h2>
+              <h2 className="text-2xl font-bold mb-6 text-white">Configuration de votre Loge</h2>
 
-              <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-                <h3 className="font-semibold mb-4">Votre Obédience</h3>
+              <div className="bg-white/[0.03] border border-white/10 rounded-lg p-6 mb-6">
+                <h3 className="font-semibold mb-4 text-white">Votre Obédience</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {obediences.map((ob) => (
                     <button
@@ -314,8 +314,8 @@ export default function EquiperMaLogePage() {
                       onClick={() => setConfig(prev => ({ ...prev, obedience: ob._id }))}
                       className={`p-4 border-2 rounded-lg text-center transition-all ${
                         config.obedience === ob._id
-                          ? 'border-[#C9A227] bg-[#C9A227]/5'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? 'border-[#C9A227] bg-[#C9A227]/10'
+                          : 'border-white/10 hover:border-white/20'
                       }`}
                     >
                       {ob.image_url && (
@@ -327,15 +327,15 @@ export default function EquiperMaLogePage() {
                           className="mx-auto mb-2 rounded-full"
                         />
                       )}
-                      <p className="font-semibold text-sm">{ob.code}</p>
-                      <p className="text-xs text-gray-500 mt-1 line-clamp-2">{ob.name}</p>
+                      <p className="font-semibold text-sm text-white">{ob.code}</p>
+                      <p className="text-xs text-white/60 mt-1 line-clamp-2">{ob.name}</p>
                     </button>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-                <h3 className="font-semibold mb-4">Votre Rite</h3>
+              <div className="bg-white/[0.03] border border-white/10 rounded-lg p-6 mb-6">
+                <h3 className="font-semibold mb-4 text-white">Votre Rite</h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {rites.map((rite) => (
                     <button
@@ -343,12 +343,12 @@ export default function EquiperMaLogePage() {
                       onClick={() => setConfig(prev => ({ ...prev, rite: rite._id }))}
                       className={`p-4 border-2 rounded-lg text-center transition-all ${
                         config.rite === rite._id
-                          ? 'border-[#C9A227] bg-[#C9A227]/5'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? 'border-[#C9A227] bg-[#C9A227]/10'
+                          : 'border-white/10 hover:border-white/20'
                       }`}
                     >
-                      <p className="font-semibold">{rite.code}</p>
-                      <p className="text-xs text-gray-500 mt-1">{rite.name}</p>
+                      <p className="font-semibold text-white">{rite.code}</p>
+                      <p className="text-xs text-white/60 mt-1">{rite.name}</p>
                     </button>
                   ))}
                 </div>
@@ -370,14 +370,14 @@ export default function EquiperMaLogePage() {
           {/* Step 2: Effectifs */}
           {step === 2 && (
             <div className="max-w-3xl mx-auto">
-              <h2 className="text-2xl font-bold mb-6">Effectifs de votre Loge</h2>
+              <h2 className="text-2xl font-bold mb-6 text-white">Effectifs de votre Loge</h2>
 
-              <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+              <div className="bg-white/[0.03] border border-white/10 rounded-lg p-6 mb-6">
                 <div className="flex items-center gap-3 mb-6">
                   <Users className="h-6 w-6 text-[#C9A227]" />
                   <div>
-                    <h3 className="font-semibold">Nombre de Frères par degré</h3>
-                    <p className="text-sm text-gray-500">Indiquez les effectifs pour calculer les quantités</p>
+                    <h3 className="font-semibold text-white">Nombre de Frères par degré</h3>
+                    <p className="text-sm text-white/60">Indiquez les effectifs pour calculer les quantités</p>
                   </div>
                 </div>
 
@@ -390,8 +390,8 @@ export default function EquiperMaLogePage() {
                   ].map((field) => (
                     <div key={field.key} className="flex items-center justify-between">
                       <div>
-                        <p className="font-medium">{field.label}</p>
-                        <p className="text-sm text-gray-500">{field.desc}</p>
+                        <p className="font-medium text-white">{field.label}</p>
+                        <p className="text-sm text-white/60">{field.desc}</p>
                       </div>
                       <div className="flex items-center gap-3">
                         <button
@@ -399,7 +399,7 @@ export default function EquiperMaLogePage() {
                             ...prev,
                             [field.key]: Math.max(0, (prev as any)[field.key] - 1)
                           }))}
-                          className="w-10 h-10 rounded-lg border border-gray-300 flex items-center justify-center hover:bg-gray-100"
+                          className="w-10 h-10 rounded-lg border border-white/10 flex items-center justify-center hover:bg-white/5 text-white"
                         >
                           -
                         </button>
@@ -410,14 +410,14 @@ export default function EquiperMaLogePage() {
                             ...prev,
                             [field.key]: Math.max(0, parseInt(e.target.value) || 0)
                           }))}
-                          className="w-16 text-center border rounded-lg py-2"
+                          className="w-16 text-center border border-white/10 rounded-lg py-2 bg-white/[0.03] text-white"
                         />
                         <button
                           onClick={() => setConfig(prev => ({
                             ...prev,
                             [field.key]: (prev as any)[field.key] + 1
                           }))}
-                          className="w-10 h-10 rounded-lg border border-gray-300 flex items-center justify-center hover:bg-gray-100"
+                          className="w-10 h-10 rounded-lg border border-white/10 flex items-center justify-center hover:bg-white/5 text-white"
                         >
                           +
                         </button>
@@ -426,9 +426,9 @@ export default function EquiperMaLogePage() {
                   ))}
                 </div>
 
-                <div className="mt-6 pt-6 border-t">
+                <div className="mt-6 pt-6 border-t border-white/10">
                   <div className="flex justify-between items-center">
-                    <span className="font-semibold">Effectif total de la Loge</span>
+                    <span className="font-semibold text-white">Effectif total de la Loge</span>
                     <span className="text-2xl font-bold text-[#C9A227]">{totalMembers} Frères</span>
                   </div>
                 </div>
@@ -457,9 +457,9 @@ export default function EquiperMaLogePage() {
           {step === 3 && (
             <div>
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold">Sélection des produits</h2>
+                <h2 className="text-2xl font-bold text-white">Sélection des produits</h2>
                 <div className="text-right">
-                  <p className="text-sm text-gray-500">{selectedCount} articles sélectionnés</p>
+                  <p className="text-sm text-white/60">{selectedCount} articles sélectionnés</p>
                   <p className="text-xl font-bold text-[#C9A227]">{calculateTotal().toFixed(2)} €</p>
                 </div>
               </div>
@@ -467,12 +467,12 @@ export default function EquiperMaLogePage() {
               {isLoadingProducts ? (
                 <div className="text-center py-12">
                   <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#C9A227] mx-auto mb-4" />
-                  <p className="text-gray-500">Chargement des produits recommandés...</p>
+                  <p className="text-white/60">Chargement des produits recommandés...</p>
                 </div>
               ) : products.length === 0 ? (
-                <div className="text-center py-12 bg-white rounded-lg shadow-sm">
-                  <Package className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500">Aucun produit trouvé pour cette configuration</p>
+                <div className="text-center py-12 bg-white/[0.03] border border-white/10 rounded-lg">
+                  <Package className="h-12 w-12 text-white/40 mx-auto mb-4" />
+                  <p className="text-white/60">Aucun produit trouvé pour cette configuration</p>
                   <Button variant="outline" onClick={() => setStep(1)} className="mt-4">
                     Modifier la configuration
                   </Button>
@@ -483,9 +483,9 @@ export default function EquiperMaLogePage() {
                     {products.map((product) => {
                       const qty = selectedProducts.get(product._id) || 0;
                       return (
-                        <div key={product._id} className="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <div key={product._id} className="bg-white/[0.03] border border-white/10 rounded-lg overflow-hidden">
                           <Link href={`/product/${product.slug || product._id}`}>
-                            <div className="aspect-square bg-gray-100">
+                            <div className="aspect-square bg-white/10">
                               {product.images?.[0] ? (
                                 <Image
                                   src={product.images[0]}
@@ -501,7 +501,7 @@ export default function EquiperMaLogePage() {
                           </Link>
                           <div className="p-4">
                             <Link href={`/product/${product.slug || product._id}`}>
-                              <h3 className="font-medium line-clamp-2 hover:text-[#C9A227]">{product.name}</h3>
+                              <h3 className="font-medium line-clamp-2 hover:text-[#C9A227] text-white">{product.name}</h3>
                             </Link>
                             <p className="text-[#C9A227] font-bold mt-2">{product.price.toFixed(2)} €</p>
 
@@ -509,7 +509,7 @@ export default function EquiperMaLogePage() {
                               <div className="flex items-center gap-2">
                                 <button
                                   onClick={() => updateQuantity(product._id, -1)}
-                                  className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-100"
+                                  className="w-8 h-8 rounded border border-white/10 flex items-center justify-center hover:bg-white/5 text-white"
                                 >
                                   -
                                 </button>
@@ -517,11 +517,11 @@ export default function EquiperMaLogePage() {
                                   type="number"
                                   value={qty}
                                   onChange={(e) => setQuantity(product._id, parseInt(e.target.value) || 0)}
-                                  className="w-14 text-center border rounded py-1"
+                                  className="w-14 text-center border border-white/10 rounded py-1 bg-white/[0.03] text-white"
                                 />
                                 <button
                                   onClick={() => updateQuantity(product._id, 1)}
-                                  className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center hover:bg-gray-100"
+                                  className="w-8 h-8 rounded border border-white/10 flex items-center justify-center hover:bg-white/5 text-white"
                                 >
                                   +
                                 </button>
@@ -559,12 +559,12 @@ export default function EquiperMaLogePage() {
           {/* Step 4: Récapitulatif */}
           {step === 4 && (
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-2xl font-bold mb-6">Récapitulatif de votre commande</h2>
+              <h2 className="text-2xl font-bold mb-6 text-white">Récapitulatif de votre commande</h2>
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2">
-                  <div className="bg-white rounded-lg shadow-sm p-6">
-                    <h3 className="font-semibold mb-4">Articles sélectionnés</h3>
+                  <div className="bg-white/[0.03] border border-white/10 rounded-lg p-6">
+                    <h3 className="font-semibold mb-4 text-white">Articles sélectionnés</h3>
 
                     <div className="space-y-4 max-h-[400px] overflow-y-auto">
                       {Array.from(selectedProducts.entries()).map(([productId, qty]) => {
@@ -572,8 +572,8 @@ export default function EquiperMaLogePage() {
                         if (!product || qty === 0) return null;
 
                         return (
-                          <div key={productId} className="flex items-center gap-4 border-b pb-4">
-                            <div className="w-16 h-16 bg-gray-100 rounded overflow-hidden flex-shrink-0">
+                          <div key={productId} className="flex items-center gap-4 border-b border-white/10 pb-4">
+                            <div className="w-16 h-16 bg-white/10 rounded overflow-hidden flex-shrink-0">
                               {product.images?.[0] ? (
                                 <Image
                                   src={product.images[0]}
@@ -587,8 +587,8 @@ export default function EquiperMaLogePage() {
                               )}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="font-medium line-clamp-1">{product.name}</p>
-                              <p className="text-sm text-gray-500">{product.price.toFixed(2)} € x {qty}</p>
+                              <p className="font-medium line-clamp-1 text-white">{product.name}</p>
+                              <p className="text-sm text-white/60">{product.price.toFixed(2)} € x {qty}</p>
                             </div>
                             <p className="font-semibold text-[#C9A227]">
                               {(product.price * qty).toFixed(2)} €
@@ -601,35 +601,35 @@ export default function EquiperMaLogePage() {
                 </div>
 
                 <div className="lg:col-span-1">
-                  <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
-                    <h3 className="font-semibold mb-4">Votre Loge</h3>
+                  <div className="bg-white/[0.03] border border-white/10 rounded-lg p-6 sticky top-24">
+                    <h3 className="font-semibold mb-4 text-white">Votre Loge</h3>
 
                     <div className="space-y-2 text-sm mb-6">
-                      <p>
-                        <span className="text-gray-500">Obédience:</span>{' '}
+                      <p className="text-white">
+                        <span className="text-white/60">Obédience:</span>{' '}
                         <strong>{obediences.find(o => o._id === config.obedience)?.code}</strong>
                       </p>
-                      <p>
-                        <span className="text-gray-500">Rite:</span>{' '}
+                      <p className="text-white">
+                        <span className="text-white/60">Rite:</span>{' '}
                         <strong>{rites.find(r => r._id === config.rite)?.code}</strong>
                       </p>
-                      <p>
-                        <span className="text-gray-500">Effectif:</span>{' '}
+                      <p className="text-white">
+                        <span className="text-white/60">Effectif:</span>{' '}
                         <strong>{totalMembers} Frères</strong>
                       </p>
                     </div>
 
-                    <div className="border-t pt-4 mb-6">
+                    <div className="border-t border-white/10 pt-4 mb-6">
                       <div className="flex justify-between mb-2">
-                        <span className="text-gray-500">Sous-total</span>
-                        <span>{calculateTotal().toFixed(2)} €</span>
+                        <span className="text-white/60">Sous-total</span>
+                        <span className="text-white">{calculateTotal().toFixed(2)} €</span>
                       </div>
                       <div className="flex justify-between mb-2">
-                        <span className="text-gray-500">Livraison</span>
-                        <span className="text-green-600">Franco</span>
+                        <span className="text-white/60">Livraison</span>
+                        <span className="text-green-500">Franco</span>
                       </div>
-                      <div className="flex justify-between text-lg font-bold pt-2 border-t">
-                        <span>Total</span>
+                      <div className="flex justify-between text-lg font-bold pt-2 border-t border-white/10">
+                        <span className="text-white">Total</span>
                         <span className="text-[#C9A227]">{calculateTotal().toFixed(2)} €</span>
                       </div>
                     </div>
@@ -652,7 +652,7 @@ export default function EquiperMaLogePage() {
                       </Button>
                     </div>
 
-                    <p className="text-xs text-gray-500 mt-4 text-center">
+                    <p className="text-xs text-white/50 mt-4 text-center">
                       Livraison gratuite pour les commandes de loge
                     </p>
                   </div>
@@ -668,7 +668,7 @@ export default function EquiperMaLogePage() {
           )}
         </div>
       </main>
-      <LuxeFooter />
+      <LuxeFooterDark />
     </>
   );
 }

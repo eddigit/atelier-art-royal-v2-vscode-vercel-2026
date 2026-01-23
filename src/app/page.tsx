@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Sparkles, Scissors, Award, Clock, Phone } from 'lucide-react';
+import { ArrowRight, Phone, Calendar } from 'lucide-react';
 import dbConnect from '@/lib/mongodb';
 import Product from '@/models/Product';
 import Category from '@/models/Category';
 import Rite from '@/models/Rite';
 import Obedience from '@/models/Obedience';
-import LuxeHeader from '@/components/layout/LuxeHeader';
-import LuxeFooter from '@/components/layout/LuxeFooter';
+import LuxeHeaderDark from '@/components/layout/LuxeHeaderDark';
+import LuxeFooterDark from '@/components/layout/LuxeFooterDark';
 
 async function getFeaturedProducts() {
   await dbConnect();
@@ -52,323 +52,148 @@ export default async function HomePage() {
   ]);
 
   return (
-    <main>
+    <main className="relative flex flex-col w-full overflow-x-hidden bg-[#0a0a0c]">
+      {/* Header Dark avec Mega Menu */}
+      <LuxeHeaderDark />
+
       {/* ═══════════════════════════════════════════════════════════════════
-          HEADER LUXE
+          HERO SECTION
       ═══════════════════════════════════════════════════════════════════ */}
-      <header className="header-luxe">
-        <div className="header-luxe__inner">
-          {/* Logo */}
-          <Link href="/" className="header-luxe__brand">
-            <Image
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691cd26ea8838a859856a6b6/b5c892460_logo-dark-web.png"
-              alt="Atelier Art Royal"
-              width={180}
-              height={50}
-              className="header-luxe__logo"
-              priority
+      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0c]/60 via-[#0a0a0c]/20 to-[#0a0a0c] z-10"></div>
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover scale-105"
+          >
+            <source 
+              src="https://res.cloudinary.com/dniurvpzd/video/upload/v1769189992/e5d81045-77ca-4cda-8782-a9dd6e64963a_zqlqjj.mp4" 
+              type="video/mp4" 
             />
-          </Link>
-
-          {/* Séparateur + Drapeau */}
-          <div className="header-luxe__separator" />
-          <span className="header-luxe__flag" role="img" aria-label="Drapeau français" />
-          
-          {/* Navigation */}
-          <nav className="header-luxe__nav">
-            <Link href="/maison" className="header-luxe__link">La Maison</Link>
-            <Link href="/catalog" className="header-luxe__link">Collections</Link>
-            <Link href="/sur-mesure" className="header-luxe__link">Sur Mesure</Link>
-            <Link href="/savoir-faire" className="header-luxe__link">Savoir-Faire</Link>
-            <Link href="/contact" className="header-luxe__link">Contact</Link>
-          </nav>
-
-          {/* Actions */}
-          <div className="header-luxe__actions">
-            <Link href="/contact" className="hidden lg:block">
-              <button className="btn-luxe btn-luxe--outline">Rendez-vous</button>
-            </Link>
-            <Link href="/auth/login">
-              <button className="btn-luxe btn-luxe--primary">Espace Client</button>
-            </Link>
-          </div>
+          </video>
         </div>
-      </header>
-
-      {/* ═══════════════════════════════════════════════════════════════════
-          HERO LUXE
-      ═══════════════════════════════════════════════════════════════════ */}
-      <section className="hero-luxe">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="hero-luxe__video"
-        >
-          <source 
-            src="https://res.cloudinary.com/dkvhbcuaz/video/upload/background_hero_video_raji06.mp4" 
-            type="video/mp4" 
-          />
-        </video>
-        <div className="hero-luxe__overlay" />
         
-        <div className="hero-luxe__content">
-          <p className="hero-luxe__eyebrow">
-            Haute Couture Maçonnique Française
+        <div className="relative z-20 text-center px-6 max-w-4xl">
+          <h4 className="text-[#C5A059] text-xs font-bold tracking-[0.5em] uppercase mb-6">
+            La Haute Couture Franc-Maçonnique
+          </h4>
+          <h2 className="text-white text-5xl md:text-7xl font-extralight tracking-tight leading-tight mb-8">
+            L&apos;Art de l&apos;Exception
+          </h2>
+          <p className="text-white/80 text-lg md:text-xl font-light max-w-2xl mx-auto mb-12 leading-relaxed">
+            Vêtements et décors maçonniques de haute facture, brodés à la main dans la plus pure tradition artisanale.
           </p>
-          
-          <h1 className="hero-luxe__title">
-            L&apos;Excellence du<br />
-            <em>Fait Main</em>
-          </h1>
-          
-          <p className="hero-luxe__subtitle">
-            Depuis notre atelier français, nous perpétuons l&apos;art ancestral 
-            de la broderie maçonnique. Chaque création est une œuvre unique.
-          </p>
-          
-          <div className="hero-luxe__cta">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/catalog">
-              <button className="btn-luxe btn-luxe--gold">
-                Découvrir les Collections
+              <button className="px-10 py-4 bg-[#C5A059] text-black text-sm font-bold tracking-widest uppercase rounded-lg hover:bg-[#C5A059]/90 transition-all shadow-xl shadow-[#C5A059]/20">
+                Entrer dans l&apos;Atelier
               </button>
             </Link>
-            <Link href="/sur-mesure">
-              <button className="btn-luxe btn-luxe--white">
-                Création Sur Mesure
+            <Link href="/catalog">
+              <button className="px-10 py-4 border border-white/20 text-white text-sm font-bold tracking-widest uppercase rounded-lg hover:bg-white/10 transition-all backdrop-blur-sm">
+                Découvrir la Collection
               </button>
             </Link>
           </div>
         </div>
-
-        <div className="hero-luxe__scroll">
-          <span>Découvrir</span>
-          <div className="hero-luxe__scroll-line" />
+        
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+          <svg className="w-8 h-8 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION MANIFESTE
+          INTRODUCTION SECTION
       ═══════════════════════════════════════════════════════════════════ */}
-      <section className="section-luxe section-luxe--ivory">
-        <div className="container-luxe">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="ornament">
-              <div className="ornament__line" />
-              <Sparkles className="ornament__icon w-5 h-5" />
-              <div className="ornament__line" />
-            </div>
-            
-            <h2 className="heading-xl mb-8">
-              La Haute Couture au service <br />
-              <em>de la Tradition</em>
-            </h2>
-            
-            <p className="text-body mb-6">
-              L&apos;Atelier Art Royal incarne l&apos;excellence de l&apos;artisanat français 
-              au service de la franc-maçonnerie. Chaque tablier, chaque sautoir, chaque décor 
-              est le fruit d&apos;un savoir-faire transmis de génération en génération.
-            </p>
-            
-            <p className="text-muted">
-              Nous créons des pièces uniques qui honorent les traditions 
-              tout en embrassant une esthétique contemporaine.
-            </p>
-
-            <Link href="/maison" className="btn-luxe btn-luxe--ghost inline-flex items-center gap-2 mt-10">
-              Découvrir notre histoire
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+      <section className="py-32 px-6 md:px-20 bg-[#0a0a0c]">
+        <div className="max-w-5xl mx-auto text-center">
+          <svg className="w-12 h-12 text-[#C5A059] mx-auto mb-6" fill="currentColor" viewBox="0 0 48 48">
+            <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" />
+          </svg>
+          <h3 className="text-white text-sm font-bold tracking-[0.3em] uppercase mb-8">Notre Savoir-Faire</h3>
+          <p className="text-white/60 text-2xl md:text-3xl font-extralight leading-relaxed mb-12">
+            Chaque pièce est une œuvre unique, alliant la <span className="text-white font-normal">précision du geste</span> à la noblesse des matériaux. Soie, velours et fils d&apos;or s&apos;unissent pour magnifier votre engagement.
+          </p>
+          <div className="w-24 h-px bg-[#C5A059]/30 mx-auto"></div>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION COLLECTIONS
+          GRID SHOWCASE - Collections
       ═══════════════════════════════════════════════════════════════════ */}
-      <section className="section-luxe section-luxe--dark">
-        <div className="container-luxe">
-          <div className="text-center mb-16">
-            <p className="eyebrow">Nos Créations</p>
-            <h2 className="heading-xl text-white">Collections Signature</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section className="py-20 px-6 md:px-20 bg-[#0a0a0c]">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Collection Tabliers */}
-            <Link href="/collections/tabliers" className="collection-card group">
-              <div className="collection-card__image">
-                <Image
-                  src="https://base44.app/api/apps/691cd26ea8838a859856a6b6/files/public/691cd26ea8838a859856a6b6/6f70ee0da_Tablier-Venerable-maitre-Installe-rite-Emulation-VM-VMI-Atelier-Art-Royal-EMUTMI5PE.jpg"
-                  alt="Collection Tabliers"
-                  width={600}
-                  height={800}
-                />
-              </div>
-              <div className="collection-card__overlay" />
-              <div className="collection-card__content">
-                <p className="collection-card__eyebrow">Collection</p>
-                <h3 className="collection-card__title">Tabliers</h3>
-                <p className="collection-card__desc">
-                  Cuir sélectionné, broderie main, finitions d&apos;exception
-                </p>
-                <span className="collection-card__link">
+            <Link href="/collections/tabliers" className="group relative aspect-[3/4] overflow-hidden rounded-xl bg-slate-900">
+              <div 
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                style={{
+                  backgroundImage: `linear-gradient(to top, rgba(10,10,12,0.9), transparent), url('https://base44.app/api/apps/691cd26ea8838a859856a6b6/files/public/691cd26ea8838a859856a6b6/6f70ee0da_Tablier-Venerable-maitre-Installe-rite-Emulation-VM-VMI-Atelier-Art-Royal-EMUTMI5PE.jpg')`
+                }}
+              />
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <h4 className="text-white text-2xl font-light mb-2">Tabliers d&apos;Excellence</h4>
+                <p className="text-white/50 text-sm tracking-widest uppercase mb-4">Pièces de Maître</p>
+                <span className="text-[#C5A059] text-xs font-bold tracking-widest uppercase flex items-center gap-2 group-hover:gap-4 transition-all">
                   Explorer <ArrowRight className="w-4 h-4" />
                 </span>
               </div>
             </Link>
 
             {/* Collection Sautoirs */}
-            <Link href="/collections/sautoirs" className="collection-card group">
-              <div className="collection-card__image">
-                <Image
-                  src="https://base44.app/api/apps/691cd26ea8838a859856a6b6/files/public/691cd26ea8838a859856a6b6/9e11b2930_Tablier-Maitre-rite-Emulation-M-Atelier-Art-Royal-EMUTM13PE.jpg"
-                  alt="Collection Sautoirs"
-                  width={600}
-                  height={800}
-                />
-              </div>
-              <div className="collection-card__overlay" />
-              <div className="collection-card__content">
-                <p className="collection-card__eyebrow">Collection</p>
-                <h3 className="collection-card__title">Sautoirs</h3>
-                <p className="collection-card__desc">
-                  Velours de Lyon, moiré, broderie or et argent
-                </p>
-                <span className="collection-card__link">
+            <Link href="/collections/sautoirs" className="group relative aspect-[3/4] overflow-hidden rounded-xl bg-slate-900 md:mt-12">
+              <div 
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                style={{
+                  backgroundImage: `linear-gradient(to top, rgba(10,10,12,0.9), transparent), url('https://base44.app/api/apps/691cd26ea8838a859856a6b6/files/public/691cd26ea8838a859856a6b6/9e11b2930_Tablier-Maitre-rite-Emulation-M-Atelier-Art-Royal-EMUTM13PE.jpg')`
+                }}
+              />
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <h4 className="text-white text-2xl font-light mb-2">Sautoirs de Loge</h4>
+                <p className="text-white/50 text-sm tracking-widest uppercase mb-4">Décors de Dignitaires</p>
+                <span className="text-[#C5A059] text-xs font-bold tracking-widest uppercase flex items-center gap-2 group-hover:gap-4 transition-all">
                   Explorer <ArrowRight className="w-4 h-4" />
                 </span>
               </div>
             </Link>
 
-            {/* Collection Bijoux */}
-            <Link href="/collections/bijoux" className="collection-card group">
-              <div className="collection-card__image">
-                <Image
-                  src="https://base44.app/api/apps/691cd26ea8838a859856a6b6/files/public/691cd26ea8838a859856a6b6/6f70ee0da_Tablier-Venerable-maitre-Installe-rite-Emulation-VM-VMI-Atelier-Art-Royal-EMUTMI5PE.jpg"
-                  alt="Collection Bijoux"
-                  width={600}
-                  height={800}
-                />
-              </div>
-              <div className="collection-card__overlay" />
-              <div className="collection-card__content">
-                <p className="collection-card__eyebrow">Collection</p>
-                <h3 className="collection-card__title">Bijoux & Décors</h3>
-                <p className="collection-card__desc">
-                  Métal doré, émaux, pierres précieuses
-                </p>
-                <span className="collection-card__link">
+            {/* Collection Hauts Grades */}
+            <Link href="/catalog?category=hauts-grades" className="group relative aspect-[3/4] overflow-hidden rounded-xl bg-slate-900">
+              <div 
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                style={{
+                  backgroundImage: `linear-gradient(to top, rgba(10,10,12,0.9), transparent), url('https://base44.app/api/apps/691cd26ea8838a859856a6b6/files/public/691cd26ea8838a859856a6b6/6f70ee0da_Tablier-Venerable-maitre-Installe-rite-Emulation-VM-VMI-Atelier-Art-Royal-EMUTMI5PE.jpg')`
+                }}
+              />
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <h4 className="text-white text-2xl font-light mb-2">Hauts Grades</h4>
+                <p className="text-white/50 text-sm tracking-widest uppercase mb-4">Rites et Traditions</p>
+                <span className="text-[#C5A059] text-xs font-bold tracking-widest uppercase flex items-center gap-2 group-hover:gap-4 transition-all">
                   Explorer <ArrowRight className="w-4 h-4" />
                 </span>
               </div>
-            </Link>
-          </div>
-
-          <div className="text-center mt-14">
-            <Link href="/catalog">
-              <button className="btn-luxe btn-luxe--outline">
-                Voir toutes les collections
-              </button>
             </Link>
           </div>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION SAVOIR-FAIRE
-      ═══════════════════════════════════════════════════════════════════ */}
-      <section className="section-luxe section-luxe--cream">
-        <div className="container-luxe">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="eyebrow">Notre Savoir-Faire</p>
-              <h2 className="heading-xl mb-8">
-                L&apos;Art de la <em>Broderie Main</em>
-              </h2>
-              
-              <div className="space-y-6">
-                <p className="text-body">
-                  Chaque pièce qui sort de notre atelier est le résultat de dizaines d&apos;heures 
-                  de travail minutieux. Nos artisans maîtrisent les techniques ancestrales 
-                  de broderie au fil d&apos;or et d&apos;argent.
-                </p>
-                <p className="text-muted">
-                  Du choix des matières premières – cuirs sélectionnés, velours de Lyon, 
-                  fils précieux – jusqu&apos;à la dernière finition, nous veillons à l&apos;excellence.
-                </p>
-              </div>
-
-              <div className="feature-grid mt-12">
-                <div className="feature-item">
-                  <div className="feature-item__icon">
-                    <Scissors className="w-5 h-5" />
-                  </div>
-                  <h4 className="feature-item__title">Fait Main</h4>
-                  <p className="feature-item__desc">100% artisanal</p>
-                </div>
-                <div className="feature-item">
-                  <div className="feature-item__icon">
-                    <Award className="w-5 h-5" />
-                  </div>
-                  <h4 className="feature-item__title">Made in France</h4>
-                  <p className="feature-item__desc">Atelier français</p>
-                </div>
-                <div className="feature-item">
-                  <div className="feature-item__icon">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <h4 className="feature-item__title">4-6 Semaines</h4>
-                  <p className="feature-item__desc">Délai création</p>
-                </div>
-                <div className="feature-item">
-                  <div className="feature-item__icon">
-                    <Sparkles className="w-5 h-5" />
-                  </div>
-                  <h4 className="feature-item__title">Sur Mesure</h4>
-                  <p className="feature-item__desc">Personnalisation</p>
-                </div>
-              </div>
-
-              <Link href="/savoir-faire">
-                <button className="btn-luxe btn-luxe--primary mt-10">
-                  Découvrir notre atelier
-                  <ArrowRight className="ml-2 w-4 h-4 inline" />
-                </button>
-              </Link>
-            </div>
-
-            <div className="relative">
-              <div className="aspect-[4/5] overflow-hidden bg-[#E8E6E1]">
-                <Image
-                  src="https://base44.app/api/apps/691cd26ea8838a859856a6b6/files/public/691cd26ea8838a859856a6b6/6f70ee0da_Tablier-Venerable-maitre-Installe-rite-Emulation-VM-VMI-Atelier-Art-Royal-EMUTMI5PE.jpg"
-                  alt="Savoir-faire Atelier Art Royal"
-                  width={800}
-                  height={1000}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-8 -left-8 bg-[#C9A227] text-white p-8">
-                <p className="text-4xl font-light mb-1">+500</p>
-                <p className="text-xs font-semibold tracking-[0.2em] uppercase">Créations</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════════════
-          SECTION OBÉDIENCES - Sélecteur principal pour les francs-maçons
+          SECTION OBÉDIENCES
       ═══════════════════════════════════════════════════════════════════ */}
       {obediences.length > 0 && (
-        <section className="section-luxe section-luxe--dark">
-          <div className="container-luxe">
-            <div className="text-center mb-12">
-              <p className="eyebrow">Votre Obédience</p>
-              <h2 className="heading-xl text-white">Sélectionnez votre Obédience</h2>
-              <p className="text-body text-white/60 mt-4 max-w-2xl mx-auto">
-                Découvrez les décors et ornements spécifiques à votre obédience. 
-                Chaque création respecte les traditions et les exigences de votre maison.
+        <section className="py-20 px-6 md:px-20 bg-[#0a0a0c]">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <p className="text-[#C5A059] text-xs font-bold tracking-[0.3em] uppercase mb-4">Votre Obédience</p>
+              <h2 className="text-white text-4xl md:text-5xl font-extralight tracking-tight">Sélectionnez votre Obédience</h2>
+              <p className="text-white/50 text-lg mt-6 max-w-2xl mx-auto">
+                Découvrez les décors et ornements spécifiques à votre obédience. Chaque création respecte les traditions et les exigences de votre maison.
               </p>
             </div>
             
@@ -377,26 +202,24 @@ export default async function HomePage() {
                 <Link
                   key={obedience._id}
                   href={`/catalog?obedience=${obedience._id}`}
-                  className="obedience-card group"
+                  className="group flex flex-col items-center bg-white/[0.03] border border-white/10 rounded-xl p-6 transition-all duration-300 hover:bg-[#C5A059]/10 hover:border-[#C5A059] hover:-translate-y-1"
                 >
-                  <div className="obedience-card__image">
+                  <div className="w-24 h-24 bg-[#151518] border-2 border-white/10 rounded-full overflow-hidden flex items-center justify-center mb-4 transition-all duration-300 group-hover:border-[#C5A059] group-hover:shadow-[0_0_30px_rgba(197,160,89,0.3)]">
                     {obedience.image_url ? (
                       <Image
                         src={obedience.image_url}
                         alt={obedience.name}
-                        width={120}
-                        height={120}
-                        className="w-full h-full object-contain p-4 transition-transform duration-300 group-hover:scale-110"
+                        width={96}
+                        height={96}
+                        className="w-full h-full object-cover rounded-full transition-transform duration-300 group-hover:scale-110"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-[#C9A227]">
-                        {obedience.code}
-                      </div>
+                      <span className="text-2xl font-bold text-[#C5A059]">{obedience.code}</span>
                     )}
                   </div>
-                  <div className="obedience-card__content">
-                    <h3 className="obedience-card__title">{obedience.code}</h3>
-                    <p className="obedience-card__name">{obedience.name}</p>
+                  <div className="text-center">
+                    <h3 className="text-[#C5A059] font-semibold text-sm tracking-wider uppercase">{obedience.code}</h3>
+                    <p className="text-white/50 text-xs mt-1">{obedience.name}</p>
                   </div>
                 </Link>
               ))}
@@ -406,17 +229,16 @@ export default async function HomePage() {
       )}
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION RITES - Avec images
+          SECTION RITES
       ═══════════════════════════════════════════════════════════════════ */}
       {rites.length > 0 && (
-        <section className="section-luxe section-luxe--ivory">
-          <div className="container-luxe">
-            <div className="text-center mb-12">
-              <p className="eyebrow">Votre Rite</p>
-              <h2 className="heading-xl">Sélectionnez votre Rite</h2>
-              <p className="text-body text-muted mt-4 max-w-2xl mx-auto">
-                Chaque rite possède ses propres symboles et décors. 
-                Trouvez les créations adaptées à votre pratique.
+        <section className="py-20 px-6 md:px-20 bg-[#0f0f12]">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <p className="text-[#C5A059] text-xs font-bold tracking-[0.3em] uppercase mb-4">Votre Rite</p>
+              <h2 className="text-white text-4xl md:text-5xl font-extralight tracking-tight">Sélectionnez votre Rite</h2>
+              <p className="text-white/50 text-lg mt-6 max-w-2xl mx-auto">
+                Chaque rite possède ses propres symboles et décors. Trouvez les créations adaptées à votre pratique.
               </p>
             </div>
             
@@ -425,26 +247,24 @@ export default async function HomePage() {
                 <Link
                   key={rite._id}
                   href={`/catalog?rite=${rite._id}`}
-                  className="rite-card group"
+                  className="group flex flex-col items-center bg-white/[0.03] border border-white/10 rounded-xl p-5 transition-all duration-300 hover:bg-[#C5A059]/10 hover:border-[#C5A059] hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(197,160,89,0.2)]"
                 >
-                  <div className="rite-card__image">
+                  <div className="w-20 h-20 bg-[#151518] rounded-full overflow-hidden flex items-center justify-center mb-3 transition-all duration-300 border-2 border-white/10 group-hover:border-[#C5A059] group-hover:shadow-[0_0_20px_rgba(197,160,89,0.3)]">
                     {rite.image_url ? (
                       <Image
                         src={rite.image_url}
                         alt={rite.name}
-                        width={120}
-                        height={120}
-                        className="w-full h-full object-contain p-3 transition-transform duration-300 group-hover:scale-110"
+                        width={80}
+                        height={80}
+                        className="w-full h-full object-cover rounded-full transition-transform duration-300 group-hover:scale-110"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-2xl font-bold text-[#1B3A5F]">
-                        {rite.code}
-                      </div>
+                      <span className="text-xl font-bold text-[#C5A059]">{rite.code}</span>
                     )}
                   </div>
-                  <div className="rite-card__content">
-                    <h3 className="rite-card__title">{rite.code}</h3>
-                    <p className="rite-card__name">{rite.name}</p>
+                  <div className="text-center">
+                    <h3 className="text-[#C5A059] group-hover:text-white font-semibold text-xs tracking-wider uppercase transition-colors">{rite.code}</h3>
+                    <p className="text-white/40 text-[0.65rem] mt-1">{rite.name}</p>
                   </div>
                 </Link>
               ))}
@@ -454,48 +274,86 @@ export default async function HomePage() {
       )}
 
       {/* ═══════════════════════════════════════════════════════════════════
-          SECTION CTA SUR MESURE
+          BESPOKE CTA - Sur Mesure
       ═══════════════════════════════════════════════════════════════════ */}
-      <section className="section-luxe section-luxe--dark relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]">
-          <div className="absolute top-0 left-0 w-[400px] h-[400px] border border-white rounded-full -translate-x-1/2 -translate-y-1/2" />
-          <div className="absolute bottom-0 right-0 w-[600px] h-[600px] border border-white rounded-full translate-x-1/3 translate-y-1/3" />
+      <section className="py-32 px-6 md:px-20 bg-[#0f0f12] relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
+          <svg className="w-full h-full text-white fill-current" viewBox="0 0 100 100">
+            <path d="M50 0 L100 50 L50 100 L0 50 Z" />
+          </svg>
         </div>
-
-        <div className="container-luxe relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="eyebrow">Création Sur Mesure</p>
-            <h2 className="heading-xl text-white mb-6">
-              Donnez Vie à <em>Votre Vision</em>
-            </h2>
-            <p className="text-body text-[rgba(255,255,255,0.6)] mb-10 max-w-xl mx-auto">
-              Vous avez un projet spécifique ? Notre équipe vous accompagne 
-              de la conception à la réalisation pour créer des pièces uniques.
+        
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+          <div className="flex-1 space-y-6">
+            <h3 className="text-[#C5A059] text-xs font-bold tracking-[0.4em] uppercase">Service Exclusif</h3>
+            <h2 className="text-white text-4xl md:text-5xl font-extralight tracking-tight">Le Sur-Mesure Royal</h2>
+            <p className="text-white/60 text-lg leading-relaxed max-w-xl">
+              Votre parcours est unique. Nos maîtres tailleurs et brodeuses collaborent avec vous pour créer des pièces qui incarnent parfaitement votre identité et vos fonctions. De la sélection des soies à la personnalisation des motifs.
             </p>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link href="/sur-mesure">
-                <button className="btn-luxe btn-luxe--gold">
-                  Démarrer un projet
-                  <ArrowRight className="ml-2 w-4 h-4 inline" />
-                </button>
-              </Link>
-              <a 
-                href="tel:+33646683610" 
-                className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
+            <Link href="/contact" className="group inline-flex items-center gap-4 text-white font-bold tracking-widest uppercase text-sm border-b-2 border-[#C5A059] pb-2 hover:text-[#C5A059] transition-all">
+              Prendre rendez-vous 
+              <Calendar className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+            </Link>
+          </div>
+          
+          <div className="flex-1 w-full">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none"></div>
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-[400px] object-cover"
               >
-                <Phone className="w-5 h-5" />
-                <span className="text-lg font-light">+33 6 46 68 36 10</span>
-              </a>
+                <source 
+                  src="https://res.cloudinary.com/dniurvpzd/video/upload/v1769188699/Montrer_une_broderie_1080p_202601231816_nxmip4.mp4" 
+                  type="video/mp4" 
+                />
+              </video>
             </div>
           </div>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          FOOTER LUXE
+          CTA CONTACT
       ═══════════════════════════════════════════════════════════════════ */}
-      <LuxeFooter />
+      <section className="py-32 px-6 md:px-20 bg-[#0a0a0c] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div className="absolute top-0 left-0 w-[400px] h-[400px] border border-white rounded-full -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 right-0 w-[600px] h-[600px] border border-white rounded-full translate-x-1/3 translate-y-1/3" />
+        </div>
+
+        <div className="max-w-3xl mx-auto text-center relative z-10">
+          <p className="text-[#C5A059] text-xs font-bold tracking-[0.3em] uppercase mb-4">Création Sur Mesure</p>
+          <h2 className="text-white text-4xl md:text-5xl font-extralight tracking-tight mb-6">
+            Donnez Vie à <em className="not-italic text-[#C5A059]">Votre Vision</em>
+          </h2>
+          <p className="text-white/60 text-lg mb-10 max-w-xl mx-auto">
+            Vous avez un projet spécifique ? Notre équipe vous accompagne de la conception à la réalisation pour créer des pièces uniques.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <Link href="/sur-mesure">
+              <button className="px-10 py-4 bg-[#C5A059] text-white text-sm font-bold tracking-widest uppercase rounded-lg hover:bg-[#C5A059]/90 transition-all shadow-xl shadow-[#C5A059]/20 inline-flex items-center gap-2">
+                Démarrer un projet
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </Link>
+            <a 
+              href="tel:+33646683610" 
+              className="flex items-center gap-3 text-white/70 hover:text-white transition-colors"
+            >
+              <Phone className="w-5 h-5" />
+              <span className="text-lg font-light">+33 6 46 68 36 10</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer Dark avec tous les liens */}
+      <LuxeFooterDark />
     </main>
   );
 }
