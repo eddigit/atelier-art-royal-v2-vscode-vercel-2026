@@ -97,7 +97,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <LuxeHeaderDark />
       <main className="min-h-screen bg-[#0a0a0c]">
         <div className="container mx-auto px-4 py-8">
-          {/* Breadcrumb */}}
+          {/* Breadcrumb */}
           <nav className="mb-8">
             <ol className="flex items-center gap-2 text-sm text-white/50">
               <li>
