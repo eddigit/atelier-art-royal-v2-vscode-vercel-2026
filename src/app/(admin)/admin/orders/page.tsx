@@ -133,9 +133,9 @@ export default function OrdersPage() {
           </div>
           <select value={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-lg bg-white">
             <option value="">Toutes sources</option>
-            <option value="web">🌐 Web</option>
-            <option value="pos">🏪 Atelier POS</option>
-            <option value="quote">📄 Devis</option>
+            <option value="web">Site Web</option>
+            <option value="pos">Atelier POS</option>
+            <option value="quote">Devis</option>
           </select>
           <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-lg bg-white">
             <option value="">Tous statuts</option>
