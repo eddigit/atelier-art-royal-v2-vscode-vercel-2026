@@ -142,7 +142,7 @@ export default function LuxeHeaderDark() {
       {/* HEADER - Compact & Modern */}
       {/* ================================================================ */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-150 ease-out ${
           isScrolled
             ? 'h-16 bg-[#0a0a0c] shadow-lg shadow-black/30'
             : 'h-20 bg-[#0a0a0c]/95 backdrop-blur-sm'
@@ -172,7 +172,7 @@ export default function LuxeHeaderDark() {
                 alt="Atelier Art Royal"
                 width={180}
                 height={50}
-                className={`transition-all duration-300 ${isScrolled ? 'h-9' : 'h-11'} w-auto`}
+                className={`transition-all duration-150 ease-out ${isScrolled ? 'h-9' : 'h-11'} w-auto`}
                 priority
               />
             </Link>
@@ -206,16 +206,16 @@ export default function LuxeHeaderDark() {
             {/* Theme Toggle */}
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="w-10 h-10 flex items-center justify-center text-white/50 hover:text-[#C5A059] transition-all duration-300"
+              className="w-10 h-10 flex items-center justify-center text-white/50 hover:text-[#C5A059] transition-all duration-150 ease-out"
               aria-label={isDarkMode ? 'Passer en mode clair' : 'Passer en mode sombre'}
               title={isDarkMode ? 'Mode clair' : 'Mode sombre'}
             >
               <div className="relative w-5 h-5">
                 <Sun 
-                  className={`absolute inset-0 w-5 h-5 transition-all duration-300 ${isDarkMode ? 'opacity-100 rotate-0' : 'opacity-0 rotate-90'}`} 
+                  className={`absolute inset-0 w-5 h-5 transition-all duration-150 ease-out ${isDarkMode ? 'opacity-100 rotate-0' : 'opacity-0 rotate-90'}`} 
                 />
                 <Moon 
-                  className={`absolute inset-0 w-5 h-5 transition-all duration-300 ${isDarkMode ? 'opacity-0 -rotate-90' : 'opacity-100 rotate-0'}`} 
+                  className={`absolute inset-0 w-5 h-5 transition-all duration-150 ease-out ${isDarkMode ? 'opacity-0 -rotate-90' : 'opacity-100 rotate-0'}`} 
                 />
               </div>
             </button>
@@ -256,13 +256,13 @@ export default function LuxeHeaderDark() {
       {/* MEGA MENU SIDEBAR */}
       {/* ================================================================ */}
       <div
-        className={`fixed inset-0 z-[100] transition-all duration-300 ${
+        className={`fixed inset-0 z-[100] transition-all duration-200 ease-out ${
           showMenu ? 'visible' : 'invisible pointer-events-none'
         }`}
       >
         {/* Backdrop */}
         <div
-          className={`absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${
+          className={`absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-200 ease-out ${
             showMenu ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={closeMenu}
@@ -270,7 +270,7 @@ export default function LuxeHeaderDark() {
 
         {/* Sidebar Panel */}
         <div
-          className={`absolute top-0 left-0 h-full w-full max-w-md bg-[#0a0a0c] shadow-2xl transition-transform duration-300 ease-out ${
+          className={`absolute top-0 left-0 h-full w-full max-w-md bg-[#0a0a0c] shadow-2xl transition-transform duration-200 ease-out ${
             showMenu ? 'translate-x-0' : '-translate-x-full'
           }`}
         >

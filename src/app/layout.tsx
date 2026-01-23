@@ -78,13 +78,23 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport = {
+  themeColor: '#0a0a0c',
+  width: 'device-width',
+  initialScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`dark ${playfairDisplay.variable} ${inter.variable}`}>
+    <html lang="fr" className={`dark ${playfairDisplay.variable} ${inter.variable}`} suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+      </head>
       <body className="min-h-screen bg-background-dark font-body antialiased selection:bg-primary selection:text-white">
         <AuthProvider>
           {children}

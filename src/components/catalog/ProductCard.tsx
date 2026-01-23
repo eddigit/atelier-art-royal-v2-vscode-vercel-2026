@@ -51,7 +51,7 @@ export function ProductCard({
   const productUrl = `/product/${product.slug || product._id}`;
 
   return (
-    <article className="group bg-white/[0.03] border border-white/10 rounded-lg overflow-hidden hover:border-[#C5A059]/50 hover:shadow-[0_0_30px_rgba(197,160,89,0.1)] transition-all duration-300 relative">
+    <article className="group bg-white/[0.03] border border-white/10 rounded-lg overflow-hidden hover:border-[#C5A059]/50 hover:shadow-[0_0_30px_rgba(197,160,89,0.1)] transition-all duration-200 ease-out relative">
       {/* Badges */}
       <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
         {isOnSale && (
@@ -108,7 +108,7 @@ export function ProductCard({
               alt={product.name}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              className="object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
             />
             {/* Seconde image au hover si disponible */}
             {product.images[1] && (
@@ -117,7 +117,7 @@ export function ProductCard({
                 alt={`${product.name} - vue 2`}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute inset-0"
+                className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-out absolute inset-0"
               />
             )}
           </>
