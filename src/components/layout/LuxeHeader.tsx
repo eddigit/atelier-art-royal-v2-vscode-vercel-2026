@@ -225,6 +225,19 @@ export default function LuxeHeader() {
   useKeyboardNavigation(showSearch, () => setShowSearch(false), searchRef);
   useKeyboardNavigation(showMobileMenu, () => setShowMobileMenu(false), mobileMenuRef);
 
+  // Raccourci CTRL+K pour ouvrir la recherche
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setShowSearch(true);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   // Computed values
   const logesSymboliques = useMemo(
     () => degrees.filter((d) => d.loge_type === 'Loge Symbolique'),
@@ -601,15 +614,19 @@ export default function LuxeHeader() {
 
           {/* Actions */}
           <div className="header-luxe__actions">
-            {/* Search Button */}
+            {/* Search Button avec CTRL+K */}
             <button
               onClick={handleOpenSearch}
-              className="header-luxe__icon-btn"
-              aria-label="Ouvrir la recherche"
+              className="header-luxe__search-btn"
+              aria-label="Ouvrir la recherche (Ctrl+K)"
               aria-expanded={showSearch}
               aria-controls="search-overlay"
             >
-              <Search className="w-5 h-5" aria-hidden="true" />
+              <Search className="w-4 h-4" aria-hidden="true" />
+              <span className="header-luxe__search-text">Rechercher...</span>
+              <kbd className="header-luxe__search-kbd">
+                <span>⌘</span>K
+              </kbd>
             </button>
 
             {/* Cart Button */}
