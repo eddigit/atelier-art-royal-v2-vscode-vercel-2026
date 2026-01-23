@@ -10,27 +10,32 @@ import ProductClient from '@/components/product/ProductClient';
 import ProductReviews from '@/components/product/ProductReviews';
 
 interface ProductPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 async function getProduct(slug: string) {
-  await dbConnect();
+  try {
+    await dbConnect();
 
-  const product = await Product.findOne({
-    $or: [
-      { slug },
-      { _id: slug }
-    ],
-    is_active: true
-  })
-    .populate('category_ids', 'name slug')
-    .populate('rite_ids', 'name code')
-    .populate('obedience_ids', 'name code')
-    .populate('degree_order_ids', 'name level loge_type')
-    .lean();
+    const product = await Product.findOne({
+      $or: [
+        { slug },
+        { _id: slug }
+      ],
+      is_active: true
+    })
+      .populate('category_ids', 'name slug')
+      .populate('rite_ids', 'name code')
+      .populate('obedience_ids', 'name code')
+      .populate('degree_order_ids', 'name level loge_type')
+      .lean();
 
-  if (!product) return null;
-  return JSON.parse(JSON.stringify(product));
+    if (!product) return null;
+    return JSON.parse(JSON.stringify(product));
+  } catch (error) {
+    console.error('Error fetching product:', error);
+    return null;
+  }
 }
 
 async function getRelatedProducts(
@@ -80,7 +85,8 @@ async function getRelatedProducts(
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const product = await getProduct(params.slug);
+  const { slug } = await params;
+  const product = await getProduct(slug);
 
   if (!product) {
     notFound();
@@ -200,7 +206,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
 }
 
 export async function generateMetadata({ params }: ProductPageProps) {
-  const product = await getProduct(params.slug);
+  const { slug } = await params;
+  const product = await getProduct(slug);
 
   if (!product) {
     return { title: 'Produit non trouvé' };
