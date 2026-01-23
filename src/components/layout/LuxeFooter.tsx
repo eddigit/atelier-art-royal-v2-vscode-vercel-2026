@@ -2,6 +2,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, Mail, MapPin } from 'lucide-react';
 
+// Informations de build
+const BUILD_INFO = {
+  commitHash: process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || 'dev',
+  buildDate: process.env.NEXT_PUBLIC_BUILD_DATE || new Date().toLocaleDateString('fr-FR'),
+  buildTime: process.env.NEXT_PUBLIC_BUILD_TIME || new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }),
+};
+
 export default function LuxeFooter() {
   return (
     <footer className="footer-luxe">
@@ -55,7 +62,16 @@ export default function LuxeFooter() {
 
         <div className="footer-luxe__bottom">
           <p>© {new Date().getFullYear()} Atelier Art Royal. Tous droits réservés.</p>
-          <p>Design & Développement par <span className="text-[#C9A227]">GILLES KORZEC</span></p>
+          <p>DESIGN & DÉVELOPPEMENT PAR <span className="text-[#C9A227]">GILLES KORZEC</span></p>
+        </div>
+
+        {/* Ligne technique */}
+        <div className="footer-luxe__build-info">
+          <span>COMMIT: {BUILD_INFO.commitHash}</span>
+          <span className="footer-luxe__separator">|</span>
+          <span>BUILD: {BUILD_INFO.buildDate} {BUILD_INFO.buildTime}</span>
+          <span className="footer-luxe__separator">|</span>
+          <span>DESIGN & DÉVELOPPEMENT PAR <span className="text-[#C9A227]">GILLES KORZEC</span></span>
         </div>
       </div>
     </footer>
