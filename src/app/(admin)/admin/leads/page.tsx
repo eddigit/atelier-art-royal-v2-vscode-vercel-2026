@@ -124,9 +124,9 @@ export default function LeadsPage() {
           <h1 className="text-3xl font-bold text-gray-900">Leads / Prospects</h1>
           <p className="text-gray-600 mt-1">Pipeline de prospection commerciale</p>
         </div>
-        <Link href="/admin/leads/new" className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+        <button disabled className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-400 rounded-lg cursor-not-allowed" title="Fonctionnalité en cours de développement">
           <Plus className="h-5 w-5" /> Nouveau lead
-        </Link>
+        </button>
       </div>
 
       {/* Stats */}

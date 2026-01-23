@@ -222,9 +222,9 @@ export default function ProductionPage() {
           <button onClick={fetchOrders} className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
             <RefreshCw className="h-5 w-5" />
           </button>
-          <Link href="/admin/production/new" className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          <button disabled className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-400 rounded-lg cursor-not-allowed" title="Fonctionnalité en cours de développement">
             <Plus className="h-5 w-5" /> Nouvel ordre
-          </Link>
+          </button>
         </div>
       </div>
 

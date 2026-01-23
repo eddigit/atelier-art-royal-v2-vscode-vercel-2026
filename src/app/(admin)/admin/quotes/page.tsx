@@ -18,13 +18,14 @@ export default async function QuotesPage() {
           <h1 className="text-3xl font-bold text-gray-900">Devis</h1>
           <p className="text-gray-600 mt-2">Gérez vos devis commerciaux</p>
         </div>
-        <Link
-          href="/admin/quotes/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition-colors"
+        <button
+          disabled
+          className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-400 text-sm font-medium cursor-not-allowed"
+          title="Fonctionnalité en cours de développement"
         >
           <Plus className="w-4 h-4" />
           Nouveau devis
-        </Link>
+        </button>
       </div>
 
       <div className="bg-white border border-gray-200 p-6">

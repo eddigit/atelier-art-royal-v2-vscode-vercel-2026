@@ -247,9 +247,9 @@ export default function AffairesPage() {
               Liste
             </button>
           </div>
-          <Link href="/admin/affaires/new" className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          <button disabled className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-400 rounded-lg cursor-not-allowed" title="Fonctionnalité en cours de développement">
             <Plus className="h-5 w-5" /> Nouvelle affaire
-          </Link>
+          </button>
         </div>
       </div>
 
