@@ -167,13 +167,25 @@ export default function LuxeHeaderDark() {
 
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
+              {/* Favicon for mobile */}
               <Image
-                src="https://res.cloudinary.com/dniurvpzd/image/upload/v1769183468/Logo-Atelier-Art-Royal_qinic8.png"
+                src="/Favicon Atelier Art Royal.svg"
                 alt="Atelier Art Royal"
-                width={180}
-                height={50}
-                className={`transition-all duration-150 ease-out ${isScrolled ? 'h-9' : 'h-11'} w-auto`}
+                width={40}
+                height={40}
+                className={`lg:hidden transition-all duration-150 ease-out ${isScrolled ? 'h-8' : 'h-10'} w-auto`}
                 priority
+                unoptimized
+              />
+              {/* Full logo for desktop */}
+              <Image
+                src="/logo2026.png"
+                alt="Atelier Art Royal"
+                width={220}
+                height={40}
+                className={`hidden lg:block transition-all duration-150 ease-out ${isScrolled ? 'h-9' : 'h-11'} w-auto`}
+                priority
+                unoptimized
               />
             </Link>
 
@@ -277,11 +289,12 @@ export default function LuxeHeaderDark() {
           {/* Header */}
           <div className="flex items-center justify-between h-20 px-6 border-b border-white/10">
             <Image
-              src="https://res.cloudinary.com/dniurvpzd/image/upload/v1769183468/Logo-Atelier-Art-Royal_qinic8.png"
+              src="/Favicon Atelier Art Royal.svg"
               alt="Atelier Art Royal"
-              width={150}
-              height={42}
+              width={40}
+              height={40}
               className="h-9 w-auto"
+              unoptimized
             />
             <button
               onClick={closeMenu}

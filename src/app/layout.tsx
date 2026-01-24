@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Playfair_Display, Inter } from 'next/font/google';
+import { Playfair_Display, Inter, Prata } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import AuthProvider from '@/components/providers/AuthProvider';
@@ -16,6 +16,13 @@ const inter = Inter({
   subsets: ['latin'],
   variable: '--font-body',
   weight: ['300', '400'],
+  display: 'swap',
+});
+
+const prata = Prata({
+  subsets: ['latin'],
+  variable: '--font-prata',
+  weight: ['400'],
   display: 'swap',
 });
 
@@ -90,7 +97,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`dark ${playfairDisplay.variable} ${inter.variable}`} suppressHydrationWarning>
+    <html lang="fr" className={`dark ${playfairDisplay.variable} ${inter.variable} ${prata.variable}`} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />

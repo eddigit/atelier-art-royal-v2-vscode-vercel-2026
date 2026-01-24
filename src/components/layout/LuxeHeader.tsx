@@ -279,13 +279,25 @@ export default function LuxeHeader() {
             {/* === GAUCHE: Logo + Drapeau === */}
             <div className="flex items-center gap-3 lg:gap-4">
               <Link href="/" className="flex-shrink-0">
+                {/* Favicon for mobile */}
                 <Image
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691cd26ea8838a859856a6b6/b5c892460_logo-dark-web.png"
+                  src="/Favicon Atelier Art Royal.svg"
                   alt="Atelier Art Royal"
-                  width={160}
-                  height={45}
-                  className="h-8 lg:h-10 w-auto"
+                  width={40}
+                  height={40}
+                  className="lg:hidden h-8 w-auto"
                   priority
+                  unoptimized
+                />
+                {/* Full logo for desktop */}
+                <Image
+                  src="/logo2026.png"
+                  alt="Atelier Art Royal"
+                  width={200}
+                  height={40}
+                  className="hidden lg:block h-10 w-auto"
+                  priority
+                  unoptimized
                 />
               </Link>
               
@@ -702,11 +714,12 @@ export default function LuxeHeader() {
             {/* Header Mobile Menu */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
               <Image
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691cd26ea8838a859856a6b6/b5c892460_logo-dark-web.png"
+                src="/Favicon Atelier Art Royal.svg"
                 alt="Atelier Art Royal"
-                width={130}
-                height={36}
+                width={40}
+                height={40}
                 className="h-8 w-auto"
+                unoptimized
               />
               <button
                 onClick={() => setShowMobileMenu(false)}

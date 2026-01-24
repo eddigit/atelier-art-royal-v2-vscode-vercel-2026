@@ -16,12 +16,23 @@ export default function LuxeFooterDark() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div>
+            {/* Favicon for mobile */}
             <Image
-              src="https://res.cloudinary.com/dniurvpzd/image/upload/v1769183468/Logo-Atelier-Art-Royal_qinic8.png"
+              src="/Favicon Atelier Art Royal.svg"
               alt="Atelier Art Royal"
-              width={160}
-              height={45}
-              className="h-10 w-auto mb-6"
+              width={50}
+              height={50}
+              className="md:hidden h-12 w-auto mb-6"
+              unoptimized
+            />
+            {/* Full logo for desktop */}
+            <Image
+              src="/logo2026.png"
+              alt="Atelier Art Royal"
+              width={200}
+              height={40}
+              className="hidden md:block h-10 w-auto mb-6"
+              unoptimized
             />
             <p className="text-sm leading-relaxed text-white/40 mb-6 max-w-xs">
               La Haute Couture de la Franc-Maçonnerie Française.

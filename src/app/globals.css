@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Prata font for SVG logo */
+@import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
+
 @layer base {
   :root {
     /* Dark Luxury Theme - Atelier Art Royal */
@@ -20,6 +23,7 @@
     /* Typography */
     --font-heading: 'Playfair Display', Georgia, serif;
     --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-prata: 'Prata', Georgia, serif;
     
     /* shadcn/ui - Dark Mode */
     --background: 0 0% 4%;
